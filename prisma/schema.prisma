@@ -1,0 +1,52 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String      @id @default(uuid())
+  email      String      @unique
+  password   String
+  username   String      @unique
+  verified   Boolean     @default(false)
+  community  Community?  @relation(fields: [communityId], references: [communityId])
+  communityId String?
+  posts      Post[]
+  likes      Like[]
+}
+
+model Community {
+  communityId   String   @id @default(uuid())
+  communityName String
+  users         User[]
+  posts         Post[]
+}
+
+model Post {
+  postId    String   @id @default(uuid())
+  content   String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  likes     Like[]
+  community Community @relation(fields: [communityId], references: [communityId])
+  communityId String
+}
+
+model Like {
+  likeId    String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  post      Post     @relation(fields: [postId], references: [postId])
+  postId    String
+}
+
