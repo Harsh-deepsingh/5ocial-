@@ -1,7 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
-import Email from "next-auth/providers/email";
 
 const client = new PrismaClient();
 
@@ -17,16 +16,19 @@ export const authOptions = {
         },
         password: { label: "Password", type: "password" },
       },
+
       // TODO: User credentials type from next-aut
       async authorize(credentials: any) {
         // Do zod validation, OTP validation here
-        const hashedPassword = await bcrypt.hash(credentials.providers, 10);
+        console.log(credentials.providers);
+        if (credentials.providers) {
+          const hashedPassword = await bcrypt.hash(credentials.providers, 10);
+        }
         const existingUser = await client.user.findFirst({
           where: {
             email: credentials.email,
           },
         });
-        console.log(1);
 
         if (existingUser) {
           const passwordValidation = await bcrypt.compare(
@@ -46,8 +48,6 @@ export const authOptions = {
             data: {
               email: credentials.email,
               password: credentials.password,
-              username: credentials.null,
-              community: credentials.null,
             },
           });
           console.log(user);
