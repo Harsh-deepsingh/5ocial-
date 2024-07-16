@@ -1,8 +1,28 @@
 import { PrismaClient } from "@prisma/client";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
+import { Session as NextAuthSession } from "next-auth";
+import { z } from "zod";
 
 const client = new PrismaClient();
+
+type Session = NextAuthSession & {
+  user: {
+    id: string;
+    email: string;
+    password: string;
+    username: string | null;
+    verified: boolean;
+  };
+};
+interface CredentialsSchema {
+  email: string;
+  password: string;
+}
+const credentialsSchema: any = z.object({
+  email: z.string().email(),
+  password: z.string().min(8),
+});
 
 export const authOptions = {
   providers: [
@@ -17,41 +37,48 @@ export const authOptions = {
         password: { label: "Password", type: "password" },
       },
 
-      // TODO: User credentials type from next-aut
+      // User credentials type from next-auth
       async authorize(credentials: any) {
         // Do zod validation, OTP validation here
-        console.log(credentials.providers);
-        if (credentials.providers) {
-          const hashedPassword = await bcrypt.hash(credentials.providers, 10);
+
+        const parsedCredentials = credentialsSchema.safeParse(credentials);
+        if (!parsedCredentials.success) {
+          console.error(parsedCredentials.error);
+          return null;
         }
+
+        const { email, password } = parsedCredentials.data;
+
         const existingUser = await client.user.findFirst({
           where: {
-            email: credentials.email,
+            email: credentials?.email,
           },
         });
 
         if (existingUser) {
           const passwordValidation = await bcrypt.compare(
-            credentials.password,
+            credentials?.password,
             existingUser.password
           );
+
           if (passwordValidation) {
-            id: existingUser.id;
-            username: existingUser.username;
-            verified: existingUser.verified;
+            return {
+              id: existingUser.id,
+              username: existingUser.username,
+              verified: existingUser.verified,
+            };
           }
           return null;
         }
-        console.log(2);
         try {
+          const hashedPassword = await bcrypt.hash(credentials.password, 10);
+
           const user = await client.user.create({
             data: {
               email: credentials.email,
-              password: credentials.password,
+              password: hashedPassword,
             },
           });
-          console.log(user);
-          console.log(3);
           return {
             id: user.id,
             email: user.email,
@@ -66,7 +93,7 @@ export const authOptions = {
   ],
   secret: process.env.JWT_SECRET || "secret",
   callbacks: {
-    async session({ token, session }: any) {
+    async session({ token, session }: { token: any; session: Session }) {
       session.user.id = token.sub;
 
       return session;
