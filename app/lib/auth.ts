@@ -39,7 +39,7 @@ export const authOptions = {
 
       // User credentials type from next-auth
       async authorize(credentials: any) {
-        // Do zod validation, OTP validation here
+        //OTP validation here
 
         const parsedCredentials = credentialsSchema.safeParse(credentials);
         if (!parsedCredentials.success) {
