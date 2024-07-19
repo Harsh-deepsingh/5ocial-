@@ -7,27 +7,34 @@ export async function POST(req: NextRequest) {
   try {
     const postId = req.nextUrl.searchParams.get("postId") ?? "";
     const userId = req.nextUrl.searchParams.get("userId") ?? "";
+    const { actionType } = await req.json();
 
-    const existingLike = await client.like.findFirst({
+    if (!["LIKE", "DISLIKE"].includes(actionType)) {
+      return NextResponse.json({ error: "Invalid action type" });
+    }
+
+    const existingLike = await client.action.findFirst({
       where: {
         postId,
         userId,
+        type: actionType,
       },
     });
     if (existingLike) {
-      const deleteLike = await client.like.delete({
+      const deleteLike = await client.action.delete({
         where: {
           postId,
           userId,
-          likeId: existingLike.likeId,
+          actionId: existingLike.actionId,
         },
       });
       return NextResponse.json(deleteLike);
     }
-    const like = await client.like.create({
+    const like = await client.action.create({
       data: {
         postId,
         userId,
+        type: actionType,
       },
     });
     return NextResponse.json(like);
