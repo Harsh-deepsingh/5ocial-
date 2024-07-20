@@ -25,3 +25,19 @@ export async function POST(req: NextRequest) {
 
   return NextResponse.json(post.content);
 }
+
+export async function DELETE(req: NextRequest) {
+  const postId = req.nextUrl.searchParams.get("postId") ?? "";
+  try {
+    const deletePost = await client.post.delete({
+      where: {
+        postId,
+      },
+    });
+    return NextResponse.json({
+      message: `post with ${deletePost.postId} is deleted`,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
