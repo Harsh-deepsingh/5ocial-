@@ -35,3 +35,15 @@ export async function GET(req: NextRequest) {
   });
   return NextResponse.json({ comments: commentCount });
 }
+
+export async function DELETE(req: NextRequest) {
+  const commentId = req.nextUrl.searchParams.get("commentId") ?? "";
+  const deleteComment = await client.comment.delete({
+    where: {
+      commentId,
+    },
+  });
+  return NextResponse.json({
+    message: `Comment is id ${deleteComment.commentId} is deleted`,
+  });
+}
