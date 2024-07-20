@@ -17,18 +17,27 @@ export async function POST(req: NextRequest) {
       where: {
         postId,
         userId,
-        type: actionType,
       },
     });
     if (existingLike) {
-      const deleteLike = await client.action.delete({
-        where: {
-          postId,
-          userId,
-          actionId: existingLike.actionId,
-        },
-      });
-      return NextResponse.json(deleteLike);
+      if (existingLike?.type === actionType) {
+        const deleteLike = await client.action.delete({
+          where: {
+            actionId: existingLike?.actionId,
+          },
+        });
+        return NextResponse.json(deleteLike);
+      } else {
+        const updateLike = await client.action.update({
+          where: {
+            actionId: existingLike?.actionId,
+          },
+          data: {
+            type: actionType,
+          },
+        });
+        return NextResponse.json(updateLike);
+      }
     }
     const like = await client.action.create({
       data: {
