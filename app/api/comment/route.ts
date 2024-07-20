@@ -25,3 +25,13 @@ export async function POST(req: NextRequest) {
 
   return NextResponse.json(comment);
 }
+
+export async function GET(req: NextRequest) {
+  const postId = req.nextUrl.searchParams.get("postId") ?? "";
+  const commentCount = await client.comment.count({
+    where: {
+      postId,
+    },
+  });
+  return NextResponse.json({ comments: commentCount });
+}
