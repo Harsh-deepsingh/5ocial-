@@ -46,13 +46,16 @@ model Comment {
   postId    String
   userId    String    
   user      User      @relation(fields: [userId], references: [id])
+  action    Action[]
 }
 
 model Action {
   actionId  String      @id @default(uuid())
   type      ActionType
-  post      Post        @relation(fields: [postId], references: [postId])
-  postId    String
+  post      Post?        @relation(fields: [postId], references: [postId])
+  postId    String?
+  comment   Comment?     @relation(fields: [commentId], references: [commentId])
+  commentId String?
   user      User        @relation(fields: [userId], references: [id])
   userId    String
 }
