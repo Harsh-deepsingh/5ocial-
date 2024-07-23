@@ -6,6 +6,7 @@ const client = new PrismaClient();
 export async function POST(req: NextRequest) {
   try {
     const postId = req.nextUrl.searchParams.get("postId") ?? "";
+    const commentId = req.nextUrl.searchParams.get("commentId") ?? "";
     const userId = req.nextUrl.searchParams.get("userId") ?? "";
     const { actionType } = await req.json();
 
@@ -15,10 +16,11 @@ export async function POST(req: NextRequest) {
 
     const existingLike = await client.action.findFirst({
       where: {
-        postId,
         userId,
+        OR: [{ postId } || { commentId }],
       },
     });
+
     if (existingLike) {
       if (existingLike?.type === actionType) {
         const deleteLike = await client.action.delete({
@@ -39,14 +41,24 @@ export async function POST(req: NextRequest) {
         return NextResponse.json(updateLike);
       }
     }
-    const like = await client.action.create({
+    if (postId) {
+      const postLike = await client.action.create({
+        data: {
+          type: actionType,
+          userId,
+          postId,
+        },
+      });
+      return NextResponse.json(postLike);
+    }
+    const commentLike = await client.action.create({
       data: {
-        postId,
-        userId,
         type: actionType,
+        userId,
+        commentId,
       },
     });
-    return NextResponse.json(like);
+    return NextResponse.json(commentLike);
   } catch (error) {
     console.error(error);
   }
