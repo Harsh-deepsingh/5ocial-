@@ -18,6 +18,7 @@ model User {
   posts      Post[]
   comment    Comment[] 
   actions    Action[]
+  following  Following[]
 }
 
 model Community {
@@ -52,9 +53,9 @@ model Comment {
 model Action {
   actionId  String      @id @default(uuid())
   type      ActionType
-  post      Post?        @relation(fields: [postId], references: [postId])
+  post      Post?       @relation(fields: [postId], references: [postId])
   postId    String?
-  comment   Comment?     @relation(fields: [commentId], references: [commentId])
+  comment   Comment?    @relation(fields: [commentId], references: [commentId])
   commentId String?
   user      User        @relation(fields: [userId], references: [id])
   userId    String
@@ -63,4 +64,11 @@ model Action {
 enum ActionType {
   LIKE 
   DISLIKE
+}
+
+model Following {
+  Id           String  @id @default(uuid())
+  followingId  String  @unique
+  user         User    @relation(fields: [userId], references: [id])
+  userId       String
 }
