@@ -5,7 +5,7 @@ const client = new PrismaClient();
 
 export async function POST(req: NextRequest) {
   try {
-    const { id } = await req.json();
+    const id = req.nextUrl.searchParams.get("userId") ?? "";
     const user = await client.user.findUnique({
       where: { id },
     });
