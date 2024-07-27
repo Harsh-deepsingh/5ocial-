@@ -11,7 +11,7 @@ model User {
   id         String      @id @default(uuid())
   email      String      @unique
   password   String      
-  username   String?      @unique
+  username   String?     @unique
   verified   Boolean     @default(false)
   community  Community?  @relation(fields: [communityId], references: [communityId])
   communityId String?
@@ -35,6 +35,8 @@ model Post {
   userId    String
   community Community @relation(fields: [communityId], references: [communityId])
   communityId String
+  shared      Boolean @default(false)
+  sharedCommunity String?  
   comments  Comment[]
   action    Action[]
 }
