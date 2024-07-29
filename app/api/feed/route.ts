@@ -6,19 +6,23 @@ const client = new PrismaClient();
 export async function GET(req: NextRequest) {
   try {
     const communityId = req.nextUrl.searchParams.get("communityId") ?? "";
-    const feed = await client.community.findUnique({
+    const community = await client.community.findUnique({
       where: {
         communityId,
       },
-      include: {
-        posts: true,
-      },
     });
 
-    if (feed) {
+    if (community) {
+      const posts = await client.post.findMany({
+        where: {
+          communityId: communityId,
+          shared: false,
+        },
+      });
+
       return NextResponse.json({
-        communityName: feed.communityName,
-        posts: feed.posts.map((post) => post.content),
+        communityName: community.communityName,
+        posts: posts.map((post) => post.content),
       });
     } else {
       return NextResponse.json({
@@ -27,5 +31,9 @@ export async function GET(req: NextRequest) {
     }
   } catch (error) {
     console.error(error);
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500 }
+    );
   }
 }
