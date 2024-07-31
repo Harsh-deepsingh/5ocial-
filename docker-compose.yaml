@@ -1,0 +1,22 @@
+version: "3.8"
+services:
+  mongodb:
+    image: prisma
+    container_name: prisma
+    ports:
+      - "5432:prisma"
+    volumes:
+      - prismadb_data:/data/db
+
+  backend22:
+    image: backend
+    container_name: backend_app
+    depends_on:
+      - prisma
+    ports:
+      - "3000:3000"
+    environment:
+      MONGO_URL: "prisma://prisma:5432"
+
+volumes:
+  prismadb_data:
