@@ -1,13 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
-
-const client = new PrismaClient();
+import prisma from "../../lib/db";
 
 export async function GET(req: NextRequest) {
   const userId: string | null = req.nextUrl.searchParams.get("userId");
   let user;
   if (userId) {
-    user = await client.user.findUnique({
+    user = await prisma.user.findUnique({
       where: {
         id: userId,
       },
@@ -27,7 +25,7 @@ export async function GET(req: NextRequest) {
     }
     const username = firstLetter + word;
 
-    const uniqueUsername = await client.user.update({
+    const uniqueUsername = await prisma.user.update({
       where: {
         id: userId,
       },

@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
-
-const client = new PrismaClient();
+import prisma from "../../lib/db";
 
 export async function POST(req: NextRequest) {
   try {
@@ -14,7 +12,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid action type" });
     }
 
-    const existingLike = await client.action.findFirst({
+    const existingLike = await prisma.action.findFirst({
       where: {
         userId,
         OR: [{ postId } || { commentId }],
@@ -23,14 +21,14 @@ export async function POST(req: NextRequest) {
 
     if (existingLike) {
       if (existingLike?.type === actionType) {
-        const deleteLike = await client.action.delete({
+        const deleteLike = await prisma.action.delete({
           where: {
             actionId: existingLike?.actionId,
           },
         });
         return NextResponse.json(deleteLike);
       } else {
-        const updateLike = await client.action.update({
+        const updateLike = await prisma.action.update({
           where: {
             actionId: existingLike?.actionId,
           },
@@ -42,7 +40,7 @@ export async function POST(req: NextRequest) {
       }
     }
     if (postId) {
-      const postLike = await client.action.create({
+      const postLike = await prisma.action.create({
         data: {
           type: actionType,
           userId,
@@ -51,7 +49,7 @@ export async function POST(req: NextRequest) {
       });
       return NextResponse.json(postLike);
     }
-    const commentLike = await client.action.create({
+    const commentLike = await prisma.action.create({
       data: {
         type: actionType,
         userId,

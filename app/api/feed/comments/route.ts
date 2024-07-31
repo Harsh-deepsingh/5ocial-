@@ -1,12 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
-
-const client = new PrismaClient();
+import prisma from "../../../lib/db";
 
 export async function GET(req: NextRequest) {
   const postId = req.nextUrl.searchParams.get("postId") ?? "";
   const [allComments, commentCount] = [
-    await client.comment.findMany({
+    await prisma.comment.findMany({
       where: {
         postId,
       },
@@ -14,7 +12,7 @@ export async function GET(req: NextRequest) {
         content: true,
       },
     }),
-    await client.comment.count({
+    await prisma.comment.count({
       where: {
         postId,
       },

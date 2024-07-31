@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
-
-const client = new PrismaClient();
+import prisma from "../../../lib/db";
 
 export async function GET(req: NextRequest) {
   try {
@@ -9,26 +7,26 @@ export async function GET(req: NextRequest) {
     const commentId = req.nextUrl.searchParams.get("commentId");
     if (postId) {
       const [likeCount, dislikeCount] = [
-        await client.action.count({
+        await prisma.action.count({
           where: {
             postId,
             type: "LIKE",
           },
         }),
-        await client.action.count({
+        await prisma.action.count({
           where: { postId, type: "DISLIKE" },
         }),
       ];
       return NextResponse.json({ like: likeCount, dislike: dislikeCount });
     }
     const [likeCount, dislikeCount] = [
-      await client.action.count({
+      await prisma.action.count({
         where: {
           commentId,
           type: "LIKE",
         },
       }),
-      await client.action.count({
+      await prisma.action.count({
         where: { commentId, type: "DISLIKE" },
       }),
     ];

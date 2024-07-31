@@ -1,10 +1,8 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "./db/index";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 import { Session as NextAuthSession } from "next-auth";
 import { z } from "zod";
-
-const client = new PrismaClient();
 
 type Session = NextAuthSession & {
   user: {
@@ -49,7 +47,7 @@ export const authOptions = {
 
         const { email, password } = parsedCredentials.data;
 
-        const existingUser = await client.user.findFirst({
+        const existingUser = await prisma.user.findFirst({
           where: {
             email: credentials?.email,
           },
@@ -73,7 +71,7 @@ export const authOptions = {
         try {
           const hashedPassword = await bcrypt.hash(credentials.password, 10);
 
-          const user = await client.user.create({
+          const user = await prisma.user.create({
             data: {
               email: credentials.email,
               password: hashedPassword,

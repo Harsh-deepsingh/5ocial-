@@ -1,7 +1,5 @@
 import { NextResponse, NextRequest } from "next/server";
-import { PrismaClient } from "@prisma/client";
-
-const client = new PrismaClient();
+import prisma from "../../../../lib/db";
 
 export async function POST(req: NextRequest) {
   const userId = req.nextUrl.searchParams.get("userId") ?? "";
@@ -11,7 +9,7 @@ export async function POST(req: NextRequest) {
   console.log(content);
 
   try {
-    const sharedPost = await client.post.create({
+    const sharedPost = await prisma.post.create({
       data: {
         userId,
         communityId,

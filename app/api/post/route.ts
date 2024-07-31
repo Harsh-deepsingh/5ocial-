@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
-
-const client = new PrismaClient();
+import prisma from "../../lib/db";
 
 export async function POST(req: NextRequest) {
   const { content } = await req.json();
@@ -15,7 +13,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const post = await client.post.create({
+  const post = await prisma.post.create({
     data: {
       content,
       userId,
@@ -29,7 +27,7 @@ export async function POST(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   const postId = req.nextUrl.searchParams.get("postId") ?? "";
   try {
-    const deletePost = await client.post.delete({
+    const deletePost = await prisma.post.delete({
       where: {
         postId,
       },

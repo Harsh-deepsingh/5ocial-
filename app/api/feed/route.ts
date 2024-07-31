@@ -1,19 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
-
-const client = new PrismaClient();
+import prisma from "../../lib/db";
 
 export async function GET(req: NextRequest) {
   try {
     const communityId = req.nextUrl.searchParams.get("communityId") ?? "";
-    const community = await client.community.findUnique({
+    const community = await prisma.community.findUnique({
       where: {
         communityId,
       },
     });
 
     if (community) {
-      const posts = await client.post.findMany({
+      const posts = await prisma.post.findMany({
         where: {
           communityId: communityId,
           shared: false,

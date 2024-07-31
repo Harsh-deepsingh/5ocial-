@@ -1,7 +1,5 @@
 import { NextResponse, NextRequest } from "next/server";
-import { PrismaClient } from "@prisma/client";
-
-const client = new PrismaClient();
+import prisma from "../../../lib/db";
 
 export async function POST(req: NextRequest) {
   const userId = req.nextUrl.searchParams.get("userId") ?? "";
@@ -9,7 +7,7 @@ export async function POST(req: NextRequest) {
   const { sharedCommunity, content } = await req.json();
 
   try {
-    const sharedPost = await client.post.create({
+    const sharedPost = await prisma.post.create({
       data: {
         userId,
         communityId,
@@ -29,7 +27,7 @@ export async function GET(req: NextRequest) {
   const sharedCommunity = req.nextUrl.searchParams.get("sharedCommunity") ?? "";
 
   try {
-    const sharedPost = await client.post.findMany({
+    const sharedPost = await prisma.post.findMany({
       where: {
         communityId,
         sharedCommunity,

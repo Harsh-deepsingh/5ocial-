@@ -1,12 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
-
-const client = new PrismaClient();
+import prisma from "../../lib/db";
 
 export async function POST(req: NextRequest) {
   try {
     const id = req.nextUrl.searchParams.get("userId") ?? "";
-    const user = await client.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: { id },
     });
 
@@ -20,7 +18,7 @@ export async function POST(req: NextRequest) {
     const collegeName =
       domainParts.length > 2 ? domainParts[1] : domainParts[0];
 
-    let community = await client.community.findFirst({
+    let community = await prisma.community.findFirst({
       where: {
         communityName: collegeName,
       },
@@ -31,14 +29,14 @@ export async function POST(req: NextRequest) {
     });
 
     if (!community) {
-      community = await client.community.create({
+      community = await prisma.community.create({
         data: {
           communityName: collegeName,
         },
       });
     }
 
-    const userCommunity = await client.user.update({
+    const userCommunity = await prisma.user.update({
       where: {
         id: user.id,
       },

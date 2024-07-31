@@ -1,8 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
-
-const client = new PrismaClient();
-
+import prisma from "../../lib/db";
 export async function POST(req: NextRequest) {
   const { content } = await req.json();
   const userId = req.nextUrl.searchParams.get("userId") ?? "";
@@ -15,7 +12,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const comment = await client.comment.create({
+  const comment = await prisma.comment.create({
     data: {
       content,
       userId,
@@ -28,7 +25,7 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   const commentId = req.nextUrl.searchParams.get("commentId") ?? "";
-  const deleteComment = await client.comment.delete({
+  const deleteComment = await prisma.comment.delete({
     where: {
       commentId,
     },
