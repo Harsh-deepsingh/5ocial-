@@ -1,13 +1,11 @@
 "use client";
-import PrimaryButton from "./components/Buttons/PrimaryButton";
+
+import Signin from "./components/Signin";
 
 export default function Home() {
-  const click = () => {
-    console.log("HELLO");
-  };
   return (
-    <div className="flex justify-center items-center">
-      <PrimaryButton onClick={click}>{"post"}</PrimaryButton>
+    <div>
+      <Signin />
     </div>
   );
 }
