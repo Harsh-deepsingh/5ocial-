@@ -6,8 +6,13 @@ import { BackgroundBeams } from "./ui/background-beams";
 
 const Signin = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const togglePasswordVisibility = () => {
     setIsPasswordVisible((prev) => !prev);
+  };
+  const inputHandler = () => {
+    console.log(email + password);
   };
   return (
     <div>
@@ -16,7 +21,13 @@ const Signin = () => {
           <p className="font-bold text-2xl ">Sign in to social</p>
           <label>
             Email
-            <InputBox type="email" placeholder="name@email.com"></InputBox>
+            <InputBox
+              onChange={(e: React.FormEvent<EventTarget>) =>
+                setEmail((e.target as HTMLTextAreaElement).value)
+              }
+              type="email"
+              placeholder="name@email.com"
+            ></InputBox>
           </label>
           <label className="relative">
             Password
@@ -54,6 +65,9 @@ const Signin = () => {
               )}
             </button>
             <InputBox
+              onChange={(e: React.FormEvent<EventTarget>) =>
+                setPassword((e.target as HTMLTextAreaElement).value)
+              }
               type={isPasswordVisible ? "text" : "password"}
               placeholder="••••••••"
             />
@@ -62,7 +76,7 @@ const Signin = () => {
             <p className="text-xs">Forgot password?</p>
             <p className="text-xs">Sign Up</p>
           </div>
-          <PrimaryButton>Login</PrimaryButton>
+          <PrimaryButton onClick={inputHandler}>Login</PrimaryButton>
         </Card>
       </div>
       <BackgroundBeams />
