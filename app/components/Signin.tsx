@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import InputBox from "./InputBox/InputBox";
 import PrimaryButton from "./Buttons/PrimaryButton";
@@ -18,7 +19,7 @@ const Signin = () => {
     <div>
       <div className="relative z-10">
         <Card>
-          <p className="font-bold text-2xl ">Sign in to social</p>
+          <p className="font-bold text-2xl ">Sign in to 5ocial</p>
           <label>
             Email
             <InputBox
