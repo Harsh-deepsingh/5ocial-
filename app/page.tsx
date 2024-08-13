@@ -1,11 +1,21 @@
+import { authOptions } from "./lib/auth";
+import { getServerSession } from "next-auth";
+import { signIn } from "next-auth/react";
 import Navbar from "./components/Navbar/Navbar";
-import Signin from "./components/Signin";
 
-export default function Home() {
+async function getUser() {
+  //@ts-ignore
+  const session = await getServerSession(authOptions);
+  return session;
+}
+
+export default async function Home() {
+  const session = await getUser();
+
   return (
     <div>
       <Navbar></Navbar>
-      <Signin></Signin>
+      {JSON.stringify(session)}
     </div>
   );
 }

@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 import { Session as NextAuthSession } from "next-auth";
 import { z } from "zod";
+import { pages } from "next/dist/build/templates/app-page";
 
 type Session = NextAuthSession & {
   user: {
@@ -96,5 +97,8 @@ export const authOptions = {
 
       return session;
     },
+  },
+  pages: {
+    signIn: "/signin",
   },
 };

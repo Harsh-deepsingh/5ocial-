@@ -1,5 +1,7 @@
+"use client";
 import React from "react";
 import SecButton from "../Buttons/SecButton";
+import { signIn } from "next-auth/react";
 
 const Navbar = () => {
   return (
@@ -7,7 +9,7 @@ const Navbar = () => {
       <div className="flex items-center  w-full justify-between">
         <p>5ocial</p>
         <div className="flex flex-row">
-          <SecButton>{"Login"}</SecButton>
+          <SecButton onClick={() => signIn()}>{"Login"}</SecButton>
           <SecButton>{"Home"}</SecButton>
         </div>
       </div>
