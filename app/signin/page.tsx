@@ -43,6 +43,8 @@ const Signin = () => {
     if (!validateInput()) return;
 
     try {
+      console.log(email + password);
+
       const res = await signIn("credentials", {
         email,
         password,
@@ -59,6 +61,7 @@ const Signin = () => {
       setError("An unexpected error occurred. Please try again.");
     }
   }, []);
+  console.log(email + password);
 
   return (
     <div>
@@ -82,6 +85,12 @@ const Signin = () => {
             />
             <InputBox
               onChange={handlePasswordChange}
+              onKeyDown={async (e) => {
+                if (e.key === "Enter") {
+                  setIsPasswordVisible(false);
+                  handleSignIn();
+                }
+              }}
               type={isPasswordVisible ? "text" : "password"}
               placeholder="••••••••"
             />
@@ -109,7 +118,7 @@ const PasswordVisibility = memo(
   }) => {
     return (
       <button
-        className="absolute left-52 top-11 transform -translate-y-1/2 w-9 h-10 text-gray-500"
+        className="absolute left-48 md:left-52 top-11 transform -translate-y-1/2 w-9 h-10 text-gray-500"
         onClick={togglePasswordVisibility}
       >
         {isPasswordVisible ? (
@@ -145,4 +154,4 @@ const PasswordVisibility = memo(
   }
 );
 
-export default Signin;
+export default memo(Signin);

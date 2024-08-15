@@ -2,6 +2,7 @@ import { authOptions } from "./lib/auth";
 import { getServerSession } from "next-auth";
 import { signIn } from "next-auth/react";
 import Navbar from "./components/Navbar/Navbar";
+import Feed from "./feed/Feed";
 
 async function getUser() {
   //@ts-ignore
@@ -15,7 +16,8 @@ export default async function Home() {
   return (
     <div>
       <Navbar></Navbar>
-      {JSON.stringify(session)}
+      <Feed></Feed>
+      {/* {JSON.stringify(session)} */}
     </div>
   );
 }
