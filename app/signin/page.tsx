@@ -43,8 +43,6 @@ const Signin = () => {
     if (!validateInput()) return;
 
     try {
-      console.log(email + password);
-
       const res = await signIn("credentials", {
         email,
         password,
@@ -61,10 +59,9 @@ const Signin = () => {
       setError("An unexpected error occurred. Please try again.");
     }
   }, []);
-  console.log(email + password);
 
   return (
-    <div>
+    <div className="min-h-screen flex justify-center items-center">
       <div className="relative z-10">
         <Card>
           <p className="font-bold text-2xl ">Sign in to 5ocial</p>
@@ -118,7 +115,7 @@ const PasswordVisibility = memo(
   }) => {
     return (
       <button
-        className="absolute left-48 md:left-52 top-11 transform -translate-y-1/2 w-9 h-10 text-gray-500"
+        className="absolute left-48 md:left-80 top-11 transform -translate-y-1/2 w-9 h-10 text-gray-500"
         onClick={togglePasswordVisibility}
       >
         {isPasswordVisible ? (
