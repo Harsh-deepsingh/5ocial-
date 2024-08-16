@@ -15,7 +15,6 @@ export default async function Home() {
 
   return (
     <div>
-      <Navbar></Navbar>
       <Feed></Feed>
       {/* {JSON.stringify(session)} */}
     </div>
