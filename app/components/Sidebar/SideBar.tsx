@@ -9,9 +9,7 @@ import {
 } from "@tabler/icons-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import Image from "next/image";
 import cn from "../../lib/utils";
-import LoadingDashboard from "../Loading/LoadingDashboard";
 
 export const SidebarDemo = ({ children }: { children: React.ReactNode }) => {
   const links = [
@@ -48,12 +46,12 @@ export const SidebarDemo = ({ children }: { children: React.ReactNode }) => {
   return (
     <div
       className={cn(
-        "rounded-md flex flex-col md:flex-row bg-gray-100 dark:bg-neutral-800 w-full flex-1 max-w-7xl mx-auto border border-neutral-200 dark:border-neutral-700 overflow-hidden",
-        "h-screen" // for your use case, use `h-screen` instead of `h-[60vh]`
+        "sticky top-2 rounded-md flex flex-col md:flex-row bg-theme-grey w-full flex-1 max-w-7xl mx-auto border border-theme-border ",
+        "h-full" // for your use case, use `h-screen` instead of `h-[60vh]`
       )}
     >
       <Sidebar open={open} setOpen={setOpen}>
-        <SidebarBody className="justify-between gap-10">
+        <SidebarBody className="sticky top-0 justify-between gap-10">
           <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
             {open ? <Logo /> : <LogoIcon />}
             <div className="mt-8 flex flex-col gap-2">
