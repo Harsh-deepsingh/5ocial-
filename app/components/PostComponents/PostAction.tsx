@@ -1,6 +1,6 @@
 import React from "react";
 import Like from "./Like";
-import Comment from "./Comment";
+import Comment from "./Comments/Comment";
 import Follow from "./Follow";
 
 const PostAction = () => {

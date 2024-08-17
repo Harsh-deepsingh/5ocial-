@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Card from "../components/Card/Card";
 import Button from "../components/Buttons/Button";
 import Line from "../components/Line/Line";
+import ProfileLetter from "../components/ProfilePicture/ProfileLetter";
 
 const Post = () => {
   const [text, setText] = useState("");
@@ -26,9 +27,7 @@ const Post = () => {
   return (
     <Card>
       <div className="flex gap-2 justify-center items-start">
-        <div className="w-14 h-12 bg-gray-600 rounded-full flex justify-center items-center">
-          <p className="text-2xl">H</p>
-        </div>
+        <ProfileLetter></ProfileLetter>
         <div className="w-full flex flex-col justify-between gap-5">
           <div className="flex flex-col">
             <textarea
