@@ -12,10 +12,10 @@ const FollowUser = () => {
           <button
             className="hover:text-white"
             onClick={() => {
-              router.push("/followers");
+              router.push("profile/follow");
             }}
           >
-            follower
+            followers
           </button>
         </div>
         <div className="flex gap-1">
@@ -23,7 +23,7 @@ const FollowUser = () => {
           <button
             className="hover:text-white"
             onClick={() => {
-              router.push("/followers");
+              router.push("/profile/follow");
             }}
           >
             following
