@@ -5,6 +5,7 @@ import {
   IconArrowLeft,
   IconBrandTabler,
   IconHome,
+  IconSearch,
   IconSettings,
   IconUserBolt,
 } from "@tabler/icons-react";
@@ -26,6 +27,13 @@ export const SidebarDemo = ({ children }: { children: React.ReactNode }) => {
       href: "/profile",
       icon: (
         <IconUserBolt className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+      ),
+    },
+    {
+      label: "Search",
+      href: "/search",
+      icon: (
+        <IconSearch className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {

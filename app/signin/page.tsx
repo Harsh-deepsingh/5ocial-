@@ -59,6 +59,7 @@ const Signin = () => {
       setError("An unexpected error occurred. Please try again.");
     }
   }, []);
+  console.log(email + password);
 
   return (
     <div className="min-h-screen flex justify-center items-center">
