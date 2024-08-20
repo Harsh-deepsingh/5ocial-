@@ -4,18 +4,39 @@ import React from "react";
 import ProfileButton from "../components/Buttons/ProfileButton";
 
 const UserContent = () => {
-  const [activeButton, setActiveButton] = useState("");
+  const [activeButton, setActiveButton] = useState("Post");
 
   const handleButtonClick = (buttonName: string) => {
     setActiveButton(buttonName);
   };
+
   return (
     <div>
       <div className="flex justify-between h-16 text-theme-border">
-        <ProfileButton>Post</ProfileButton>
-        <ProfileButton>Likes</ProfileButton>
-        <ProfileButton>Comments</ProfileButton>
-        <ProfileButton>Community Posts</ProfileButton>
+        <ProfileButton
+          isActive={activeButton === "Post"}
+          onClick={() => handleButtonClick("Post")}
+        >
+          Post
+        </ProfileButton>
+        <ProfileButton
+          isActive={activeButton === "Likes"}
+          onClick={() => handleButtonClick("Likes")}
+        >
+          Likes
+        </ProfileButton>
+        <ProfileButton
+          isActive={activeButton === "Comments"}
+          onClick={() => handleButtonClick("Comments")}
+        >
+          Comments
+        </ProfileButton>
+        <ProfileButton
+          isActive={activeButton === "Community Posts"}
+          onClick={() => handleButtonClick("Community Posts")}
+        >
+          Community Posts
+        </ProfileButton>
       </div>
     </div>
   );
