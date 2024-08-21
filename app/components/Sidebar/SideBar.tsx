@@ -3,11 +3,12 @@ import React, { useState } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "../ui/sidebar";
 import {
   IconArrowLeft,
-  IconBrandTabler,
   IconHome,
   IconSearch,
   IconSettings,
-  IconUserBolt,
+  IconShare3,
+  IconUser,
+  IconUsersGroup,
 } from "@tabler/icons-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -26,7 +27,21 @@ export const SidebarDemo = ({ children }: { children: React.ReactNode }) => {
       label: "Profile",
       href: "/profile",
       icon: (
-        <IconUserBolt className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+        <IconUser className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+      ),
+    },
+    {
+      label: "Communities",
+      href: "/communities",
+      icon: (
+        <IconUsersGroup className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+      ),
+    },
+    {
+      label: "Shared posts",
+      href: "/communities/sharedPosts",
+      icon: (
+        <IconShare3 className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {
