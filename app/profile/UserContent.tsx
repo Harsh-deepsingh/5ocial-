@@ -32,10 +32,10 @@ const UserContent = () => {
           Comments
         </ProfileButton>
         <ProfileButton
-          isActive={activeButton === "Community Posts"}
-          onClick={() => handleButtonClick("Community Posts")}
+          isActive={activeButton === "Shared Posts"}
+          onClick={() => handleButtonClick("Shared Posts")}
         >
-          Community Posts
+          Shared Posts
         </ProfileButton>
       </div>
     </div>

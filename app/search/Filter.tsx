@@ -79,6 +79,12 @@ const Sections = () => {
           onClick={() => handleButtonClick("Users")}
         >
           Users
+        </ProfileButton>{" "}
+        <ProfileButton
+          isActive={activeButton === "Shared Posts"}
+          onClick={() => handleButtonClick("Shared Posts")}
+        >
+          Shared Posts
         </ProfileButton>
       </div>
     </div>
