@@ -58,7 +58,7 @@ const Signin = () => {
       console.log(error);
       setError("An unexpected error occurred. Please try again.");
     }
-  }, []);
+  }, [email, password]);
   console.log(email + password);
 
   return (
