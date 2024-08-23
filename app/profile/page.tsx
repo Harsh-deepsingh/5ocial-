@@ -8,7 +8,7 @@ import ProfileLetter from "../components/ProfilePicture/ProfileLetter";
 import UserContent from "./UserContent";
 import Content from "../feed/Content";
 import FollowUser from "./FollowUser";
-import { auth } from "../lib/session";
+import { auth } from "../lib/getSession";
 
 const Profile = () => {
   auth();

@@ -1,11 +1,11 @@
 import prisma from "./db/index";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
-import { Session as NextAuthSession } from "next-auth";
 import { z } from "zod";
-import { pages } from "next/dist/build/templates/app-page";
+import { assignUserToCommunity } from "../api/community/assignCommunity";
+import { assignUsername } from "../api/username/assignUsername";
 
-type Session = NextAuthSession & {
+type Session = {
   user: {
     id: string;
     email: string;
@@ -62,7 +62,7 @@ export const authOptions = {
 
           if (passwordValidation) {
             return {
-              id: existingUser.id,
+              id: existingUser.id.toString(),
               username: existingUser.username,
               verified: existingUser.verified,
             };
@@ -71,15 +71,22 @@ export const authOptions = {
         }
         try {
           const hashedPassword = await bcrypt.hash(credentials.password, 10);
-
           const user = await prisma.user.create({
             data: {
               email: credentials.email,
               password: hashedPassword,
             },
           });
+          const id = user.id;
+
+          const joinCommunity = async (id: string) => {
+            await assignUserToCommunity(id);
+            await assignUsername(id);
+          };
+
+          joinCommunity(id);
           return {
-            id: user.id,
+            id: user.id.toString(),
             email: user.email,
             username: user.username,
           };
@@ -92,7 +99,7 @@ export const authOptions = {
   ],
   secret: process.env.JWT_SECRET || "secret",
   callbacks: {
-    async session({ token, session }: { token: any; session: Session }) {
+    async session({ token, session }: { token: any; session: any }) {
       session.user.id = token.sub;
 
       return session;

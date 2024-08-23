@@ -4,9 +4,9 @@ import InputBox from "../components/InputBox/InputBox";
 import PrimaryButton from "../components/Buttons/PrimaryButton";
 import Card from "../components/Card/Card";
 import { BackgroundBeams } from "../components/ui/background-beams";
-import { signIn } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-
+//import { joinCommunity } from "../lib/joinCommunity";
 const Signin = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -52,6 +52,7 @@ const Signin = () => {
       if (res?.error) {
         setError("Incorrect email or password.");
       } else {
+        getSession();
         router.push("/");
       }
     } catch (error) {

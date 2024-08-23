@@ -1,15 +1,13 @@
-import { NextRequest, NextResponse } from "next/server";
 import prisma from "../../lib/db";
 
-export async function POST(req: NextRequest) {
+export async function assignUserToCommunity(id: string) {
   try {
-    const id = req.nextUrl.searchParams.get("userId") ?? "";
     const user = await prisma.user.findUnique({
       where: { id },
     });
 
     if (!user) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
+      return { error: "User not found", status: 404 };
     }
 
     const email = user.email;
@@ -44,17 +42,13 @@ export async function POST(req: NextRequest) {
         communityId: community.communityId,
       },
     });
-
-    return NextResponse.json({
-      email: user.email,
+    return {
+      //   email: user.email,
       communityName: community.communityName,
       communityId: community.communityId,
-      user: user.communityId,
-    });
+      //   user: user.communityId,
+    };
   } catch (error) {
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return { error: "Internal server error", status: 500 };
   }
 }

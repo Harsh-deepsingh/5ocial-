@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "../../lib/db";
 
-export async function GET(req: NextRequest) {
-  const userId: string | null = req.nextUrl.searchParams.get("userId");
+export async function assignUsername(id: string) {
+  const userId = id;
   let user;
   if (userId) {
     user = await prisma.user.findUnique({
@@ -33,6 +33,6 @@ export async function GET(req: NextRequest) {
         username,
       },
     });
-    return NextResponse.json(uniqueUsername);
+    return uniqueUsername;
   }
 }
