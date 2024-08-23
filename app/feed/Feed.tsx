@@ -8,13 +8,9 @@ import Dashboard from "../components/Dashboard/Dashboard";
 const Feed = () => {
   return (
     <>
-      <SidebarDemo>
-        <Dashboard>
-          <Post></Post>
-          <Line></Line>
-          <Content></Content>
-        </Dashboard>
-      </SidebarDemo>
+      <Post></Post>
+      <Line></Line>
+      <Content></Content>
     </>
   );
 };

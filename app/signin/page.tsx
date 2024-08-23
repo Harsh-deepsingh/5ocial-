@@ -39,7 +39,7 @@ const Signin = () => {
     return true;
   };
 
-  const handleSignIn = useCallback(async () => {
+  const handleSignIn = async () => {
     if (!validateInput()) return;
 
     try {
@@ -58,8 +58,7 @@ const Signin = () => {
       console.log(error);
       setError("An unexpected error occurred. Please try again.");
     }
-  }, [email, password]);
-  console.log(email + password);
+  };
 
   return (
     <div className="min-h-screen flex justify-center items-center">

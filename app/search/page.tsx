@@ -2,13 +2,12 @@
 import React, { useState, useEffect } from "react";
 import { SidebarDemo } from "../components/Sidebar/SideBar";
 import Dashboard from "../components/Dashboard/Dashboard";
-import Card from "../components/Card/Card";
-import SearchBar from "./SearchBar";
 import Filter from "./Filter";
 import Content from "../feed/Content";
-import Line from "../components/Line/Line";
+import { auth } from "../lib/session";
 
 const Search = () => {
+  auth();
   return (
     <div>
       <SidebarDemo>

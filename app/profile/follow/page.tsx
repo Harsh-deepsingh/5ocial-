@@ -5,8 +5,10 @@ import { SidebarDemo } from "../../components/Sidebar/SideBar";
 import ProfileLetter from "../../components/ProfilePicture/ProfileLetter";
 import UserFollow from "./UserFollow";
 import Followers from "./Followers";
+import { auth } from "../../lib/session";
 
 const page = () => {
+  auth();
   return (
     <div>
       <SidebarDemo>

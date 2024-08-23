@@ -1,8 +1,9 @@
 import { authOptions } from "./lib/auth";
 import { getServerSession } from "next-auth";
-import { signIn } from "next-auth/react";
-import Navbar from "./components/Navbar/Navbar";
 import Feed from "./feed/Feed";
+import { redirect } from "next/navigation";
+import { SidebarDemo } from "./components/Sidebar/SideBar";
+import Dashboard from "./components/Dashboard/Dashboard";
 
 async function getUser() {
   //@ts-ignore
@@ -12,10 +13,15 @@ async function getUser() {
 
 export default async function Home() {
   const session = await getUser();
-
+  if (!session?.user) redirect("/signin");
   return (
     <div>
-      <Feed></Feed>
+      <SidebarDemo>
+        <Dashboard>
+          <Feed />
+        </Dashboard>
+      </SidebarDemo>
+
       {/* {JSON.stringify(session)} */}
     </div>
   );
