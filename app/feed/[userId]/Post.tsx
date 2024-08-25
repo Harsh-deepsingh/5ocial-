@@ -1,9 +1,9 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
-import Card from "../components/Card/Card";
-import Button from "../components/Buttons/Button";
-import Line from "../components/Line/Line";
-import ProfileLetter from "../components/ProfilePicture/ProfileLetter";
+import Card from "../../components/Card/Card";
+import Button from "../../components/Buttons/Button";
+import Line from "../../components/Line/Line";
+import ProfileLetter from "../../components/ProfilePicture/ProfileLetter";
 
 const Post = () => {
   const [text, setText] = useState("");
@@ -27,7 +27,7 @@ const Post = () => {
   return (
     <Card>
       <div className="flex gap-2 justify-center items-start">
-        <ProfileLetter></ProfileLetter>
+        <ProfileLetter>H</ProfileLetter>
         <div className="w-full flex flex-col justify-between gap-5">
           <div className="flex flex-col">
             <textarea

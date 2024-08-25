@@ -1,8 +1,8 @@
 "use client";
-import Line from "../components/Line/Line";
-import Content from "./Content";
+import Line from "../../components/Line/Line";
+import Content from "../Content";
 import Post from "./Post";
-const Feed = () => {
+const Feed = async () => {
   return (
     <>
       <Post></Post>

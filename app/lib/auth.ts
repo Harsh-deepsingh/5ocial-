@@ -14,6 +14,14 @@ type Session = {
     verified: boolean;
   };
 };
+type User = {
+  id: string;
+  email: string;
+  password: string;
+  username: string | null;
+  verified: boolean;
+};
+
 interface CredentialsSchema {
   email: string;
   password: string;
@@ -80,8 +88,10 @@ export const authOptions = {
           const id = user.id;
 
           const joinCommunity = async (id: string) => {
-            await assignUserToCommunity(id);
-            await assignUsername(id);
+            const communityInfo = await assignUserToCommunity(id);
+            const userInfo = await assignUsername(id);
+            const communityId = communityInfo.communityId;
+            const username = userInfo?.username;
           };
 
           joinCommunity(id);
@@ -99,11 +109,21 @@ export const authOptions = {
   ],
   secret: process.env.JWT_SECRET || "secret",
   callbacks: {
-    async session({ token, session }: { token: any; session: any }) {
-      session.user.id = token.sub;
-
+    session: async ({ session, token }: { session: Session; token: any }) => {
+      if (session?.user) {
+        session.user.id = token.sub;
+      }
       return session;
     },
+    jwt: async ({ user, token }: { user: User; token: any }) => {
+      if (user) {
+        token.uid = user.id;
+      }
+      return token;
+    },
+  },
+  session: {
+    strategy: "jwt",
   },
   pages: {
     signIn: "/signin",

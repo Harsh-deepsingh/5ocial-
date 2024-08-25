@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import CommentModal from "./CommentModal";
 import SubContent from "../../../feed/SubContent";
-import Post from "../../../feed/Post";
+import Post from "../../../feed/[userId]/Post";
 import Card from "../../Card/Card";
 
 const Comment = () => {
