@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
-import PrimaryButton from "../components/Buttons/PrimaryButton";
 import { useRouter } from "next/navigation";
+import PrimaryButton from "../../components/Buttons/PrimaryButton";
 const Communities = () => {
   const communities = [
     { id: 1, name: "Engineering Community" },

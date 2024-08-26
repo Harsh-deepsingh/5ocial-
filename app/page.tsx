@@ -1,10 +1,9 @@
 import { authOptions } from "./lib/auth";
 import { getServerSession } from "next-auth";
-import Feed from "./feed/[userId]/Feed";
 import { redirect } from "next/navigation";
 import { SidebarDemo } from "./components/Sidebar/SideBar";
 import Dashboard from "./components/Dashboard/Dashboard";
-import Username from "./feed/username";
+import Feed from "./(feed)/page";
 
 export async function getUser() {
   //@ts-ignore

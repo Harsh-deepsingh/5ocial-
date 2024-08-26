@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
-import Content from "../../feed/Content";
 import { IconUsersGroup } from "@tabler/icons-react";
+import Content from "../../Content";
 
 const SharedPosts = () => {
   return (

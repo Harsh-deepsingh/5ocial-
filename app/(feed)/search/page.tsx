@@ -1,9 +1,10 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { SidebarDemo } from "../components/Sidebar/SideBar";
-import Dashboard from "../components/Dashboard/Dashboard";
+import { SidebarDemo } from "../../components/Sidebar/SideBar";
+import Dashboard from "../../components/Dashboard/Dashboard";
 import Filter from "./Filter";
-import Content from "../feed/Content";
+import Content from "../Content";
+//import Content from "./Content";
 
 const Search = () => {
   return (

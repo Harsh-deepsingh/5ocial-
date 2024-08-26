@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import ProfileButton from "../../components/Buttons/ProfileButton";
+import ProfileButton from "../../../components/Buttons/ProfileButton";
 
 const UserFollow = () => {
   const [activeButton, setActiveButton] = useState("Followers");

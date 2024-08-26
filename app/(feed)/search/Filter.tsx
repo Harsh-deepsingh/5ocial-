@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import ProfileButton from "../components/Buttons/ProfileButton";
-import Card from "../components/Card/Card";
+import ProfileButton from "../../components/Buttons/ProfileButton";
+import Card from "../../components/Card/Card";
 import SearchBar from "./SearchBar";
-import Line from "../components/Line/Line";
+import Line from "../../components/Line/Line";
 const Filter = () => {
   const [showCard, setShowCard] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);

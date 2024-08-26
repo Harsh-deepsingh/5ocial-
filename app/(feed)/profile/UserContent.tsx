@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import React from "react";
-import ProfileButton from "../components/Buttons/ProfileButton";
+import ProfileButton from "../../components/Buttons/ProfileButton";
 
 const UserContent = () => {
   const [activeButton, setActiveButton] = useState("Post");
