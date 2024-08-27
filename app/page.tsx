@@ -1,9 +1,7 @@
 import { authOptions } from "./lib/auth";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import { SidebarDemo } from "./components/Sidebar/SideBar";
-import Dashboard from "./components/Dashboard/Dashboard";
-import Feed from "./(feed)/page";
+import { logUserInfo } from "./lib/actions/getUsername";
 
 export async function getUser() {
   //@ts-ignore
@@ -14,16 +12,10 @@ export async function getUser() {
 export default async function Home() {
   const session = await getUser();
   if (!session?.user) redirect("/signin");
+  else {
+    const communityId = await logUserInfo();
+    redirect(`${session.user.id}&${communityId?.communityId}`);
+  }
 
-  return (
-    <div>
-      <SidebarDemo>
-        <Dashboard>
-          <Feed />
-        </Dashboard>
-      </SidebarDemo>
-
-      {/* {JSON.stringify(session)} */}
-    </div>
-  );
+  return <div>{/* {JSON.stringify(session)} */}</div>;
 }

@@ -1,8 +1,9 @@
+"use client";
 import React, { useState } from "react";
 import CommentModal from "./CommentModal";
 import Card from "../../Card/Card";
-import SubContent from "../../../(feed)/SubContent";
-import Post from "../../../(feed)/Post";
+import SubContent from "../../../[feed]/SubContent";
+import Post from "../../../[feed]/Post";
 
 const Comment = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
