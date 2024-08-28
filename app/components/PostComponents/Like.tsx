@@ -43,9 +43,9 @@ const Like = ({ postId }: { postId: string }) => {
                   d="M15 8C8.925 8 4 12.925 4 19c0 11 13 21 20 23.326C31 40 44 30 44 19c0-6.075-4.925-11-11-11c-3.72 0-7.01 1.847-9 4.674A10.99 10.99 0 0 0 15 8"
                 />
               </svg>
-              <p className="text-xs text-[rgb(249,24,129)] font-bold">
+              <div className="text-xs text-[rgb(249,24,129)] font-bold">
                 <CountLike postId={postId}></CountLike>
-              </p>
+              </div>
             </div>
           ) : (
             <div className="flex justify-center items-center gap-1">

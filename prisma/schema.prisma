@@ -70,7 +70,7 @@ enum ActionType {
 
 model Following {
   Id           String  @id @default(uuid())
-  followingId  String  @unique
+  followingId  String  
   user         User    @relation(fields: [userId], references: [id])
   userId       String
 }

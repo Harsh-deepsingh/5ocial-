@@ -28,7 +28,10 @@ const SubContent = async () => {
                 </div>
               </div>
               <Line></Line>
-              <PostAction postId={post.postId}></PostAction>
+              <PostAction
+                postId={post.postId}
+                followingId={post.userId}
+              ></PostAction>
             </div>
           </Card>
         </div>
