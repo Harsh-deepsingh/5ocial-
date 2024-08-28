@@ -6,11 +6,8 @@ import SubContent from "./SubContent";
 const Content = ({ children }: { children?: React.ReactNode }) => {
   return (
     <div>
-      <Card>
-        {children}
-        <SubContent></SubContent>
-        <PostAction></PostAction>
-      </Card>
+      {children}
+      <SubContent></SubContent>
     </div>
   );
 };

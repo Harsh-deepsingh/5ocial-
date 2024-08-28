@@ -10,17 +10,10 @@ const PostInput = () => {
   const [error, setError] = useState("");
   const params = useParams();
   const ids = params.feed;
-  console.log(ids);
-
   const id = ids.toString().split("%26");
-  console.log(id);
-
   const userId = id[0];
   const communityId = id[1];
   const textareaRef = useRef(null);
-
-  console.log(userId);
-  console.log(communityId);
 
   const handleInputChange = (e) => {
     setText(e.target.value);
