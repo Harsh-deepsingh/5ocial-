@@ -11,24 +11,27 @@ const SubContent = async () => {
   //   router.push("profile");
   const res = await Posts();
   const posts = res.posts;
+
   return (
     <div className="flex  gap-2 flex-col-reverse">
       {posts?.map((post) => (
-        <Card>
-          <div className="mt-1" key={post.postId}>
-            <div className="flex gap-3 h-max justify-start ">
-              <ProfileLetter>
-                {post.username ? post.username[0].toUpperCase() : ""}
-              </ProfileLetter>
-              <div className=" w-full flex flex-col gap-2">
-                <p className="text-lg">{post.username}</p>
-                <p>{post.content}</p>
+        <div className="" key={post.postId}>
+          <Card>
+            <div className="mt-1">
+              <div className="flex gap-3 h-max justify-start ">
+                <ProfileLetter>
+                  {post.username ? post.username[0].toUpperCase() : ""}
+                </ProfileLetter>
+                <div className=" w-full flex flex-col gap-2">
+                  <p className="text-lg">{post.username}</p>
+                  <p>{post.content}</p>
+                </div>
               </div>
+              <Line></Line>
+              <PostAction postId={post.postId}></PostAction>
             </div>
-            <Line></Line>
-            <PostAction></PostAction>
-          </div>
-        </Card>
+          </Card>
+        </div>
       ))}
     </div>
   );

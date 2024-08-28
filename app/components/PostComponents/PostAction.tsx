@@ -3,11 +3,11 @@ import Like from "./Like";
 import Comment from "./Comments/Comment";
 import Follow from "./Follow";
 
-const PostAction = () => {
+const PostAction = ({ postId }: { postId: string }) => {
   return (
     <div className="w-full flex  justify-between items-center">
       <Comment></Comment>
-      <Like></Like>
+      <Like postId={postId}></Like>
       <Follow></Follow>
     </div>
   );

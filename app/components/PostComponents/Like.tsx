@@ -1,11 +1,25 @@
 "use client";
-import React, { useState } from "react";
-
-const Like = () => {
+import React, { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import axios from "axios";
+import CountLike from "./CountLike";
+const Like = ({ postId }: { postId: string }) => {
   const [like, setLike] = useState(false);
+  const params = useParams();
+  const ids = params.feed;
+  const id = ids.toString().split("%26");
+  const userId = id[0];
 
-  const handleLike = () => {
+  const handleLike = async () => {
     setLike((prev) => !prev);
+    try {
+      const res = await axios.post(
+        `http://localhost:3000/api/like?userId=${userId}&postId=${postId}`,
+        { actionType: "LIKE" }
+      );
+    } catch (error) {
+      return { message: `unable to like ${error}` };
+    }
   };
 
   return (
@@ -29,7 +43,9 @@ const Like = () => {
                   d="M15 8C8.925 8 4 12.925 4 19c0 11 13 21 20 23.326C31 40 44 30 44 19c0-6.075-4.925-11-11-11c-3.72 0-7.01 1.847-9 4.674A10.99 10.99 0 0 0 15 8"
                 />
               </svg>
-              <p className="text-xs text-[rgb(249,24,129)]">20</p>
+              <p className="text-xs text-[rgb(249,24,129)] font-bold">
+                <CountLike postId={postId}></CountLike>
+              </p>
             </div>
           ) : (
             <div className="flex justify-center items-center gap-1">
@@ -48,7 +64,7 @@ const Like = () => {
                   d="M15 8C8.925 8 4 12.925 4 19c0 11 13 21 20 23.326C31 40 44 30 44 19c0-6.075-4.925-11-11-11c-3.72 0-7.01 1.847-9 4.674A10.99 10.99 0 0 0 15 8"
                 />
               </svg>
-              <p className="text-xs font-bold">20</p>
+              <CountLike postId={postId}></CountLike>
             </div>
           )}
         </div>
