@@ -8,19 +8,30 @@ type post = {
   content: string;
   userId: string;
 };
+type comment = {
+  commentId: string;
+  username: string | null;
+  content: string;
+  userId: string;
+  postId: string;
+};
 const PostAction = ({
   postId,
   followingId,
   post,
+  comment,
 }: {
   postId: string;
   followingId: string;
   post: post;
+  comment: comment;
 }) => {
+  console.log(postId);
+
   return (
     <div className="w-full flex  justify-between items-center">
-      <Comment post={post}></Comment>
-      <Like postId={postId}></Like>
+      <Comment post={post} comment={comment}></Comment>
+      <Like postId={postId} comment={comment}></Like>
       <Follow postId={postId} followingId={followingId}></Follow>
     </div>
   );

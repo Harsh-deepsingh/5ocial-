@@ -2,16 +2,29 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-const CountComment = ({ postId }: { postId: string }) => {
+const CountComment = ({
+  postId,
+  commentId,
+}: {
+  postId?: string;
+  commentId?: string;
+}) => {
   const [commentCount, setCommentCount] = useState(0);
 
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:3000/api/feed/comments?postId=${postId}`
-        );
-        setCommentCount(res.data.commentCount);
+        if (commentId) {
+          const res = await axios.get(
+            `http://localhost:3000/api/feed/comments?commentId=${commentId}`
+          );
+          setCommentCount(res.data.commentCount);
+        } else {
+          const res = await axios.get(
+            `http://localhost:3000/api/feed/comments?postId=${postId}`
+          );
+          setCommentCount(res.data.commentCount);
+        }
       } catch (error) {
         console.error("Failed to fetch likes:", error);
       }

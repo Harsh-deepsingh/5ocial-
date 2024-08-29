@@ -8,8 +8,18 @@ type post = {
   content: string;
   userId: string;
 };
-const Comment = ({ post }: { post: post }) => {
+type comment = {
+  commentId: string;
+  username: string | null;
+  content: string;
+  userId: string;
+  postId: string;
+};
+const Comment = ({ post, comment }: { post: post; comment: comment }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  console.log(post);
+  console.log(comment);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -33,7 +43,11 @@ const Comment = ({ post }: { post: post }) => {
             />
           </svg>
           <div>
-            <CountComment postId={post.postId}></CountComment>
+            {post != undefined ? (
+              <CountComment postId={post?.postId}></CountComment>
+            ) : (
+              <CountComment commentId={comment.commentId}></CountComment>
+            )}
           </div>
         </div>
       </button>

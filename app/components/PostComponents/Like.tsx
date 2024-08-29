@@ -3,7 +3,14 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import axios from "axios";
 import CountLike from "./CountLike";
-const Like = ({ postId }: { postId: string }) => {
+type comment = {
+  commentId: string;
+  username: string | null;
+  content: string;
+  userId: string;
+  postId: string;
+};
+const Like = ({ postId, comment }: { postId: string; comment: comment }) => {
   const [like, setLike] = useState(false);
   const params = useParams();
   const ids = params.feed;
@@ -13,10 +20,17 @@ const Like = ({ postId }: { postId: string }) => {
   const handleLike = async () => {
     setLike((prev) => !prev);
     try {
-      const res = await axios.post(
-        `http://localhost:3000/api/like?userId=${userId}&postId=${postId}`,
-        { actionType: "LIKE" }
-      );
+      if (comment) {
+        const res = await axios.post(
+          `http://localhost:3000/api/like?userId=${userId}&commentId=${comment.commentId}`,
+          { actionType: "LIKE" }
+        );
+      } else {
+        const res = await axios.post(
+          `http://localhost:3000/api/like?userId=${userId}&postId=${postId}`,
+          { actionType: "LIKE" }
+        );
+      }
     } catch (error) {
       return { message: `unable to like ${error}` };
     }
@@ -44,7 +58,7 @@ const Like = ({ postId }: { postId: string }) => {
                 />
               </svg>
               <div className="text-xs text-[rgb(249,24,129)] font-bold">
-                <CountLike postId={postId}></CountLike>
+                <CountLike comment={comment} postId={postId}></CountLike>
               </div>
             </div>
           ) : (
@@ -64,7 +78,7 @@ const Like = ({ postId }: { postId: string }) => {
                   d="M15 8C8.925 8 4 12.925 4 19c0 11 13 21 20 23.326C31 40 44 30 44 19c0-6.075-4.925-11-11-11c-3.72 0-7.01 1.847-9 4.674A10.99 10.99 0 0 0 15 8"
                 />
               </svg>
-              <CountLike postId={postId}></CountLike>
+              <CountLike postId={postId} comment={comment}></CountLike>
             </div>
           )}
         </div>

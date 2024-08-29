@@ -3,6 +3,7 @@ import Card from "../../Card/Card";
 import ProfileLetter from "../../ProfilePicture/ProfileLetter";
 import PostInput from "../../../[feed]/PostInput";
 import CommentInput from "./CommentInput";
+import Comments from "./Comments";
 type post = {
   username: string | null | undefined;
   postId: string;
@@ -49,8 +50,8 @@ const CommentModal = ({
                       <CommentInput postId={post.postId}></CommentInput>
                     </div>
                   </div>
-                  <div className="flex items-end justify-end mt-2">
-                    {/* <Button>Post</Button> */}
+                  <div className="flex w-full mt-2">
+                    <Comments postId={post.postId}></Comments>
                   </div>
                 </div>
               </div>
