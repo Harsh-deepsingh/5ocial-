@@ -36,5 +36,4 @@ const Post = async () => {
     </>
   );
 };
-
 export default Post;

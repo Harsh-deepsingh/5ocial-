@@ -31,6 +31,7 @@ const SubContent = async () => {
               <PostAction
                 postId={post.postId}
                 followingId={post.userId}
+                post={post}
               ></PostAction>
             </div>
           </Card>

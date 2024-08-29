@@ -1,14 +1,22 @@
 import React from "react";
 import Card from "../../Card/Card";
-
+import ProfileLetter from "../../ProfilePicture/ProfileLetter";
+import PostInput from "../../../[feed]/PostInput";
+import CommentInput from "./CommentInput";
+type post = {
+  username: string | null | undefined;
+  postId: string;
+  content: string;
+  userId: string;
+};
 const CommentModal = ({
   isOpen,
   onClose,
-  children,
+  post,
 }: {
   isOpen: boolean;
   onClose: () => void;
-  children: React.ReactNode;
+  post: post;
 }) => {
   if (!isOpen) return null;
 
@@ -21,7 +29,33 @@ const CommentModal = ({
               &times;
             </button>
           </div>
-          {children}
+          <div className="flex flex-col gap-5 text-white">
+            <Card>
+              <div className="flex gap-3 h-max justify-start ">
+                <ProfileLetter>
+                  {post.username ? post.username[0].toUpperCase() : ""}
+                </ProfileLetter>
+                <div className=" w-full flex flex-col gap-2">
+                  <p className="text-lg">{post.username}</p>
+                  <p>{post.content}</p>
+                </div>
+              </div>
+            </Card>
+            <>
+              <div className="w-full flex flex-col justify-between gap-1">
+                <div className="flex flex-col">
+                  <div className="flex gap-2 justify-start items-start">
+                    <div className="w-full">
+                      <CommentInput postId={post.postId}></CommentInput>
+                    </div>
+                  </div>
+                  <div className="flex items-end justify-end mt-2">
+                    {/* <Button>Post</Button> */}
+                  </div>
+                </div>
+              </div>
+            </>
+          </div>
         </Card>
       </div>
     </div>

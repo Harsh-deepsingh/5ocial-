@@ -1,11 +1,14 @@
 "use client";
 import React, { useState } from "react";
 import CommentModal from "./CommentModal";
-import Card from "../../Card/Card";
-import SubContent from "../../../[feed]/SubContent";
-import Post from "../../../[feed]/Post";
-
-const Comment = () => {
+import CountComment from "./CountComment";
+type post = {
+  username: string | null | undefined;
+  postId: string;
+  content: string;
+  userId: string;
+};
+const Comment = ({ post }: { post: post }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
@@ -29,17 +32,16 @@ const Comment = () => {
               d="M19 4H5a2 2 0 0 0-2 2v15l3.467-2.6a2 2 0 0 1 1.2-.4H19a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"
             />
           </svg>
-          <p className="text-xs font-bold">20</p>
+          <div>
+            <CountComment postId={post.postId}></CountComment>
+          </div>
         </div>
       </button>
-      <CommentModal isOpen={isModalOpen} onClose={closeModal}>
-        <div className="flex flex-col gap-5 text-white">
-          <Card>
-            <SubContent></SubContent>
-          </Card>
-          <Post></Post>
-        </div>
-      </CommentModal>
+      <CommentModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        post={post}
+      ></CommentModal>
     </div>
   );
 };

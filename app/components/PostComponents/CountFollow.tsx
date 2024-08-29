@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -9,7 +10,6 @@ const CountFollow = ({
   postId: string;
 }) => {
   const [followCount, setFollowCount] = useState(0);
-  const [test, setTets] = useState(false);
   useEffect(() => {
     const fetchFollower = async () => {
       try {
@@ -24,15 +24,7 @@ const CountFollow = ({
 
     fetchFollower();
   }, [postId]);
-  function handleClick() {
-    setTets((prev) => !prev);
-  }
-  return (
-    <div onClick={handleClick}>
-      {" "}
-      <p className="text-xs font-bold">{followCount}</p>
-    </div>
-  );
+  return <p className="text-xs font-bold">{followCount}</p>;
 };
 
 export default CountFollow;
