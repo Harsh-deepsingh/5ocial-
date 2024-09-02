@@ -1,30 +1,33 @@
+"use client";
 import React from "react";
-import ProfileLetter from "../components/ProfilePicture/ProfileLetter";
-import { Posts } from "../lib/actions/getPosts";
-import Card from "../components/Card/Card";
-import PostAction from "../components/PostComponents/PostAction";
-import Line from "../components/Line/Line";
+import ProfileLetter from "../../components/ProfilePicture/ProfileLetter";
+import Card from "../../components/Card/Card";
+import PostAction from "../../components/PostComponents/PostAction";
+import Line from "../../components/Line/Line";
+type post =
+  | {
+      postId: string;
+      content: string;
+      userId: string;
+      communityId: string;
+      shared: boolean;
+      sharedCommunity: string | null;
+    }[]
+  | undefined;
 
-const SubContent = async () => {
-  // const router = useRouter();
-  // const openProfile = () => {
-  //   router.push("profile");
-  const res = await Posts();
-  const posts = res.posts;
-  console.log(posts);
-
+const ProfileData = ({ post, username }: { post: post; username: string }) => {
   return (
     <div className="flex  gap-2 flex-col-reverse">
-      {posts?.map((post) => (
+      {post?.map((post) => (
         <div className="" key={post.postId}>
           <Card>
             <div className="mt-1">
               <div className="flex gap-3 h-max justify-start ">
                 <ProfileLetter>
-                  {post.username ? post.username[0].toUpperCase() : ""}
+                  {username ? username[0].toUpperCase() : ""}
                 </ProfileLetter>
                 <div className=" w-full flex flex-col gap-2">
-                  <p className="text-lg">{post.username}</p>
+                  <p className="text-lg">{username}</p>
                   <p>{post.content}</p>
                 </div>
               </div>
@@ -42,4 +45,4 @@ const SubContent = async () => {
   );
 };
 
-export default SubContent;
+export default ProfileData;

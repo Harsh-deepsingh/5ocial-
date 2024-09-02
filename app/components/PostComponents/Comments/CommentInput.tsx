@@ -39,13 +39,11 @@ const CommentInput = ({ postId }: { postId: string }) => {
     setError("");
 
     try {
-      console.log(userId, postId, text);
-
       const response = await axios.post(
         `http://localhost:3000/api/comment?userId=${userId}&postId=${postId}`,
         { content: text }
       );
-      console.log("Post submitted:", response.data);
+
       setText("");
     } catch (error) {
       console.error("Error submitting post:", error);

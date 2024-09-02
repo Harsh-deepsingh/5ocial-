@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import { IconUsersGroup } from "@tabler/icons-react";
 import Content from "../../Content";

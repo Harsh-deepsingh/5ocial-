@@ -1,5 +1,4 @@
 import React, { memo } from "react";
-import "../../globals.css";
 const PrimaryButton = memo(
   ({
     onClick,

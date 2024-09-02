@@ -5,9 +5,6 @@ export async function POST(req: NextRequest) {
   const userId = req.nextUrl.searchParams.get("userId") ?? "";
   const communityId = req.nextUrl.searchParams.get("communityId") ?? "";
   const { sharedCommunity, content } = await req.json();
-  console.log(sharedCommunity);
-  console.log(content);
-
   try {
     const sharedPost = await prisma.post.create({
       data: {

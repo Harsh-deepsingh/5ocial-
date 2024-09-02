@@ -4,7 +4,7 @@ import { SidebarDemo } from "../../components/Sidebar/SideBar";
 import Dashboard from "../../components/Dashboard/Dashboard";
 import Card from "../../components/Card/Card";
 import Communities from "./Communities";
-const page = async () => {
+const page = () => {
   return (
     <div>
       <SidebarDemo>

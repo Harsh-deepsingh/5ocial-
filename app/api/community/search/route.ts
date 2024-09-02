@@ -2,6 +2,8 @@ import prisma from "../../../lib/db";
 import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   const communityId = req.nextUrl.searchParams.get("communityId") ?? "";
+
+  // Fetch all communities excluding the specified one
   const allCommunities = await prisma.community.findMany({
     where: {
       NOT: {
@@ -9,14 +11,41 @@ export async function GET(req: NextRequest) {
       },
     },
     select: {
+      communityId: true,
       communityName: true,
-      users: true,
     },
   });
 
+  // Get user counts for each community
+  const userCountsPromises = allCommunities.map(async (community) => {
+    const count = await prisma.user.count({
+      where: {
+        communityId: community.communityId,
+      },
+    });
+    return {
+      communityId: community.communityId,
+      userCount: count,
+    };
+  });
+
+  // Wait for all user counts to be fetched
+  const userCounts = await Promise.all(userCountsPromises);
+
+  // Map the user counts to the corresponding communities
+  const communitiesWithUserCounts = allCommunities.map((community) => {
+    const userCount =
+      userCounts.find((uc) => uc.communityId === community.communityId)
+        ?.userCount || 0;
+
+    return {
+      ...community,
+      userCount,
+    };
+  });
+
   return NextResponse.json({
-    Communities: allCommunities.map((community) => community.communityName),
-    userCount: allCommunities.map((community) => community.users.length),
+    CommunitiesInfo: communitiesWithUserCounts,
   });
 }
 

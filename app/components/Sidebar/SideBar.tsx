@@ -25,7 +25,7 @@ export const SidebarDemo = ({ children }: { children: React.ReactNode }) => {
     },
     {
       label: "Profile",
-      href: "/profile",
+      href: `/profile`,
       icon: (
         <IconUser className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
@@ -70,7 +70,7 @@ export const SidebarDemo = ({ children }: { children: React.ReactNode }) => {
   return (
     <div
       className={cn(
-        "sticky top-2 rounded-md flex flex-col md:flex-row bg-theme-grey w-full flex-1 max-w-7xl mx-auto border border-theme-border ",
+        "sticky top-2 rounded-md flex flex-col md:flex-row bg-theme-grey lg:w-3/4 flex-1 max-w-7xl mx-auto border border-theme-border ",
         "h-full" // for your use case, use `h-screen` instead of `h-[60vh]`
       )}
     >

@@ -18,9 +18,6 @@ type comment = {
 const Comment = ({ post, comment }: { post: post; comment: comment }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  console.log(post);
-  console.log(comment);
-
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   return (

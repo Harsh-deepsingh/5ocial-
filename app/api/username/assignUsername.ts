@@ -13,7 +13,6 @@ export async function assignUsername(id: string) {
         email: true,
       },
     });
-    console.log(user?.email[0]);
     const firstLetter = user?.email[0];
 
     const letters = "abcdefghijklmnopqrstuvwxyz";

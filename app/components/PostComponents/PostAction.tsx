@@ -26,8 +26,6 @@ const PostAction = ({
   post: post;
   comment: comment;
 }) => {
-  console.log(postId);
-
   return (
     <div className="w-full flex  justify-between items-center">
       <Comment post={post} comment={comment}></Comment>

@@ -1,11 +1,14 @@
 "use client";
-import { useState } from "react";
 import React from "react";
 import ProfileButton from "../../components/Buttons/ProfileButton";
 
-const UserContent = () => {
-  const [activeButton, setActiveButton] = useState("Post");
-
+const UserContent = ({
+  activeButton,
+  setActiveButton,
+}: {
+  activeButton: string;
+  setActiveButton: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   const handleButtonClick = (buttonName: string) => {
     setActiveButton(buttonName);
   };
