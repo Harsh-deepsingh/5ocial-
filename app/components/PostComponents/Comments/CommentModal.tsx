@@ -23,7 +23,7 @@ const CommentModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center bg-black bg-opacity-50 overflow-auto ">
-      <div className="w-3/6 mt-11">
+      <div className="md:w-3/6 mt-11 sm: w-4/5">
         <Card>
           <div>
             <button className="text-white text-3xl" onClick={onClose}>

@@ -11,7 +11,6 @@ const SubContent = async () => {
   //   router.push("profile");
   const res = await Posts();
   const posts = res.posts;
-  console.log(posts);
 
   return (
     <div className="flex  gap-2 flex-col-reverse">

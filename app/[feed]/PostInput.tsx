@@ -14,8 +14,9 @@ const PostInput = () => {
   const userId = id[0];
   const communityId = id[1];
   const textareaRef = useRef(null);
+  const sharedCommunity = params.communityId;
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
     autoResize();
   };
@@ -40,12 +41,19 @@ const PostInput = () => {
     setError("");
 
     try {
-      const response = await axios.post(
-        `http://localhost:3000/api/post?userId=${userId}&communityId=${communityId}`,
-        { content: text }
-      );
-      console.log("Post submitted:", response.data);
-      setText("");
+      if (sharedCommunity !== undefined) {
+        const response = await axios.post(
+          `http://localhost:3000/api/community/sharedPosts?communityId=${communityId}&userId=${userId}`,
+          { sharedCommunity, content: text }
+        );
+        setText("");
+      } else {
+        const response = await axios.post(
+          `http://localhost:3000/api/post?userId=${userId}&communityId=${communityId}`,
+          { content: text }
+        );
+        setText("");
+      }
     } catch (error) {
       console.error("Error submitting post:", error);
       setError("Failed to submit the post. Please try again.");

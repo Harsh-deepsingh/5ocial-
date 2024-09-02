@@ -4,10 +4,9 @@ import PrimaryButton from "../../components/Buttons/PrimaryButton";
 import { useParams, useRouter } from "next/navigation";
 const ViewCommunity = ({ communityId }: { communityId: string }) => {
   const router = useRouter();
-  const currentPath = router.asPath;
+  const prevUrl = "communities/sharedPosts";
   const handleClick = () => {
-    //router.push(`/profile`);
-    router.push(`${""}/communities/sharedPosts/${communityId}`);
+    router.push(`${prevUrl}/${communityId}`);
   };
   return (
     <div>

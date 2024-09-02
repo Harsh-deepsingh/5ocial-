@@ -1,16 +1,47 @@
 import React from "react";
 import { IconUsersGroup } from "@tabler/icons-react";
-import Content from "../../Content";
+import { getCommunity } from "../../../lib/actions/getCommunity";
+import Card from "../../../components/Card/Card";
+import ProfileLetter from "../../../components/ProfilePicture/ProfileLetter";
+import PostAction from "../../../components/PostComponents/PostAction";
+import Line from "../../../components/Line/Line";
+import { sharedPosts } from "../../../lib/actions/getSharedPost";
+const SharedPosts = async ({ communityId }: { communityId: string }) => {
+  const communityName = await getCommunity(communityId);
+  const res = await sharedPosts(communityId);
+  const posts = res.posts;
 
-const SharedPosts = () => {
   return (
     <div>
-      <Content>
-        <div className="flex gap-2 text-theme-border text-sm font-bold">
-          <IconUsersGroup></IconUsersGroup>
-          <p>Community name</p>
-        </div>
-      </Content>
+      <div className=" ml-5 flex gap-2 text-theme-blue mb-2 text-xs">
+        <IconUsersGroup className="w-4 h-4"></IconUsersGroup>
+        <p>{communityName}</p>
+      </div>
+      <div className="flex  gap-2 flex-col-reverse">
+        {posts?.map((post) => (
+          <div className="" key={post.postId}>
+            <Card>
+              <div className="mt-1">
+                <div className="flex gap-3 h-max justify-start ">
+                  <ProfileLetter>
+                    {post.username ? post.username[0].toUpperCase() : ""}
+                  </ProfileLetter>
+                  <div className=" w-full flex flex-col gap-2">
+                    <p className="text-lg">{post.username}</p>
+                    <p>{post.content}</p>
+                  </div>
+                </div>
+                <Line></Line>
+                <PostAction
+                  postId={post.postId}
+                  followingId={post.userId}
+                  post={post}
+                ></PostAction>
+              </div>
+            </Card>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
