@@ -2,7 +2,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useParams } from "next/navigation";
 import axios from "axios";
-import { debounce } from "lodash";
 
 type comment = {
   commentId: string;
@@ -15,19 +14,28 @@ type comment = {
 const Like = ({ postId, comment }: { postId: string; comment: comment }) => {
   const [like, setLike] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
+  const [isLiking, setIsLiking] = useState(false); // To disable the button during request
   const params = useParams();
   const userId = params.userId;
 
   const handleLike = useCallback(async () => {
+    // Prevents spamming by disabling button during the request
+    if (isLiking) return;
+
+    setIsLiking(true); // Disable button
+
     try {
       const requestUrl = comment
-        ? `/api/like?userId=${userId}&commentId=${comment.commentId}`
-        : `/api/like?userId=${userId}&postId=${postId}`;
+        ? `http://localhost:3000/api/like?userId=${userId}&commentId=${comment.commentId}`
+        : `http://localhost:3000/api/like?userId=${userId}&postId=${postId}`;
 
-      await axios.post(requestUrl, { actionType: like ? "DISLIKE" : "LIKE" });
+      await axios.post(requestUrl, {
+        actionType: like ? "DISLIKE" : "LIKE",
+      });
 
-      setLike((prev) => !prev);
+      setLike((prev) => !prev); // Toggle the like status
 
+      // Fetch the updated like count
       const fetchUrl = comment
         ? `http://localhost:3000/api/feed/likes?commentId=${comment.commentId}`
         : `http://localhost:3000/api/feed/likes?postId=${postId}`;
@@ -36,10 +44,12 @@ const Like = ({ postId, comment }: { postId: string; comment: comment }) => {
       setLikeCount(res.data.like);
     } catch (error) {
       console.error("Unable to like:", error);
+    } finally {
+      setTimeout(() => {
+        setIsLiking(false); // Re-enable button after a short cooldown
+      }, 200); // Cooldown for 0.5 seconds
     }
-  }, [comment, like, postId, userId]);
-
-  const debouncedLike = debounce(handleLike, 1);
+  }, [comment, like, postId, userId, isLiking]);
 
   useEffect(() => {
     const fetchLikes = async () => {
@@ -71,7 +81,8 @@ const Like = ({ postId, comment }: { postId: string; comment: comment }) => {
   return (
     <div className="text-theme-border hover:text-[rgb(249,24,129)] w-min">
       <button
-        onClick={debouncedLike}
+        onClick={handleLike}
+        disabled={isLiking} // Disable the button during the request
         className="flex justify-center items-center"
       >
         <div className="bg-transparent hover:bg-[rgba(249,24,129,0.13)] p-1.5 rounded-full flex justify-center items-center gap-1 group">
