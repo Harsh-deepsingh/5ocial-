@@ -5,6 +5,7 @@ export async function GET(req: NextRequest) {
   try {
     const postId = req.nextUrl.searchParams.get("postId");
     const commentId = req.nextUrl.searchParams.get("commentId");
+
     if (postId) {
       const [likeCount, dislikeCount] = [
         await prisma.action.count({

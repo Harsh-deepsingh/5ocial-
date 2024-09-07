@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
-import ProfileLetter from "../../components/ProfilePicture/ProfileLetter";
-import Card from "../../components/Card/Card";
-import PostAction from "../../components/PostComponents/PostAction";
-import Line from "../../components/Line/Line";
+import ProfileLetter from "../components/ProfilePicture/ProfileLetter";
+import Card from "../components/Card/Card";
+import PostAction from "../components/PostComponents/PostAction";
+import Line from "../components/Line/Line";
 type post =
   | {
       postId: string;

@@ -8,10 +8,9 @@ const CommentInput = ({ postId }: { postId: string }) => {
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const params = useParams();
-  const ids = params.feed;
-  const id = ids.toString().split("%26");
-  const userId = id[0];
+  const data = useParams();
+  const userId = data.userId;
+
   const textareaRef = useRef(null);
 
   const handleInputChange = (e) => {

@@ -9,17 +9,15 @@ export async function GET(req: NextRequest, res: NextResponse) {
   }
 
   try {
-    // Fetch the username first
     const profileUsername = await prisma.user.findUnique({
       where: { id: userId },
       select: { username: true },
     });
 
-    if (!profileUsername) {
-      return NextResponse.json({ message: "User not found" });
-    }
+    // if (!profileUsername) {
+    //   return NextResponse.json({ message: "User not found" });
+    // }
 
-    // Fetch the rest of the profile data
     const profile = await prisma.user.findUnique({
       where: { id: userId },
       select: {
@@ -38,7 +36,6 @@ export async function GET(req: NextRequest, res: NextResponse) {
       });
     }
 
-    // Filter and fetch liked posts
     const likedPostsId =
       profile.actions
         ?.filter((action) => action.type === "LIKE" && action.postId !== null)

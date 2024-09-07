@@ -31,7 +31,7 @@ const CountComment = ({
     };
 
     fetchComments();
-  }, [postId]);
+  }, [postId, commentId]);
   return <div className="text-xs font-bold">{commentCount}</div>;
 };
 

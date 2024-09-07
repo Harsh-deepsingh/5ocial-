@@ -9,6 +9,7 @@ export async function sharedPosts(communityId: string) {
           shared: true,
         },
         select: {
+          community: true,
           userId: true,
           content: true,
           postId: true,

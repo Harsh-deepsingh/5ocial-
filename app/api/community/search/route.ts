@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   const communityId = req.nextUrl.searchParams.get("communityId") ?? "";
 
-  // Fetch all communities excluding the specified one
   const allCommunities = await prisma.community.findMany({
     where: {
       NOT: {
@@ -16,7 +15,8 @@ export async function GET(req: NextRequest) {
     },
   });
 
-  // Get user counts for each community
+  console.log(allCommunities);
+
   const userCountsPromises = allCommunities.map(async (community) => {
     const count = await prisma.user.count({
       where: {
@@ -29,10 +29,8 @@ export async function GET(req: NextRequest) {
     };
   });
 
-  // Wait for all user counts to be fetched
   const userCounts = await Promise.all(userCountsPromises);
 
-  // Map the user counts to the corresponding communities
   const communitiesWithUserCounts = allCommunities.map((community) => {
     const userCount =
       userCounts.find((uc) => uc.communityId === community.communityId)

@@ -4,18 +4,16 @@ import Dashboard from "../../components/Dashboard/Dashboard";
 import { SidebarDemo } from "../../components/Sidebar/SideBar";
 import Card from "../../components/Card/Card";
 import ProfileLetter from "../../components/ProfilePicture/ProfileLetter";
-import FollowUser from "./FollowUser";
-import ProfileData from "./ProfileData";
+import FollowUser from "../FollowUser";
+import ProfileData from "../ProfileData";
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
 import axios from "axios";
-import UserContent from "./UserContent";
-import { log } from "console";
+import UserContent from "../UserContent";
 const Profile = () => {
-  const params = useParams();
-  const ids = params.feed;
-  const id = ids.toString().split("%26");
-  const userId = id[0];
+  const data = useParams();
+  const userId = data.userId;
+
   const [activeButton, setActiveButton] = useState("Post");
   const [post, setPost] = useState([]);
   const [likedPosts, setLikedPosts] = useState([]);
@@ -31,11 +29,8 @@ const Profile = () => {
         if (res) {
           setPost(res.data.data.posts);
           setUsername(res.data.profileUsername.username);
-          console.log(res.data.profileUsername);
-
           setLikedPosts(res.data.likedPosts);
           setComments(res.data.data.comment);
-          console.log(res.data.data.comment);
         } else {
           return "userId invalid";
         }

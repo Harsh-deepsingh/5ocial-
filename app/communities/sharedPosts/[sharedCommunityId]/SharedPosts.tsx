@@ -13,7 +13,7 @@ const SharedPosts = async ({ communityId }: { communityId: string }) => {
 
   return (
     <div>
-      <div className=" ml-5 flex gap-2 text-theme-blue mb-2 text-xs">
+      <div className=" ml-7 flex gap-2 text-theme-blue mb-2 text-xs">
         <IconUsersGroup className="w-4 h-4"></IconUsersGroup>
         <p>{communityName}</p>
       </div>
@@ -22,6 +22,10 @@ const SharedPosts = async ({ communityId }: { communityId: string }) => {
           <div className="" key={post.postId}>
             <Card>
               <div className="mt-1">
+                <div className="flex gap-2 text-theme-blue mb-2 text-xs">
+                  <IconUsersGroup className="w-4 h-4"></IconUsersGroup>
+                  <p>{post.community.communityName}</p>
+                </div>
                 <div className="flex gap-3 h-max justify-start ">
                   <ProfileLetter>
                     {post.username ? post.username[0].toUpperCase() : ""}

@@ -1,30 +1,13 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { useParams } from "next/navigation";
 import { IconUsersGroup } from "@tabler/icons-react";
 import ViewCommunity from "./ViewCommunity";
+import { getCommunitiesWithUserCounts } from "../lib/actions/getCommunities";
+import { logUserInfo } from "../lib/actions/getUsername";
 
-const Communities = () => {
-  const [communities, setCommunities] = useState([]);
-  const params = useParams();
-  const ids = params.feed;
-  const id = ids.toString().split("%26");
-  const communityId = id[1];
-
-  useEffect(() => {
-    async function getCommunity() {
-      try {
-        const res = await axios.get(
-          `http://localhost:3000/api/community/search?communityId=${communityId}`
-        );
-        setCommunities(res.data.CommunitiesInfo);
-      } catch (error) {
-        return { message: `error` };
-      }
-    }
-    getCommunity();
-  }, []);
+const Communities = async () => {
+  const data = await logUserInfo();
+  const excludedCommunityId = data?.communityId;
+  const res = await getCommunitiesWithUserCounts(excludedCommunityId);
+  const communities = res;
 
   return (
     <div>

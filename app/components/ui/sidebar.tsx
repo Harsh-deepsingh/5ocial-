@@ -2,8 +2,7 @@
 import cn from "../../lib/utils";
 import Link, { LinkProps } from "next/link";
 import React, { useState, createContext, useContext } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { IconMenu2, IconX } from "@tabler/icons-react";
+import { motion } from "framer-motion";
 import {
   IconArrowLeft,
   IconHome,
@@ -13,6 +12,7 @@ import {
   IconUser,
   IconUsersGroup,
 } from "@tabler/icons-react";
+import { useSession } from "next-auth/react";
 interface Links {
   label: string;
   href: string;
@@ -118,6 +118,8 @@ export const MobileSidebar = ({
   children,
   ...props
 }: React.ComponentProps<"div">) => {
+  const session = useSession();
+  const userId = session.data?.user?.id;
   const links = [
     {
       label: "Home",
@@ -128,7 +130,7 @@ export const MobileSidebar = ({
     },
     {
       label: "Profile",
-      href: "/profile",
+      href: `/profile/${userId}`,
       icon: (
         <IconUser className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
@@ -142,18 +144,18 @@ export const MobileSidebar = ({
     },
     {
       label: "Shared posts",
-      href: "/communities/sharedPosts",
+      href: `/communities/sharedPosts/${userId}`,
       icon: (
         <IconShare3 className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
-    {
-      label: "Search",
-      href: "/search",
-      icon: (
-        <IconSearch className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
-      ),
-    },
+    // {
+    //   label: "Search",
+    //   href: "/search",
+    //   icon: (
+    //     <IconSearch className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+    //   ),
+    // },
     {
       label: "Settings",
       href: "#",

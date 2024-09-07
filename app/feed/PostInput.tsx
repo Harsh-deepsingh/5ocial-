@@ -8,13 +8,11 @@ const PostInput = () => {
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const params = useParams();
-  const ids = params.feed;
-  const id = ids.toString().split("%26");
-  const userId = id[0];
-  const communityId = id[1];
+  const data = useParams();
+  const communityId = data.communityId;
+  const userId = data.userId;
   const textareaRef = useRef(null);
-  const sharedCommunity = params.communityId;
+  const sharedCommunity = data.communityId;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);

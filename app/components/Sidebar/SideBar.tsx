@@ -4,7 +4,6 @@ import { Sidebar, SidebarBody, SidebarLink } from "../ui/sidebar";
 import {
   IconArrowLeft,
   IconHome,
-  IconSearch,
   IconSettings,
   IconShare3,
   IconUser,
@@ -13,8 +12,12 @@ import {
 import Link from "next/link";
 import { motion } from "framer-motion";
 import cn from "../../lib/utils";
+import { useSession } from "next-auth/react";
 
 export const SidebarDemo = ({ children }: { children: React.ReactNode }) => {
+  const session = useSession();
+  const userId = session.data?.user?.id;
+
   const links = [
     {
       label: "Home",
@@ -25,35 +28,28 @@ export const SidebarDemo = ({ children }: { children: React.ReactNode }) => {
     },
     {
       label: "Profile",
-      href: `/profile`,
+      href: `/profile/${userId}`,
       icon: (
         <IconUser className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {
       label: "Communities",
-      href: "/communities",
+      href: `/communities`,
       icon: (
         <IconUsersGroup className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {
       label: "Shared posts",
-      href: "/communities/sharedPosts",
+      href: `/shared`,
       icon: (
         <IconShare3 className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {
-      label: "Search",
-      href: "/search",
-      icon: (
-        <IconSearch className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
-      ),
-    },
-    {
       label: "Settings",
-      href: "#",
+      href: `/setting`,
       icon: (
         <IconSettings className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
@@ -66,11 +62,13 @@ export const SidebarDemo = ({ children }: { children: React.ReactNode }) => {
       ),
     },
   ];
+
   const [open, setOpen] = useState(false);
+
   return (
     <div
       className={cn(
-        "sticky top-2 rounded-md flex flex-col md:flex-row bg-theme-grey lg:w-3/4 flex-1 max-w-7xl mx-auto border border-theme-border ",
+        "sticky top-2 rounded-md flex flex-col md:flex-row bg-theme-grey lg:w-3/4 flex-1 max-w-7xl mx-auto border border-theme-border",
         "h-full" // for your use case, use `h-screen` instead of `h-[60vh]`
       )}
     >
@@ -91,7 +89,7 @@ export const SidebarDemo = ({ children }: { children: React.ReactNode }) => {
                 href: "#",
                 icon: (
                   <img
-                    src="hhttps://yt3.googleusercontent.com/ytc/AIdro_lTZyk85Unp1xLt6uy0fjuknQNUub9JvrSqsj2ByRQ17Io=s900-c-k-c0x00ffffff-no-rj"
+                    src="https://yt3.googleusercontent.com/ytc/AIdro_lTZyk85Unp1xLt6uy0fjuknQNUub9JvrSqsj2ByRQ17Io=s900-c-k-c0x00ffffff-no-rj"
                     className="h-7 w-7 flex-shrink-0 rounded-full"
                     width={50}
                     height={50}
@@ -107,6 +105,7 @@ export const SidebarDemo = ({ children }: { children: React.ReactNode }) => {
     </div>
   );
 };
+
 export const Logo = () => {
   return (
     <Link
@@ -124,6 +123,7 @@ export const Logo = () => {
     </Link>
   );
 };
+
 export const LogoIcon = () => {
   return (
     <Link

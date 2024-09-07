@@ -14,7 +14,7 @@ export default async function Home() {
   if (!session?.user) redirect("/signin");
   else {
     const communityId = await logUserInfo();
-    redirect(`${session.user.id}&${communityId?.communityId}`);
+    redirect(`feed/${session.user.id}/${communityId?.communityId}`);
   }
 
   return <div>{/* {JSON.stringify(session)} */}</div>;

@@ -12,10 +12,8 @@ const Follow = ({
   postId: string;
 }) => {
   const [follow, setFollow] = useState(false);
-  const params = useParams();
-  const ids = params.feed;
-  const id = ids.toString().split("%26");
-  const userId = id[0];
+  const data = useParams();
+  const userId = data.userId;
 
   const handleFollow = async () => {
     setFollow((prev) => !prev);

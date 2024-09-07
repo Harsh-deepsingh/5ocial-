@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import ProfileButton from "../../components/Buttons/ProfileButton";
+import ProfileButton from "../components/Buttons/ProfileButton";
 
 const UserContent = ({
   activeButton,

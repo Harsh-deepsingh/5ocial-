@@ -21,21 +21,3 @@ export async function POST(req: NextRequest) {
     console.log(error);
   }
 }
-
-export async function GET(req: NextRequest) {
-  const communityId = req.nextUrl.searchParams.get("communityId") ?? "";
-  const sharedCommunity = req.nextUrl.searchParams.get("sharedCommunity") ?? "";
-
-  try {
-    const sharedPost = await prisma.post.findMany({
-      where: {
-        communityId,
-        sharedCommunity,
-        shared: true,
-      },
-    });
-    return NextResponse.json(sharedPost);
-  } catch (error) {
-    console.log(error);
-  }
-}

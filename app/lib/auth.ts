@@ -99,6 +99,7 @@ export const authOptions = {
             id: user.id.toString(),
             email: user.email,
             username: user.username,
+            communityId: user.communityId,
           };
         } catch (e) {
           console.error(e);
