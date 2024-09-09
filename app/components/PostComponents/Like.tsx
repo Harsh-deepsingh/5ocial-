@@ -14,16 +14,14 @@ type comment = {
 const Like = ({ postId, comment }: { postId: string; comment: comment }) => {
   const [like, setLike] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
-  const [isLiking, setIsLiking] = useState(false); // To disable the button during request
+  const [isLiking, setIsLiking] = useState(false);
   const params = useParams();
   const userId = params.userId;
 
   const handleLike = useCallback(async () => {
-    // Prevents spamming by disabling button during the request
     if (isLiking) return;
 
-    setIsLiking(true); // Disable button
-
+    setIsLiking(true);
     try {
       const requestUrl = comment
         ? `http://localhost:3000/api/like?userId=${userId}&commentId=${comment.commentId}`
@@ -33,9 +31,8 @@ const Like = ({ postId, comment }: { postId: string; comment: comment }) => {
         actionType: like ? "DISLIKE" : "LIKE",
       });
 
-      setLike((prev) => !prev); // Toggle the like status
+      setLike((prev) => !prev);
 
-      // Fetch the updated like count
       const fetchUrl = comment
         ? `http://localhost:3000/api/feed/likes?commentId=${comment.commentId}`
         : `http://localhost:3000/api/feed/likes?postId=${postId}`;
@@ -46,8 +43,8 @@ const Like = ({ postId, comment }: { postId: string; comment: comment }) => {
       console.error("Unable to like:", error);
     } finally {
       setTimeout(() => {
-        setIsLiking(false); // Re-enable button after a short cooldown
-      }, 200); // Cooldown for 0.5 seconds
+        setIsLiking(false);
+      }, 200);
     }
   }, [comment, like, postId, userId, isLiking]);
 
@@ -82,7 +79,7 @@ const Like = ({ postId, comment }: { postId: string; comment: comment }) => {
     <div className="text-theme-border hover:text-[rgb(249,24,129)] w-min">
       <button
         onClick={handleLike}
-        disabled={isLiking} // Disable the button during the request
+        disabled={isLiking}
         className="flex justify-center items-center"
       >
         <div className="bg-transparent hover:bg-[rgba(249,24,129,0.13)] p-1.5 rounded-full flex justify-center items-center gap-1 group">
