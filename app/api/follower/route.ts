@@ -62,7 +62,16 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    return NextResponse.json({ followers: followerCount });
+    const followingCount = await prisma.following.count({
+      where: {
+        userId: FollowingId,
+      },
+    });
+
+    return NextResponse.json({
+      followers: followerCount,
+      following: followingCount,
+    });
   } catch (error) {
     console.error("Error fetching follower count:", error);
     return NextResponse.json(
