@@ -35,4 +35,4 @@ const PostAction = ({
   );
 };
 
-export default PostAction;
+export default React.memo(PostAction);

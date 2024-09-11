@@ -23,7 +23,7 @@ const CountFollow = ({
     };
 
     fetchFollower();
-  }, [postId]);
+  }, [postId, followCount, followingId]);
   return <p className="text-xs font-bold">{followCount}</p>;
 };
 

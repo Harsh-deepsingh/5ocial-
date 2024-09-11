@@ -5,9 +5,11 @@ import axios from "axios";
 const CountComment = ({
   postId,
   commentId,
+  isModalOpen,
 }: {
   postId?: string;
   commentId?: string;
+  isModalOpen: boolean;
 }) => {
   const [commentCount, setCommentCount] = useState(0);
 
@@ -31,7 +33,7 @@ const CountComment = ({
     };
 
     fetchComments();
-  }, [postId, commentId]);
+  }, [postId, commentId, isModalOpen]);
   return <div className="text-xs font-bold">{commentCount}</div>;
 };
 

@@ -1,7 +1,6 @@
 import React from "react";
 import Card from "../../Card/Card";
 import ProfileLetter from "../../ProfilePicture/ProfileLetter";
-import PostInput from "../../../feed/PostInput";
 import CommentInput from "./CommentInput";
 import Comments from "./Comments";
 type post = {
@@ -63,4 +62,4 @@ const CommentModal = ({
   );
 };
 
-export default CommentModal;
+export default React.memo(CommentModal);

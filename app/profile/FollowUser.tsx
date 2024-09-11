@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import React from "react";
 
-const FollowUser = () => {
+const FollowUser = ({ userId }: { userId: string }) => {
   const router = useRouter();
   return (
     <div>
@@ -12,7 +12,7 @@ const FollowUser = () => {
           <button
             className="hover:text-white"
             onClick={() => {
-              router.push("profile/follow");
+              router.push(`/profile/${userId}/follow`);
             }}
           >
             followers
@@ -23,7 +23,7 @@ const FollowUser = () => {
           <button
             className="hover:text-white"
             onClick={() => {
-              router.push("/profile/follow");
+              router.push(`/profile/${userId}/follow`);
             }}
           >
             following

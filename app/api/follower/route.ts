@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
     if (existingFollow) {
       await prisma.following.delete({
         where: {
-          followingId,
+          Id: existingFollow.Id,
           userId,
         },
       });

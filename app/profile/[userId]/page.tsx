@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Dashboard from "../../components/Dashboard/Dashboard";
 import { SidebarDemo } from "../../components/Sidebar/SideBar";
 import Card from "../../components/Card/Card";
@@ -7,9 +7,9 @@ import ProfileLetter from "../../components/ProfilePicture/ProfileLetter";
 import FollowUser from "../FollowUser";
 import ProfileData from "../ProfileData";
 import { useParams } from "next/navigation";
-import { useEffect } from "react";
 import axios from "axios";
 import UserContent from "../UserContent";
+
 const Profile = () => {
   const data = useParams();
   const userId = data.userId;
@@ -19,6 +19,7 @@ const Profile = () => {
   const [likedPosts, setLikedPosts] = useState([]);
   const [comments, setComments] = useState([]);
   const [username, setUsername] = useState("Loading");
+
   useEffect(() => {
     async function fetchProfileData() {
       try {
@@ -42,7 +43,8 @@ const Profile = () => {
     fetchProfileData();
   }, [userId]);
 
-  //console.log(comments);
+  const sharedPosts = post.filter((p) => p.shared === true);
+  const nonSharedPosts = post.filter((p) => p.shared === false);
 
   return (
     <div>
@@ -52,7 +54,7 @@ const Profile = () => {
             <ProfileLetter>{username[0].toUpperCase()}</ProfileLetter>
             <p className="font-bold text-lg">{username}</p>
             <div className="flex gap-2">
-              <FollowUser></FollowUser>
+              <FollowUser userId={userId} username={username}></FollowUser>
             </div>
             <UserContent
               activeButton={activeButton}
@@ -60,7 +62,11 @@ const Profile = () => {
             ></UserContent>
           </Card>
           {activeButton === "Post" ? (
-            <ProfileData post={post} username={username} userId={userId} />
+            <ProfileData
+              post={nonSharedPosts}
+              username={username}
+              userId={userId}
+            />
           ) : activeButton === "Likes" ? (
             <ProfileData
               post={likedPosts}
@@ -70,7 +76,11 @@ const Profile = () => {
           ) : activeButton === "Comments" ? (
             <ProfileData post={comments} username={username} userId={userId} />
           ) : activeButton === "Shared Posts" ? (
-            <ProfileData post={post} username={username} userId={userId} />
+            <ProfileData
+              post={sharedPosts}
+              username={username}
+              userId={userId}
+            />
           ) : (
             <div>Select a valid option</div>
           )}

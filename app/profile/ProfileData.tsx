@@ -18,29 +18,35 @@ type post =
 const ProfileData = ({ post, username }: { post: post; username: string }) => {
   return (
     <div className="flex  gap-2 flex-col-reverse">
-      {post?.map((post) => (
-        <div className="" key={post.postId}>
-          <Card>
-            <div className="mt-1">
-              <div className="flex gap-3 h-max justify-start ">
-                <ProfileLetter>
-                  {username ? username[0].toUpperCase() : ""}
-                </ProfileLetter>
-                <div className=" w-full flex flex-col gap-2">
-                  <p className="text-lg">{username}</p>
-                  <p>{post.content}</p>
+      {post == undefined || post.length < 1 ? (
+        <>No posts yet!</>
+      ) : (
+        <>
+          {post?.map((post) => (
+            <div className="" key={post.postId}>
+              <Card>
+                <div className="mt-1">
+                  <div className="flex gap-3 h-max justify-start ">
+                    <ProfileLetter>
+                      {username ? username[0].toUpperCase() : ""}
+                    </ProfileLetter>
+                    <div className=" w-full flex flex-col gap-2">
+                      <p className="text-lg">{username}</p>
+                      <p>{post.content}</p>
+                    </div>
+                  </div>
+                  <Line></Line>
+                  <PostAction
+                    postId={post.postId}
+                    followingId={post.userId}
+                    post={post}
+                  ></PostAction>
                 </div>
-              </div>
-              <Line></Line>
-              <PostAction
-                postId={post.postId}
-                followingId={post.userId}
-                post={post}
-              ></PostAction>
+              </Card>
             </div>
-          </Card>
-        </div>
-      ))}
+          ))}
+        </>
+      )}
     </div>
   );
 };

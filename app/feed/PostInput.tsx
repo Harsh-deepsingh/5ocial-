@@ -4,15 +4,18 @@ import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import Button from "../components/Buttons/Button";
 import Line from "../components/Line/Line";
+import { useSession } from "next-auth/react";
 const PostInput = () => {
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const data = useParams();
   const communityId = data.communityId;
-  const userId = data.userId;
+  //const userId = data.userId;
   const textareaRef = useRef(null);
-  const sharedCommunity = data.communityId;
+  const sharedCommunity = data.sharedCommunityId;
+  const session = useSession();
+  const userId = session?.data?.user?.id;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
@@ -41,7 +44,7 @@ const PostInput = () => {
     try {
       if (sharedCommunity !== undefined) {
         const response = await axios.post(
-          `http://localhost:3000/api/community/sharedPosts?communityId=${communityId}&userId=${userId}`,
+          `http://localhost:3000/api/community/sharedPosts?userId=${userId}`,
           { sharedCommunity, content: text }
         );
         setText("");

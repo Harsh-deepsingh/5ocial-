@@ -3,7 +3,6 @@ import axios from "axios";
 import Card from "../../Card/Card";
 import ProfileLetter from "../../ProfilePicture/ProfileLetter";
 import Line from "../../Line/Line";
-import PostAction from "../PostAction";
 import Like from "../Like";
 
 type comment = {
@@ -32,7 +31,7 @@ const Comments = ({ postId }: { postId: string }) => {
     };
 
     fetchComments();
-  }, [postId]);
+  }, [postId, comments]);
 
   return (
     <div className="flex gap-2 flex-col-reverse w-full">

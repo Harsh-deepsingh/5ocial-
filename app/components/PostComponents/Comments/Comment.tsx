@@ -41,9 +41,15 @@ const Comment = ({ post, comment }: { post: post; comment: comment }) => {
           </svg>
           <div>
             {post != undefined ? (
-              <CountComment postId={post?.postId}></CountComment>
+              <CountComment
+                postId={post?.postId}
+                isModalOpen={isModalOpen}
+              ></CountComment>
             ) : (
-              <CountComment commentId={comment.commentId}></CountComment>
+              <CountComment
+                commentId={comment.commentId}
+                isModalOpen={isModalOpen}
+              ></CountComment>
             )}
           </div>
         </div>

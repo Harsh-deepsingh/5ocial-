@@ -1,26 +1,57 @@
 "use client";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams } from "next/navigation";
-import CountFollow from "./CountFollow";
 
-const Follow = ({
-  followingId,
-  postId,
-}: {
-  followingId: string;
-  postId: string;
-}) => {
+const Follow = ({ followingId }: { followingId: string }) => {
   const [follow, setFollow] = useState(false);
-  const data = useParams();
-  const userId = data.userId;
+  const [followCount, setFollowCount] = useState(0);
+  const [isFollowing, setIsFollowing] = useState(false);
+  const params = useParams();
+  const userId = params.userId;
 
-  const handleFollow = async () => {
-    setFollow((prev) => !prev);
-    const res = await axios.post(
-      `http://localhost:3000/api/follower?userId=${userId}&followingId=${followingId}`
-    );
-  };
+  const handleFollow = useCallback(async () => {
+    if (isFollowing) return;
+
+    setIsFollowing(true);
+    try {
+      const request = await axios.post(
+        `http://localhost:3000/api/follower?userId=${userId}&followingId=${followingId}`
+      );
+      setFollow((prev) => !prev);
+
+      const res = await axios.get(
+        `http://localhost:3000/api/follower?followingId=${followingId}`
+      );
+      setFollowCount(res.data.followers);
+    } catch (error) {
+      console.error("Unable to follow/unfollow:", error);
+    } finally {
+      setTimeout(() => {
+        setIsFollowing(false);
+      }, 200);
+    }
+  }, [followingId, userId, isFollowing]);
+
+  useEffect(() => {
+    const fetchFollowStatusAndCount = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:3000/api/follower?followingId=${followingId}`
+        );
+        setFollowCount(res.data.followers);
+
+        const checkUrl = `http://localhost:3000/api/follower/check-follow?userId=${userId}&followingId=${followingId}`;
+        const checkRes = await axios.get(checkUrl);
+        setFollow(checkRes.data.hasFollowed);
+      } catch (error) {
+        console.error("Failed to fetch follow status or count:", error);
+      }
+    };
+
+    fetchFollowStatusAndCount();
+  }, [followingId, userId]);
+
   return (
     <div className="text-theme-border hover:text-green-500 w-min">
       <div className="group-hover:stroke-green-500 bg-transparent hover:bg-[#00ff0d20] p-1.5 rounded-full flex justify-center items-center gap-1 group">
@@ -44,10 +75,7 @@ const Follow = ({
                   />
                 </g>
               </svg>
-              <CountFollow
-                followingId={followingId}
-                postId={postId}
-              ></CountFollow>
+              <p className="text-xs font-bold">{followCount}</p>
             </div>
           ) : (
             <div className="flex justify-center items-end">
@@ -65,10 +93,7 @@ const Follow = ({
                   />
                 </g>
               </svg>
-              <CountFollow
-                followingId={followingId}
-                postId={postId}
-              ></CountFollow>
+              <p className="text-xs font-bold">{followCount}</p>
             </div>
           )}
         </button>
