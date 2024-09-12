@@ -1,14 +1,15 @@
 "use client";
 import ProfileLetter from "../../../components/ProfilePicture/ProfileLetter";
-import PrimaryButton from "../../../components/Buttons/Button";
+import Follow from "../../../components/PostComponents/Follow";
 import Line from "../../../components/Line/Line";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { log } from "console";
 
 interface Follower {
-  id: string;
-  username: string;
+  user: {
+    id: string;
+    username: string;
+  };
 }
 
 const Following = ({ params }: { params: { userId: string } }) => {
@@ -34,17 +35,16 @@ const Following = ({ params }: { params: { userId: string } }) => {
     <div>
       {following == undefined || following == null || following.length < 1 ? (
         <>
-          {" "}
           {following.map((follow) => (
-            <div className="mb-4" key={follow.id}>
+            <div className="mb-4" key={follow.user.id}>
               <div className="flex justify-between items-end">
                 <div className="flex items-center gap-4">
                   <ProfileLetter>
-                    {follow.username[0].toUpperCase()}
+                    {follow.user.username[0].toUpperCase()}
                   </ProfileLetter>
-                  <p className="font-bold text-lg">{follow.username}</p>
+                  <p className="font-bold text-lg">{follow.user.username}</p>
                 </div>
-                <PrimaryButton>Follow</PrimaryButton>
+                <Follow followingId={follow.user.id}></Follow>
               </div>
               <Line />
             </div>

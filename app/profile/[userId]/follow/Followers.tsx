@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import ProfileLetter from "../../../components/ProfilePicture/ProfileLetter";
 import Line from "../../../components/Line/Line";
-import PrimaryButton from "../../../components/Buttons/Button";
 import axios from "axios";
+import Follow from "../../../components/PostComponents/Follow";
 interface Follower {
   user: {
     id: string;
@@ -35,10 +35,12 @@ const Followers = ({ params }: { params: { userId: string } }) => {
           <div key={follow.user.id} className="mb-4">
             <div className="flex justify-between items-end">
               <div className="flex items-center gap-4">
-                <ProfileLetter>{follow.user.username[0]}</ProfileLetter>
+                <ProfileLetter>
+                  {follow.user.username[0].toUpperCase()}
+                </ProfileLetter>
                 <p className="font-bold text-lg">{follow.user.username}</p>
               </div>
-              <PrimaryButton>Follow</PrimaryButton>
+              <Follow followingId={follow.user.id}></Follow>
             </div>
             <Line />
           </div>
