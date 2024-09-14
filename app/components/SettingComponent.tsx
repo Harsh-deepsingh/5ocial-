@@ -10,13 +10,14 @@ const SettingComponent = ({
   onClick: () => void;
 }) => {
   return (
-    <button
+    <div
       onClick={onClick}
-      className="flex flex-col justify-start items-start rounded-sm transition-all duration-200 ease-in p-4 text-sm text-theme-border hover:bg-black cursor-pointer"
+      className="border sm:border sm:border-theme-border md:border-none flex flex-col justify-start items-start rounded-sm transition-all duration-200 ease-in p-4 text-sm text-theme-border md:hover:bg-black cursor-pointer"
+      style={{ borderColor: "var(--theme-border-color)" }}
     >
       <p className="font-bold text-white">{main}</p>
-      <p className="flex text-algin">{mainInfo}</p>
-    </button>
+      <p className="flex justify-start items-start">{mainInfo}</p>
+    </div>
   );
 };
 

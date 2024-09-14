@@ -9,12 +9,37 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Missing userId" }, { status: 400 });
     }
 
-    const followers = await prisma.following.findMany({
+    const followersData = await prisma.user.findUnique({
       where: {
-        followingId: userId,
+        id: userId,
       },
       select: {
-        user: true,
+        following: {
+          select: {
+            followingId: true,
+          },
+        },
+      },
+    });
+
+    if (!followersData || !followersData.following.length) {
+      return NextResponse.json(
+        { message: "No followers found" },
+        { status: 200 }
+      );
+    }
+    const followingIds = followersData.following.map(
+      (entry) => entry.followingId
+    );
+    const followers = await prisma.user.findMany({
+      where: {
+        id: {
+          in: followingIds,
+        },
+      },
+      select: {
+        id: true,
+        username: true,
       },
     });
 

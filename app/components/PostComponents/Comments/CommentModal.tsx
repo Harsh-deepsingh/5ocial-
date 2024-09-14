@@ -13,10 +13,12 @@ const CommentModal = ({
   isOpen,
   onClose,
   post,
+  userId,
 }: {
   isOpen: boolean;
   onClose: () => void;
   post: post;
+  userId: string;
 }) => {
   if (!isOpen) return null;
 
@@ -46,11 +48,14 @@ const CommentModal = ({
                 <div className="flex flex-col">
                   <div className="flex gap-2 justify-start items-start">
                     <div className="w-full">
-                      <CommentInput postId={post.postId}></CommentInput>
+                      <CommentInput
+                        postId={post.postId}
+                        userId={userId}
+                      ></CommentInput>
                     </div>
                   </div>
                   <div className="flex w-full mt-2">
-                    <Comments postId={post.postId}></Comments>
+                    <Comments postId={post.postId} userId={userId}></Comments>
                   </div>
                 </div>
               </div>

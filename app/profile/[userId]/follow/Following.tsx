@@ -6,10 +6,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 interface Follower {
-  user: {
-    id: string;
-    username: string;
-  };
+  id: string;
+  username: string;
 }
 
 const Following = ({ params }: { params: { userId: string } }) => {
@@ -21,7 +19,7 @@ const Following = ({ params }: { params: { userId: string } }) => {
     async function fetchFollowing() {
       try {
         const res = await axios.get(
-          `http://localhost:3000/api/follower/followers?userId=${userId}`
+          `http://localhost:3000/api/follower/following?userId=${userId}`
         );
         setFollowing(res.data);
       } catch (error) {
@@ -33,18 +31,18 @@ const Following = ({ params }: { params: { userId: string } }) => {
 
   return (
     <div>
-      {following == undefined || following == null || following.length < 1 ? (
+      {following == undefined || following == null || following.length > 0 ? (
         <>
           {following.map((follow) => (
-            <div className="mb-4" key={follow.user.id}>
+            <div className="mb-4" key={follow.id}>
               <div className="flex justify-between items-end">
                 <div className="flex items-center gap-4">
                   <ProfileLetter>
-                    {follow.user.username[0].toUpperCase()}
+                    {follow.username.charAt(0).toUpperCase()}
                   </ProfileLetter>
-                  <p className="font-bold text-lg">{follow.user.username}</p>
+                  <p className="font-bold text-lg">{follow.username}</p>
                 </div>
-                <Follow followingId={follow.user.id}></Follow>
+                <Follow followingId={follow.id}></Follow>
               </div>
               <Line />
             </div>

@@ -1,23 +1,23 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { SidebarDemo } from "../components/Sidebar/SideBar";
 import Dashboard from "../components/Dashboard/Dashboard";
 import SharedPosts from "../communities/sharedPosts/[sharedCommunityId]/SharedPosts";
 import { logUserInfo } from "../lib/actions/getUsername";
-const page = async () => {
+import Loading from "../components/Loading/Loading";
+
+const Page = async () => {
   const data = await logUserInfo();
   const communityId = data?.communityId;
 
-  // const res = await sharedPosts(communityId);
-  // const posts = res.posts;
   return (
-    <div>
+    <Suspense fallback={<Loading />}>
       <SidebarDemo>
         <Dashboard>
           <SharedPosts communityId={communityId}></SharedPosts>
         </Dashboard>
       </SidebarDemo>
-    </div>
+    </Suspense>
   );
 };
 
-export default page;
+export default Page;

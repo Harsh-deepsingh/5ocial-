@@ -1,15 +1,17 @@
 "use client";
 import axios from "axios";
 import React, { useState, useEffect, useCallback } from "react";
-import { useParams } from "next/navigation";
 
-const Follow = ({ followingId }: { followingId: string }) => {
+const Follow = ({
+  followingId,
+  userId,
+}: {
+  followingId: string;
+  userId: string;
+}) => {
   const [follow, setFollow] = useState(false);
   const [followCount, setFollowCount] = useState(0);
   const [isFollowing, setIsFollowing] = useState(false);
-  const params = useParams();
-  const userId = params.userId;
-
   const handleFollow = useCallback(async () => {
     if (isFollowing) return;
 

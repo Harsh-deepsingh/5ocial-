@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState, useCallback } from "react";
-import { useParams } from "next/navigation";
 import axios from "axios";
 
 type comment = {
@@ -11,13 +10,18 @@ type comment = {
   postId: string;
 };
 
-const Like = ({ postId, comment }: { postId: string; comment: comment }) => {
+const Like = ({
+  postId,
+  comment,
+  userId,
+}: {
+  postId: string;
+  comment: comment;
+  userId: string;
+}) => {
   const [like, setLike] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [isLiking, setIsLiking] = useState(false);
-  const params = useParams();
-  const userId = params.userId;
-
   const handleLike = useCallback(async () => {
     if (isLiking) return;
 

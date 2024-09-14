@@ -1,15 +1,18 @@
 "use client";
-import { useParams } from "next/navigation";
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import Button from "../../../components/Buttons/Button";
 import Line from "../../../components/Line/Line";
-const CommentInput = ({ postId }: { postId: string }) => {
+const CommentInput = ({
+  postId,
+  userId,
+}: {
+  postId: string;
+  userId: string;
+}) => {
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const data = useParams();
-  const userId = data.userId;
 
   const textareaRef = useRef(null);
 

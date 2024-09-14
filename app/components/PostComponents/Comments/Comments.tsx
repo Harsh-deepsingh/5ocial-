@@ -13,7 +13,7 @@ type comment = {
   postId: string;
 };
 
-const Comments = ({ postId }: { postId: string }) => {
+const Comments = ({ postId, userId }: { postId: string; userId: string }) => {
   const [comments, setComments] = useState<comment[]>([]);
 
   useEffect(() => {
@@ -53,7 +53,7 @@ const Comments = ({ postId }: { postId: string }) => {
                 {/* <PostAction
                   postId={comment.commentId}
                 /> */}
-                <Like postId={postId} comment={comment}></Like>
+                <Like postId={postId} comment={comment} userId={userId}></Like>
               </div>
             </Card>
           </div>

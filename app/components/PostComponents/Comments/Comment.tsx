@@ -15,7 +15,15 @@ type comment = {
   userId: string;
   postId: string;
 };
-const Comment = ({ post, comment }: { post: post; comment: comment }) => {
+const Comment = ({
+  post,
+  comment,
+  userId,
+}: {
+  post: post;
+  comment: comment;
+  userId: string;
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
@@ -58,6 +66,7 @@ const Comment = ({ post, comment }: { post: post; comment: comment }) => {
         isOpen={isModalOpen}
         onClose={closeModal}
         post={post}
+        userId={userId}
       ></CommentModal>
     </div>
   );

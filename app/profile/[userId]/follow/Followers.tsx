@@ -18,7 +18,7 @@ const Followers = ({ params }: { params: { userId: string } }) => {
     async function fetchFollowers() {
       try {
         const res = await axios.get(
-          `http://localhost:3000/api/follower/following?userId=${userId}`
+          `http://localhost:3000/api/follower/followers?userId=${userId}`
         );
         setFollowers(res.data);
       } catch (error) {
@@ -30,7 +30,7 @@ const Followers = ({ params }: { params: { userId: string } }) => {
 
   return (
     <div>
-      {followers.length > 0 ? (
+      {followers.length > 0 && followers !== undefined ? (
         followers.map((follow) => (
           <div key={follow.user.id} className="mb-4">
             <div className="flex justify-between items-end">

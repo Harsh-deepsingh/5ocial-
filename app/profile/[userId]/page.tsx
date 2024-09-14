@@ -9,6 +9,7 @@ import ProfileData from "../ProfileData";
 import { useParams } from "next/navigation";
 import axios from "axios";
 import UserContent from "../UserContent";
+import Loading from "../../components/Loading/Loading";
 
 const Profile = () => {
   const data = useParams();
@@ -19,9 +20,11 @@ const Profile = () => {
   const [likedPosts, setLikedPosts] = useState([]);
   const [comments, setComments] = useState([]);
   const [username, setUsername] = useState("Loading");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchProfileData() {
+      setLoading(true);
       try {
         const res = await axios.get(
           `http://localhost:3000/api/profile?userId=${userId}`
@@ -37,6 +40,8 @@ const Profile = () => {
         }
       } catch (err) {
         return "Failed to fetch profile data";
+      } finally {
+        setLoading(false);
       }
     }
 
@@ -45,6 +50,10 @@ const Profile = () => {
 
   const sharedPosts = post.filter((p) => p.shared === true);
   const nonSharedPosts = post.filter((p) => p.shared === false);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div>

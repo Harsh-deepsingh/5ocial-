@@ -7,12 +7,7 @@ import SettingComponent from "../components/SettingComponent";
 import Logout from "./Logout";
 import Delete from "./Delete";
 import Feedback from "./Feedback";
-import PrimaryButton from "../components/Buttons/PrimaryButton";
-import {
-  IconArrowBack,
-  IconArrowBigLeft,
-  IconArrowLeft,
-} from "@tabler/icons-react";
+import { IconArrowLeft } from "@tabler/icons-react";
 const Page = () => {
   const [activeButton, setActiveButton] = useState("");
 
