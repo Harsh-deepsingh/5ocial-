@@ -91,14 +91,14 @@ export const SkeletonTwo = () => {
             variants={imageVariants}
             whileHover="whileHover"
             whileTap="whileTap"
-            className="rounded-xl -mr-4 mt-4 p-1 bg-white dark:bg-neutral-800 dark:border-neutral-700 border border-neutral-100 flex-shrink-0 overflow-hidden"
+            className="rounded-xl -mr-4 mt-4 p-1  dark:bg-neutral-800 dark:border-neutral-700 border border-neutral-100 flex-shrink-0 overflow-hidden"
           >
             <Image
               src={image}
-              alt="bali images"
+              alt="socially Blind"
               width="500"
               height="500"
-              className="rounded-lg h-20 w-20 md:h-64 md:w-64 object-cover flex-shrink-0"
+              className="h-52 w-40 rounded-lg sm:w-32 sm:h-32 lg:w-64 lg:h-64 md:w-32 md:h-64 object-cover flex-shrink-0"
             />
           </motion.div>
         ))}

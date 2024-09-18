@@ -9,10 +9,10 @@ import {
   IconUser,
   IconUsersGroup,
 } from "@tabler/icons-react";
-import Link from "next/link";
 import { motion } from "framer-motion";
 import cn from "../../lib/utils";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 
 export const SidebarDemo = ({ children }: { children: React.ReactNode }) => {
   const session = useSession();
@@ -108,29 +108,26 @@ export const SidebarDemo = ({ children }: { children: React.ReactNode }) => {
 
 export const Logo = () => {
   return (
-    <Link
-      href="#"
-      className="font-normal flex space-x-2 items-center text-sm text-black py-1 relative z-20"
-    >
-      <div className="h-5 w-6 bg-black dark:bg-white rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm flex-shrink-0" />
+    <div className="flex items-center gap-2">
+      <LogoIcon />
       <motion.span
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className="font-medium text-black dark:text-white whitespace-pre"
       >
-        5ocial
+        Socially Blind
       </motion.span>
-    </Link>
+    </div>
   );
 };
 
 export const LogoIcon = () => {
   return (
-    <Link
-      href="#"
-      className="font-normal flex space-x-2 items-center text-sm text-black py-1 relative z-20"
-    >
-      <div className="h-5 w-6 bg-black dark:bg-white rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm flex-shrink-0" />
-    </Link>
+    <Image
+      src="/favicon.ico"
+      alt="socially blind"
+      width="28"
+      height="28"
+    ></Image>
   );
 };

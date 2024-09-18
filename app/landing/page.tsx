@@ -3,13 +3,22 @@ import React from "react";
 import Link from "next/link";
 import PrimaryButton from "../components/Buttons/PrimaryButton";
 import { FeaturesSectionDemo } from "../components/ui/Image";
+import Image from "next/image";
 
 const LandingPage = () => {
   return (
     <div>
       <nav className="border-b border-theme-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <div className="text-2xl font-bold text-white">Socially Blind</div>
+          <div className="text-2xl font-bold text-white flex-row justify-center items-center gap-2 flex">
+            <Image
+              src="/favicon.ico"
+              alt="socially Blind"
+              width="40"
+              height="40"
+            />
+            <p> Socially Blind</p>
+          </div>
           <div>
             <Link
               href="https://github.com/harsh-deepsingh"
@@ -94,7 +103,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <section className="py-8 sm:py-16 bg-black">
+      <section className="py-32 sm:py-36 bg-black ">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold mb-4 sm:mb-8">How It Works</h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 sm:gap-8">

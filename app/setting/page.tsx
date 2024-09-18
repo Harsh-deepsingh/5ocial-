@@ -8,12 +8,23 @@ import Logout from "./Logout";
 import Delete from "./Delete";
 import Feedback from "./Feedback";
 import { IconArrowLeft } from "@tabler/icons-react";
+import { useSession } from "next-auth/react";
+import Loading from "../components/Loading/Loading";
 const Page = () => {
   const [activeButton, setActiveButton] = useState("");
 
   const handleBack = () => {
     setActiveButton("");
   };
+  const { data: session, status } = useSession();
+
+  if (status === "loading") {
+    return <Loading></Loading>;
+  }
+
+  if (status === "unauthenticated") {
+    return <p>Access Denied</p>;
+  }
 
   return (
     <SidebarDemo>
