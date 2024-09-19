@@ -36,13 +36,11 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ like: likeCount, dislike: dislikeCount });
     }
 
-    // Handle the case where neither postId nor commentId is provided
     return NextResponse.json(
       { error: "No postId or commentId provided" },
       { status: 400 }
     );
   } catch (error) {
-    // Return a response in case of an error
     return NextResponse.json(
       { error: "An error occurred while fetching like/dislike counts" },
       { status: 500 }

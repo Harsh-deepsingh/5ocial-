@@ -1,11 +1,14 @@
 import { NextResponse, NextRequest } from "next/server";
 import prisma from "../../../../lib/db/index";
 
-export async function GET(req: NextRequest, res: NextResponse) {
+export const dynamic = "force-dynamic";
+
+export async function GET(req: NextRequest) {
   try {
-    const postId = req.nextUrl.searchParams.get("postId");
-    const commentId = req.nextUrl.searchParams.get("commentId");
-    const userId = req.nextUrl.searchParams.get("userId");
+    const url = new URL(req.url);
+    const postId = url.searchParams.get("postId");
+    const commentId = url.searchParams.get("commentId");
+    const userId = url.searchParams.get("userId");
 
     if (!userId) {
       return NextResponse.json({ error: "User ID is required" });
