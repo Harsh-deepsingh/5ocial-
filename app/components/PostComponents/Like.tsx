@@ -15,9 +15,9 @@ const Like = ({
   comment,
   userId,
 }: {
-  postId: string;
-  comment: comment;
-  userId: string;
+  postId?: string;
+  comment?: comment;
+  userId?: string;
 }) => {
   const [like, setLike] = useState(false);
   const [likeCount, setLikeCount] = useState(0);

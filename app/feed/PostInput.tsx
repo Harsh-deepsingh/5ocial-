@@ -12,20 +12,21 @@ const PostInput = () => {
   const data = useParams();
   const communityId = data.communityId;
   //const userId = data.userId;
-  const textareaRef = useRef(null);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const sharedCommunity = data.sharedCommunityId;
   const session = useSession();
   const userId = session?.data?.user?.id;
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
     autoResize();
   };
 
   const autoResize = () => {
     const textarea = textareaRef.current;
-    textarea.style.height = "auto";
-    textarea.style.height = textarea.scrollHeight + "px";
+    if (textarea) {
+      textarea.style.height = "auto";
+      textarea.style.height = textarea.scrollHeight + "px";
+    }
   };
 
   useEffect(() => {

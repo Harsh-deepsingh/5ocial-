@@ -6,6 +6,7 @@ import PostAction from "../components/PostComponents/PostAction";
 import Line from "../components/Line/Line";
 type post =
   | {
+      username: string | null | undefined;
       postId: string;
       content: string;
       userId: string;

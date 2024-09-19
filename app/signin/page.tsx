@@ -150,5 +150,5 @@ const PasswordVisibility = memo(
     );
   }
 );
-
+PasswordVisibility.displayName = "PasswordVisibility";
 export default memo(Signin);

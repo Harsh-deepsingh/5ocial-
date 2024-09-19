@@ -5,9 +5,11 @@ import React, { useState, useEffect, useCallback } from "react";
 const Follow = ({
   followingId,
   userId,
+  postId,
 }: {
-  followingId: string;
-  userId: string;
+  followingId?: string;
+  userId?: string;
+  postId?: string;
 }) => {
   const [follow, setFollow] = useState(false);
   const [followCount, setFollowCount] = useState(0);

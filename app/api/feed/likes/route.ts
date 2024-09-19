@@ -7,30 +7,45 @@ export async function GET(req: NextRequest) {
     const commentId = req.nextUrl.searchParams.get("commentId");
 
     if (postId) {
-      const [likeCount, dislikeCount] = [
-        await prisma.action.count({
+      const [likeCount, dislikeCount] = await Promise.all([
+        prisma.action.count({
           where: {
             postId,
             type: "LIKE",
           },
         }),
-        await prisma.action.count({
+        prisma.action.count({
           where: { postId, type: "DISLIKE" },
         }),
-      ];
+      ]);
       return NextResponse.json({ like: likeCount, dislike: dislikeCount });
     }
-    const [likeCount, dislikeCount] = [
-      await prisma.action.count({
-        where: {
-          commentId,
-          type: "LIKE",
-        },
-      }),
-      await prisma.action.count({
-        where: { commentId, type: "DISLIKE" },
-      }),
-    ];
-    return NextResponse.json({ like: likeCount, dislike: dislikeCount });
-  } catch (error) {}
+
+    if (commentId) {
+      const [likeCount, dislikeCount] = await Promise.all([
+        prisma.action.count({
+          where: {
+            commentId,
+            type: "LIKE",
+          },
+        }),
+        prisma.action.count({
+          where: { commentId, type: "DISLIKE" },
+        }),
+      ]);
+      return NextResponse.json({ like: likeCount, dislike: dislikeCount });
+    }
+
+    // Handle the case where neither postId nor commentId is provided
+    return NextResponse.json(
+      { error: "No postId or commentId provided" },
+      { status: 400 }
+    );
+  } catch (error) {
+    // Return a response in case of an error
+    return NextResponse.json(
+      { error: "An error occurred while fetching like/dislike counts" },
+      { status: 500 }
+    );
+  }
 }

@@ -1,5 +1,5 @@
 import prisma from "../db";
-import { getUser } from "../../page";
+import { getUser } from "./getUser";
 export async function profile() {
   const userId = await getUser();
   const id = userId?.user?.id;

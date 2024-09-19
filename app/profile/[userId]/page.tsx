@@ -10,17 +10,27 @@ import { useParams } from "next/navigation";
 import axios from "axios";
 import UserContent from "../UserContent";
 import Loading from "../../components/Loading/Loading";
-
+type post =
+  | {
+      username: string | null | undefined;
+      postId: string;
+      content: string;
+      userId: string;
+      communityId: string;
+      shared: boolean;
+      sharedCommunity: string | null;
+    }[]
+  | undefined;
 const Profile = () => {
-  const data = useParams();
+  const data: { userId: string } = useParams();
   const userId = data.userId;
 
   const [activeButton, setActiveButton] = useState("Post");
-  const [post, setPost] = useState([]);
-  const [likedPosts, setLikedPosts] = useState([]);
-  const [comments, setComments] = useState([]);
-  const [username, setUsername] = useState("Loading");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [post, setPost] = useState<post>([]);
+  const [username, setUsername] = useState<string>("");
+  const [likedPosts, setLikedPosts] = useState<post>([]);
+  const [comments, setComments] = useState<any[]>([]);
 
   useEffect(() => {
     async function fetchProfileData() {
@@ -39,7 +49,7 @@ const Profile = () => {
           return "userId invalid";
         }
       } catch (err) {
-        return "Failed to fetch profile data";
+        console.error("Failed to fetch profile data", err);
       } finally {
         setLoading(false);
       }
@@ -48,8 +58,9 @@ const Profile = () => {
     fetchProfileData();
   }, [userId]);
 
-  const sharedPosts = post.filter((p) => p.shared === true);
-  const nonSharedPosts = post.filter((p) => p.shared === false);
+  // Filter posts based on the `shared` property
+  const sharedPosts = post?.filter((p) => p.shared === true);
+  const nonSharedPosts = post?.filter((p) => p.shared === false);
 
   if (loading) {
     return <Loading />;
@@ -63,7 +74,7 @@ const Profile = () => {
             <ProfileLetter>{username[0].toUpperCase()}</ProfileLetter>
             <p className="font-bold text-lg">{username}</p>
             <div className="flex gap-2">
-              <FollowUser userId={userId} username={username}></FollowUser>
+              <FollowUser userId={userId}></FollowUser>
             </div>
             <UserContent
               activeButton={activeButton}
@@ -71,25 +82,13 @@ const Profile = () => {
             ></UserContent>
           </Card>
           {activeButton === "Post" ? (
-            <ProfileData
-              post={nonSharedPosts}
-              username={username}
-              userId={userId}
-            />
+            <ProfileData post={nonSharedPosts} username={username} />
           ) : activeButton === "Likes" ? (
-            <ProfileData
-              post={likedPosts}
-              username={username}
-              userId={userId}
-            />
+            <ProfileData post={likedPosts} username={username} />
           ) : activeButton === "Comments" ? (
-            <ProfileData post={comments} username={username} userId={userId} />
+            <ProfileData post={comments} username={username} />
           ) : activeButton === "Shared Posts" ? (
-            <ProfileData
-              post={sharedPosts}
-              username={username}
-              userId={userId}
-            />
+            <ProfileData post={sharedPosts} username={username} />
           ) : (
             <div>Select a valid option</div>
           )}

@@ -20,9 +20,9 @@ const Comment = ({
   comment,
   userId,
 }: {
-  post: post;
-  comment: comment;
-  userId: string;
+  post?: post;
+  comment?: comment;
+  userId?: string;
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -54,10 +54,11 @@ const Comment = ({
                 isModalOpen={isModalOpen}
               ></CountComment>
             ) : (
-              <CountComment
-                commentId={comment.commentId}
-                isModalOpen={isModalOpen}
-              ></CountComment>
+              // <CountComment
+              //   commentId={comment.commentId}
+              //   isModalOpen={isModalOpen}
+              // ></CountComment>
+              <>0</>
             )}
           </div>
         </div>

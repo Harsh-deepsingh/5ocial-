@@ -3,7 +3,6 @@ import React from "react";
 import Like from "./Like";
 import Comment from "./Comments/Comment";
 import Follow from "./Follow";
-import { getUser } from "../../page";
 import { useSession } from "next-auth/react";
 type post = {
   username: string | null | undefined;
@@ -24,10 +23,10 @@ const PostAction = ({
   post,
   comment,
 }: {
-  postId: string;
-  followingId: string;
-  post: post;
-  comment: comment;
+  postId?: string;
+  followingId?: string;
+  post?: post;
+  comment?: comment;
 }) => {
   const session = useSession();
   const userId = session.data?.user?.id;

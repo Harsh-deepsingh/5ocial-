@@ -1,13 +1,6 @@
-import { authOptions } from "./lib/auth";
-import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { logUserInfo } from "./lib/actions/getUsername";
-
-export async function getUser() {
-  //@ts-ignore
-  const session = await getServerSession(authOptions);
-  return session;
-}
+import { getUser } from "./lib/actions/getUser";
 
 export default async function Home() {
   const session = await getUser();

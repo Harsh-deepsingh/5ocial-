@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import Button from "../../../components/Buttons/Button";
 import Line from "../../../components/Line/Line";
+import { style } from "framer-motion/client";
 const CommentInput = ({
   postId,
   userId,
@@ -14,17 +15,21 @@ const CommentInput = ({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const textareaRef = useRef(null);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: {
+    target: { value: React.SetStateAction<string> };
+  }) => {
     setText(e.target.value);
     autoResize();
   };
 
   const autoResize = () => {
     const textarea = textareaRef.current;
-    textarea.style.height = "auto";
-    textarea.style.height = textarea.scrollHeight + "px";
+    if (textarea) {
+      textarea.style.height = "auto";
+      textarea.style.height = textarea.scrollHeight + "px";
+    }
   };
 
   useEffect(() => {

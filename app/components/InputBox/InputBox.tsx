@@ -25,5 +25,5 @@ const InputBox = memo(
     );
   }
 );
-
+InputBox.displayName = "InputBox";
 export default InputBox;

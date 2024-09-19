@@ -7,7 +7,9 @@ import Loading from "../components/Loading/Loading";
 
 const Page = async () => {
   const data = await logUserInfo();
-  const communityId = data?.communityId;
+
+  let communityId = "";
+  if (data?.communityId) communityId = data?.communityId;
 
   return (
     <Suspense fallback={<Loading />}>

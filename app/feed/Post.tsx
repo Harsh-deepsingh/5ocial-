@@ -5,7 +5,12 @@ import ProfileLetter from "../components/ProfilePicture/ProfileLetter";
 import { IconUsersGroup } from "@tabler/icons-react";
 const Post = async () => {
   const user = await communityInfo();
-  const community = user?.communityName.toUpperCase();
+  let community;
+  if ("communityName" in user && user.communityName) {
+    community = user.communityName.toUpperCase();
+  } else {
+    console.log(user || "No community found");
+  }
   const res = await logUserInfo();
   const username = res?.username?.charAt(0);
   const char = username?.toUpperCase();

@@ -17,5 +17,5 @@ const PrimaryButton = memo(
     );
   }
 );
-
+PrimaryButton.displayName = "PrimaryButton";
 export default PrimaryButton;

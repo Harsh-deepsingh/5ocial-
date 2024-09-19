@@ -4,16 +4,9 @@ import bcrypt from "bcrypt";
 import { z } from "zod";
 import { assignUserToCommunity } from "../api/community/assignCommunity";
 import { assignUsername } from "../api/username/assignUsername";
+import { NextAuthOptions, Session, User as NextAuthUser } from "next-auth";
 
-type Session = {
-  user: {
-    id: string;
-    email: string;
-    password: string;
-    username: string | null;
-    verified: boolean;
-  };
-};
+// User model type based on Prisma schema
 type User = {
   id: string;
   email: string;
@@ -26,27 +19,27 @@ interface CredentialsSchema {
   email: string;
   password: string;
 }
-const credentialsSchema: any = z.object({
+
+const credentialsSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
 });
 
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
       credentials: {
         email: {
-          label: "email@gmail.com",
+          label: "Email",
           type: "email",
-          placeholder: "1231231231",
+          placeholder: "email@example.com",
         },
         password: { label: "Password", type: "password" },
       },
 
-      // User credentials type from next-auth
-      async authorize(credentials: any) {
-        //OTP validation here
+      async authorize(credentials) {
+        // OTP validation here (optional)
 
         const parsedCredentials = credentialsSchema.safeParse(credentials);
         if (!parsedCredentials.success) {
@@ -57,68 +50,59 @@ export const authOptions = {
         const { email, password } = parsedCredentials.data;
 
         const existingUser = await prisma.user.findFirst({
-          where: {
-            email: credentials?.email,
-          },
+          where: { email },
         });
 
         if (existingUser) {
           const passwordValidation = await bcrypt.compare(
-            credentials?.password,
+            password,
             existingUser.password
           );
 
           if (passwordValidation) {
             return {
-              id: existingUser.id.toString(),
+              id: existingUser.id,
+              email: existingUser.email,
               username: existingUser.username,
               verified: existingUser.verified,
             };
           }
           return null;
         }
+
         try {
-          const hashedPassword = await bcrypt.hash(credentials.password, 10);
-          const user = await prisma.user.create({
-            data: {
-              email: credentials.email,
-              password: hashedPassword,
-            },
+          const hashedPassword = await bcrypt.hash(password, 10);
+          const newUser = await prisma.user.create({
+            data: { email, password: hashedPassword },
           });
-          const id = user.id;
 
-          const joinCommunity = async (id: string) => {
-            const communityInfo = await assignUserToCommunity(id);
-            const userInfo = await assignUsername(id);
-            const communityId = communityInfo.communityId;
-            const username = userInfo?.username;
-          };
+          await assignUserToCommunity(newUser.id);
+          await assignUsername(newUser.id);
 
-          joinCommunity(id);
           return {
-            id: user.id.toString(),
-            email: user.email,
-            username: user.username,
-            communityId: user.communityId,
+            id: newUser.id,
+            email: newUser.email,
+            username: newUser.username,
+            verified: newUser.verified,
           };
-        } catch (e) {
-          console.error(e);
+        } catch (error) {
+          console.error(error);
+          return null;
         }
-        return null;
       },
     }),
   ],
   secret: process.env.JWT_SECRET || "secret",
   callbacks: {
-    session: async ({ session, token }: { session: Session; token: any }) => {
+    async session({ session, token }) {
       if (session?.user) {
-        session.user.id = token.sub;
+        session.user.id = token.sub!;
       }
       return session;
     },
-    jwt: async ({ user, token }: { user: User; token: any }) => {
+    async jwt({ user, token }) {
       if (user) {
-        token.uid = user.id;
+        token.sub = user.id;
       }
       return token;
     },

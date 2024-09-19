@@ -26,9 +26,9 @@ const Page = ({ params }: { params: { userId: string } }) => {
             {loading ? (
               <Loading />
             ) : activeButton === "Followers" ? (
-              <Followers params={params} setLoading={setLoading}></Followers>
+              <Followers params={params}></Followers>
             ) : (
-              <Following params={params} setLoading={setLoading}></Following>
+              <Following params={params}></Following>
             )}
           </Card>
         </Dashboard>
