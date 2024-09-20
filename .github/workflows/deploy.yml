@@ -3,7 +3,7 @@ name: Build and Deploy to Docker Hub
 on:
   push:
     branches:
-      - "**"
+      - main
 
 jobs:
   build-and-push:
@@ -21,15 +21,15 @@ jobs:
       - name: Build and Push Docker image
         uses: docker/build-push-action@v2
         with:
-          build-args: |
-            DATABASE_URL: ${{secrets.DATABASE_URL}} 
-            JWT_SECRET: ${{secrets.JWT_SECRET}}
-            NEXTAUTH_SECRET: ${{secrets.NEXTAUTH_SECRET}}
-            NEXTAUTH_URL: ${{secrets.NEXTAUTH_URL}}
           context: .
           file: ./dockerfile
           push: true
           tags: harsh0maan/socialnetworkapp
+          build-args: |
+            DATABASE_URL=${{secrets.DATABASE_URL}} 
+            JWT_SECRET=${{secrets.JWT_SECRET}}
+            NEXTAUTH_SECRET=${{secrets.NEXTAUTH_SECRET}}
+            NEXTAUTH_URL=${{secrets.NEXTAUTH_URL}}
 
       - name: Verify Pushed Image
         run: docker pull harsh0maan/socialnetworkapp:latest
