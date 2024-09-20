@@ -20,6 +20,7 @@
     "emailjs": "^4.0.3",
     "framer-motion": "^11.5.4",
     "jsonwebtoken": "^9.0.2",
+    "lint": "^0.8.19",
     "lodash": "^4.17.21",
     "next": "14.2.5",
     "next-auth": "^4.24.7",
