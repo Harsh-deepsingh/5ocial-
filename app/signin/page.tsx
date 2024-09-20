@@ -64,7 +64,7 @@ const Signin = () => {
     <div className="min-h-screen flex justify-center items-center">
       <div className="relative z-10">
         <Card>
-          <p className="font-bold text-2xl ">Sign in to 5ocial</p>
+          <p className="font-bold text-2xl ">Sign in to Socially Blind</p>
 
           <label>
             Email

@@ -42,7 +42,9 @@ const Profile = () => {
 
         if (res) {
           setPost(res.data.data.posts);
-          setUsername(res.data.profileUsername.username);
+          const data = res.data;
+          const profileData = data.profileUsername;
+          setUsername(profileData.username);
           setLikedPosts(res.data.likedPosts);
           setComments(res.data.data.comment);
         } else {
@@ -57,8 +59,6 @@ const Profile = () => {
 
     fetchProfileData();
   }, [userId]);
-
-  // Filter posts based on the `shared` property
   const sharedPosts = post?.filter((p) => p.shared === true);
   const nonSharedPosts = post?.filter((p) => p.shared === false);
 
@@ -71,7 +71,9 @@ const Profile = () => {
       <SidebarDemo>
         <Dashboard>
           <Card>
-            <ProfileLetter>{username[0].toUpperCase()}</ProfileLetter>
+            <ProfileLetter>
+              {username ? <> {username[0].toUpperCase()}</> : <></>}
+            </ProfileLetter>
             <p className="font-bold text-lg">{username}</p>
             <div className="flex gap-2">
               <FollowUser userId={userId}></FollowUser>
