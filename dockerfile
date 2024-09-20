@@ -12,16 +12,22 @@ ENV JWT_SECRET=${JWT_SECRET}
 ENV NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
 ENV NEXTAUTH_URL=${NEXTAUTH_URL}
 
+RUN echo "DATABASE_URL=${DATABASE_URL}" && \
+    echo "NEXTAUTH_URL=${NEXTAUTH_URL}" && \
+    echo "JWT_SECRET=${JWT_SECRET}" && \
+    echo "NEXTAUTH_SECRET=${NEXTAUTH_SECRET}"
+
+
 COPY package* . 
 COPY tsconfig.json .
 COPY ./prisma .
 
 RUN npm install
-RUN npx prisma generate
+RUN DATABASE_URL=$DATABASE_URL npx prisma generate
 
 COPY . . 
 
-RUN npm run build
+RUN DATABASE_URL=$DATABASE_URL npm run build
 
 EXPOSE 3000
 
