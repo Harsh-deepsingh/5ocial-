@@ -33,3 +33,15 @@ jobs:
 
       - name: Verify Pushed Image
         run: docker pull harsh0maan/socialnetworkapp:latest
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            sudo docker pull harsh0maan/socialnetworkapp:latest
+            sudo docker stop socialnetworkapp || true
+            sudo docker rm socialnetworkapp || true
+            sudo docker run -d --name socialnetworkapp -p 3005:3000 harsh0maan/socialnetworkapp:latest
