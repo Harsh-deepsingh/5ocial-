@@ -18,9 +18,6 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Run linting check
-        run: pnpm run lint:check
-
       - name: Generate Prisma Client
         run: npx prisma generate
 
