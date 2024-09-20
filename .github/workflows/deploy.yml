@@ -29,7 +29,7 @@ jobs:
           context: .
           file: ./dockerfile
           push: true
-          tags: harsh0maan/socialnetworkapp
+          tags: harsh0maan/socialnetworkapp:latest
 
       - name: Verify Pushed Image
         run: docker pull harsh0maan/socialnetworkapp:latest
