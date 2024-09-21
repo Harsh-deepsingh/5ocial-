@@ -95,7 +95,6 @@ const Signin = () => {
           {error && <p className="text-red-500 text-sm">{error}</p>}
           <div className="flex justify-between">
             <p className="text-xs">Forgot password?</p>
-            <p className="text-xs">Sign Up</p>
           </div>
           <PrimaryButton onClick={handleSignIn}>Login</PrimaryButton>
         </Card>
