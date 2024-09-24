@@ -2,8 +2,9 @@ import { NextResponse, NextRequest } from "next/server";
 import prisma from "../../../lib/db/index";
 
 export async function GET(req: NextRequest, res: NextResponse) {
-  const followingId: string | null =
-    req.nextUrl.searchParams.get("followingId");
+  const followingId: string | null = req.nextUrl.searchParams.get(
+    "followingId"
+  );
   const userId: string | null = req.nextUrl.searchParams.get("userId");
 
   if (!userId || !followingId) {

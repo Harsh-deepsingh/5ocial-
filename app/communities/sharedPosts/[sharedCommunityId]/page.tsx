@@ -5,8 +5,13 @@ import Dashboard from "../../../components/Dashboard/Dashboard";
 import Post from "../../../feed/Post";
 import Card from "../../../components/Card/Card";
 import Loading from "../../../components/Loading/Loading";
-
-const page = ({ params }: { params: { sharedCommunityId: string } }) => {
+import { getServerSession } from "next-auth";
+import { authOptions } from "../../../lib/auth";
+const page = async ({ params }: { params: { sharedCommunityId: string } }) => {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return <p>Access Denied. Please log in.</p>;
+  }
   return (
     <div>
       <Suspense fallback={<Loading></Loading>}>

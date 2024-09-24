@@ -7,11 +7,18 @@ import UserFollow from "./UserFollow";
 import Followers from "./Followers";
 import Following from "./Following";
 import Loading from "../../../components/Loading/Loading";
-
+import { useSession } from "next-auth/react";
 const Page = ({ params }: { params: { userId: string } }) => {
   const [activeButton, setActiveButton] = useState("Followers");
   const [loading, setLoading] = useState(false);
+  const { data: session, status } = useSession();
+  if (status === "loading") {
+    return <Loading></Loading>;
+  }
 
+  if (status === "unauthenticated") {
+    return <p>Access Denied</p>;
+  }
   return (
     <div>
       <SidebarDemo>

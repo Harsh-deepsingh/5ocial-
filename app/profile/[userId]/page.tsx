@@ -10,6 +10,7 @@ import { useParams } from "next/navigation";
 import axios from "axios";
 import UserContent from "../UserContent";
 import Loading from "../../components/Loading/Loading";
+import { useSession } from "next-auth/react";
 type post =
   | {
       username: string | null | undefined;
@@ -22,6 +23,7 @@ type post =
     }[]
   | undefined;
 const Profile = () => {
+  const { data: session, status } = useSession();
   const data: { userId: string } = useParams();
   const userId = data.userId;
 
@@ -59,13 +61,18 @@ const Profile = () => {
 
     fetchProfileData();
   }, [userId]);
+  if (status === "loading") {
+    return <Loading></Loading>;
+  }
+
+  if (status === "unauthenticated") {
+    return <p>Access Denied</p>;
+  }
   const sharedPosts = post?.filter((p) => p.shared === true);
   const nonSharedPosts = post?.filter((p) => p.shared === false);
-
   if (loading) {
     return <Loading />;
   }
-
   return (
     <div>
       <SidebarDemo>

@@ -3,9 +3,14 @@ import { SidebarDemo } from "../components/Sidebar/SideBar";
 import Dashboard from "../components/Dashboard/Dashboard";
 import Card from "../components/Card/Card";
 import Communities from "./Communities";
-import Loadable from "next/dist/shared/lib/loadable.shared-runtime";
+import { getServerSession } from "next-auth";
 import Loading from "../components/Loading/Loading";
-const page = () => {
+import { authOptions } from "../lib/auth";
+const page = async () => {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return <p>Access Denied. Please log in.</p>;
+  }
   return (
     <div>
       <Suspense fallback={<Loading></Loading>}>

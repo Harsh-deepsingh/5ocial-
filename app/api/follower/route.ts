@@ -3,8 +3,9 @@ import prisma from "../../lib/db";
 
 export async function POST(req: NextRequest) {
   try {
-    const followingId: string | null =
-      req.nextUrl.searchParams.get("followingId");
+    const followingId: string | null = req.nextUrl.searchParams.get(
+      "followingId"
+    );
     const userId: string | null = req.nextUrl.searchParams.get("userId");
 
     if (!userId || !followingId) {
@@ -49,8 +50,9 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   try {
-    const FollowingId: string | null =
-      req.nextUrl.searchParams.get("followingId");
+    const FollowingId: string | null = req.nextUrl.searchParams.get(
+      "followingId"
+    );
 
     if (!FollowingId) {
       return NextResponse.json({ error: "Missing userId" }, { status: 400 });
