@@ -34,6 +34,7 @@ jobs:
           JWT_SECRET: ${{secrets.JWT_SECRET}}
           NEXTAUTH_SECRET: ${{secrets.NEXTAUTH_SECRET}}
           NEXTAUTH_URL: ${{secrets.NEXTAUTH_URL}}
+          DATABASE_URL: ${{secrets.DATABASE_URL}}
 
       - name: Verify Pushed Image
         run: docker pull harsh0maan/socialnetworkapp:latest

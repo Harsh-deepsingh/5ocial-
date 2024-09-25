@@ -15,8 +15,6 @@ export async function GET(req: NextRequest) {
     },
   });
 
-  console.log(allCommunities);
-
   const userCountsPromises = allCommunities.map(async (community) => {
     const count = await prisma.user.count({
       where: {
