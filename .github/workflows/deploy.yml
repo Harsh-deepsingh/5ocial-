@@ -49,4 +49,4 @@ jobs:
             sudo docker pull harsh0maan/socialnetworkapp:latest
             sudo docker stop socialnetworkapp || true
             sudo docker rm socialnetworkapp || true
-            sudo docker run -d --name socialnetworkapp -p 3005:3000 harsh0maan/socialnetworkapp:latest
+            sudo docker run -d --name socialnetworkapp -p 3000:3000 harsh0maan/socialnetworkapp:latest
