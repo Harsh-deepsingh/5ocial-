@@ -22,7 +22,7 @@ COPY ./prisma .
 
 # Install dependencies and generate Prisma client
 RUN npm install
-RUN npx prisma generate --schema=./prisma/schema.prisma
+RUN DATABASE_URL=$DATABASE_URL npx prisma generate
 
 # Copy the rest of the application code
 COPY . .
