@@ -92,7 +92,7 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
-  secret: process.env.JWT_SECRET || "secret",
+  secret: process.env.JWT_SECRET,
   callbacks: {
     async session({ session, token }) {
       if (session?.user) {
