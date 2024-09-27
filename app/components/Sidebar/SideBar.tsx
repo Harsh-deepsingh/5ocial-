@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "../ui/sidebar";
 import {
-  IconArrowLeft,
   IconHome,
   IconSettings,
   IconShare3,
@@ -22,44 +21,27 @@ export const SidebarDemo = ({ children }: { children: React.ReactNode }) => {
     {
       label: "Home",
       href: "/",
-      icon: (
-        <IconHome className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
-      ),
+      icon: <IconHome className="text-white h-5 w-5 flex-shrink-0" />,
     },
     {
       label: "Profile",
       href: `/profile/${userId}`,
-      icon: (
-        <IconUser className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
-      ),
+      icon: <IconUser className="text-white h-5 w-5 flex-shrink-0" />,
     },
     {
       label: "Communities",
       href: `/communities`,
-      icon: (
-        <IconUsersGroup className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
-      ),
+      icon: <IconUsersGroup className="text-white h-5 w-5 flex-shrink-0" />,
     },
     {
       label: "Shared posts",
       href: `/shared`,
-      icon: (
-        <IconShare3 className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
-      ),
+      icon: <IconShare3 className="text-white h-5 w-5 flex-shrink-0" />,
     },
     {
       label: "Settings",
       href: `/setting`,
-      icon: (
-        <IconSettings className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
-      ),
-    },
-    {
-      label: "Logout",
-      href: "#",
-      icon: (
-        <IconArrowLeft className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
-      ),
+      icon: <IconSettings className="text-white h-5 w-5 flex-shrink-0" />,
     },
   ];
 
@@ -68,8 +50,9 @@ export const SidebarDemo = ({ children }: { children: React.ReactNode }) => {
   return (
     <div
       className={cn(
-        "sticky top-2 rounded-md flex flex-col md:flex-row bg-theme-grey lg:w-3/4 flex-1 max-w-7xl mx-auto border border-theme-border",
-        "h-full" // for your use case, use `h-screen` instead of `h-[60vh]`
+        "sticky top-2 rounded-md flex flex-col  md:flex-row bg-theme-grey lg:w-3/4 flex-1 max-w-7xl mx-auto border border-theme-border",
+        "h-max"
+        // for your use case, use `h-screen` instead of `h-[60vh]`
       )}
     >
       <Sidebar open={open} setOpen={setOpen}>
@@ -113,9 +96,9 @@ export const Logo = () => {
       <motion.span
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="font-medium text-black dark:text-white whitespace-pre"
+        className="font-medium text-white whitespace-pre"
       >
-        Socially Blind
+        Blindly Social
       </motion.span>
     </div>
   );
@@ -125,7 +108,7 @@ export const LogoIcon = () => {
   return (
     <Image
       src="/favicon.ico"
-      alt="socially blind"
+      alt="Blindly Social"
       width="28"
       height="28"
     ></Image>

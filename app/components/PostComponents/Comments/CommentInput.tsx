@@ -47,7 +47,7 @@ const CommentInput = ({
 
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/comment?userId=${userId}&postId=${postId}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/comment?userId=${userId}&postId=${postId}`,
         { content: text }
       );
 

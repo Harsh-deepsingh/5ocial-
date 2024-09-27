@@ -45,13 +45,13 @@ const PostInput = () => {
     try {
       if (sharedCommunity !== undefined) {
         const response = await axios.post(
-          `http://localhost:3000/api/community/sharedPosts?userId=${userId}`,
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/community/sharedPosts?userId=${userId}`,
           { sharedCommunity, content: text }
         );
         setText("");
       } else {
         const response = await axios.post(
-          `http://localhost:3000/api/post?userId=${userId}&communityId=${communityId}`,
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/post?userId=${userId}&communityId=${communityId}`,
           { content: text }
         );
         setText("");

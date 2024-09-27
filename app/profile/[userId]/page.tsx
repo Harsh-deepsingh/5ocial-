@@ -39,7 +39,7 @@ const Profile = () => {
       setLoading(true);
       try {
         const res = await axios.get(
-          `http://localhost:3000/api/profile?userId=${userId}`
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/profile?userId=${userId}`
         );
 
         if (res) {

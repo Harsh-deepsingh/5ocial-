@@ -46,14 +46,14 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            echo "Pulling the latest Docker image..."
-            sudo docker pull harsh0maan/socialnetworkapp:latest
-            
             echo "Stopping existing container..."
             sudo docker stop socialnetworkapp || true
             
             echo "Removing existing container..."
             sudo docker rm socialnetworkapp || true
+
+            echo "Pulling the latest Docker image..."
+            sudo docker pull harsh0maan/socialnetworkapp:latest
             
             echo "Starting new container..."
             sudo docker run -d --name socialnetworkapp -p 3000:3000 harsh0maan/socialnetworkapp:latest

@@ -28,8 +28,8 @@ const Like = ({
     setIsLiking(true);
     try {
       const requestUrl = comment
-        ? `http://localhost:3000/api/like?userId=${userId}&commentId=${comment.commentId}`
-        : `http://localhost:3000/api/like?userId=${userId}&postId=${postId}`;
+        ? `${process.env.NEXT_PUBLIC_BASE_URL}/api/like?userId=${userId}&commentId=${comment.commentId}`
+        : `${process.env.NEXT_PUBLIC_BASE_URL}/api/like?userId=${userId}&postId=${postId}`;
 
       await axios.post(requestUrl, {
         actionType: like ? "DISLIKE" : "LIKE",
@@ -38,8 +38,8 @@ const Like = ({
       setLike((prev) => !prev);
 
       const fetchUrl = comment
-        ? `http://localhost:3000/api/feed/likes?commentId=${comment.commentId}`
-        : `http://localhost:3000/api/feed/likes?postId=${postId}`;
+        ? `${process.env.NEXT_PUBLIC_BASE_URL}/api/feed/likes?commentId=${comment.commentId}`
+        : `${process.env.NEXT_PUBLIC_BASE_URL}/api/feed/likes?postId=${postId}`;
 
       const res = await axios.get(fetchUrl);
       setLikeCount(res.data.like);
@@ -56,15 +56,15 @@ const Like = ({
     const fetchLikes = async () => {
       try {
         const fetchUrl = comment
-          ? `http://localhost:3000/api/feed/likes?commentId=${comment.commentId}`
-          : `http://localhost:3000/api/feed/likes?postId=${postId}`;
+          ? `${process.env.NEXT_PUBLIC_BASE_URL}/api/feed/likes?commentId=${comment.commentId}`
+          : `${process.env.NEXT_PUBLIC_BASE_URL}/api/feed/likes?postId=${postId}`;
 
         const res = await axios.get(fetchUrl);
         setLikeCount(res.data.like);
 
         const checkUrl = comment
-          ? `http://localhost:3000/api/feed/likes/check-like?userId=${userId}&commentId=${comment.commentId}`
-          : `http://localhost:3000/api/feed/likes/check-like?userId=${userId}&postId=${postId}`;
+          ? `${process.env.NEXT_PUBLIC_BASE_URL}/api/feed/likes/check-like?userId=${userId}&commentId=${comment.commentId}`
+          : `${process.env.NEXT_PUBLIC_BASE_URL}/api/feed/likes/check-like?userId=${userId}&postId=${postId}`;
 
         const checkRes = await axios.get(checkUrl);
         setLike(checkRes.data.hasLiked);

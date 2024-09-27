@@ -7,8 +7,9 @@ FROM node:20.12.0-alpine3.19
 
 ENV JWT_SECRET=secrets
 ENV NEXTAUTH_SECRET=password_nextauth
-ENV NEXTAUTH_URL="http://35.183.244.189:3000"
+ENV NEXTAUTH_URL="http://blindlysocial.com"
 ENV DATABASE_URL="postgresql://neondb_owner:j1LKDIsJb5xH@ep-dry-waterfall-a5qtjwc7.us-east-2.aws.neon.tech/neondb?sslmode=require"
+ENV NEXT_PUBLIC_BASE_URL=http://blindlysocial.com
 
 WORKDIR /app
 

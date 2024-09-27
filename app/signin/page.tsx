@@ -1,17 +1,18 @@
 "use client";
-import React, { memo, useCallback, useState } from "react";
+import React, { memo, useCallback, useState, useEffect } from "react";
 import InputBox from "../components/InputBox/InputBox";
 import PrimaryButton from "../components/Buttons/PrimaryButton";
 import Card from "../components/Card/Card";
-import { BackgroundBeams } from "../components/ui/background-beams";
 import { getSession, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import SecButton from "../components/Buttons/SecButton";
 const Signin = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [error, setError] = useState("");
+  const [isGuest, setIsGuest] = useState(false);
 
   const handleEmailChange = useCallback(
     (e: React.FormEvent<EventTarget>) =>
@@ -59,12 +60,24 @@ const Signin = () => {
       setError("An unexpected error occurred. Please try again.");
     }
   };
+  const handleGuest = () => {
+    setEmail("demo@gmail.com");
+    setPassword("1234567890");
+    setIsGuest(true);
+  };
+  useEffect(() => {
+    if (isGuest && email === "demo@gmail.com" && password === "1234567890") {
+      handleSignIn();
+    }
+  }, [email, password, isGuest]);
 
   return (
-    <div className="min-h-screen flex justify-center items-center">
+    <div className="min-h-screen flex justify-center items-center bg-black text-white">
       <div className="relative z-10">
         <Card>
-          <p className="font-bold text-2xl ">Sign in to Blind Socially</p>
+          <p className="font-bold text-2xl text-white">
+            Sign in to Blindly Social
+          </p>
 
           <label>
             Email
@@ -97,9 +110,9 @@ const Signin = () => {
             {/* <p className="text-xs">Forgot password?</p> */}
           </div>
           <PrimaryButton onClick={handleSignIn}>Login</PrimaryButton>
+          <SecButton onClick={handleGuest}>Guest</SecButton>
         </Card>
       </div>
-      <BackgroundBeams />
     </div>
   );
 };

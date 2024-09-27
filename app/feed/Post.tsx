@@ -17,9 +17,12 @@ const Post = async () => {
   return (
     <>
       <div className="w-full flex flex-col justify-between gap-1">
-        <div className="flex gap-1 text-theme-blue">
-          <IconUsersGroup className="w-4 h-4"></IconUsersGroup>
-          <p className="text-xs">{community}</p>
+        <div className="flex flex-row gap-2 mb-3">
+          <p className="text-xs text-theme-border">your community:</p>
+          <div className="flex gap-1 text-theme-blue">
+            <IconUsersGroup className="w-4 h-4"></IconUsersGroup>
+            <p className="text-xs">{community}</p>
+          </div>
         </div>
         <div className="flex flex-col">
           <div className="flex gap-2 justify-start items-start">

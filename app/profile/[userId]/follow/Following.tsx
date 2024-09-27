@@ -19,7 +19,7 @@ const Following = ({ params }: { params: { userId: string } }) => {
     async function fetchFollowing() {
       try {
         const res = await axios.get(
-          `http://localhost:3000/api/follower/following?userId=${userId}`
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/follower/following?userId=${userId}`
         );
         setFollowing(res.data);
       } catch (error) {

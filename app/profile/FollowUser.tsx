@@ -23,7 +23,7 @@ const FollowUser = ({ userId }: { userId: string }) => {
     async function fetchFollowCount() {
       try {
         const res = await axios.get(
-          `http://localhost:3000/api/follower?followingId=${userId}`
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/follower?followingId=${userId}`
         );
         setFollowCount(res.data);
         setFollowingCount(res.data);

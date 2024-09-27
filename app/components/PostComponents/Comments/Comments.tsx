@@ -20,7 +20,7 @@ const Comments = ({ postId, userId }: { postId: string; userId: string }) => {
     const fetchComments = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3000/api/feed/comments?postId=${postId}`
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/feed/comments?postId=${postId}`
         );
         const allComments = res.data.allComments;
 

@@ -14,7 +14,7 @@ const CountFollow = ({
     const fetchFollower = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3000/api/follower?followingId=${followingId}`
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/follower?followingId=${followingId}`
         );
         setFollowCount(res.data.followers);
       } catch (error) {

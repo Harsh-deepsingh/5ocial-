@@ -10,7 +10,7 @@ const ProfileLetter = ({
   return (
     <div>
       <button onClick={onClick}>
-        <div className="w-12 h-12 bg-gray-600 rounded-full flex justify-center items-center">
+        <div className="w-12 h-12 bg-gray-600 rounded-full flex justify-center items-center text-white">
           <p className="text-2xl">{children}</p>
         </div>
       </button>

@@ -62,8 +62,7 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
-      {/* Container for the section content */}
-      <section className="py-8 bg-black">
+      <section className="py-8 bg-black text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold mb-4 sm:mb-8">Features</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
@@ -103,7 +102,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <section className="py-32 sm:py-36 bg-black ">
+      <section className="py-32 sm:py-36 bg-black text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold mb-4 sm:mb-8">How It Works</h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 sm:gap-8">
@@ -141,7 +140,7 @@ const LandingPage = () => {
 
       <footer className="bg-gray-800 py-4 sm:py-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
-          <p>&copy; 2024 Socially Blind. All rights reserved.</p>
+          <p>&copy; 2024 Blindly Social. All rights reserved.</p>
           <div className="flex justify-center space-x-4 mt-4">
             <Link
               href="https://www.linkedin.com/in/harshdeepsingh9828"

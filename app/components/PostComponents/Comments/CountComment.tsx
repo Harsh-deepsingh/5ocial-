@@ -18,12 +18,12 @@ const CountComment = ({
       try {
         if (commentId) {
           const res = await axios.get(
-            `http://localhost:3000/api/feed/comments?commentId=${commentId}`
+            `${process.env.NEXT_PUBLIC_BASE_URL}/api/feed/comments?commentId=${commentId}`
           );
           setCommentCount(res.data.commentCount);
         } else {
           const res = await axios.get(
-            `http://localhost:3000/api/feed/comments?postId=${postId}`
+            `${process.env.NEXT_PUBLIC_BASE_URL}/api/feed/comments?postId=${postId}`
           );
           setCommentCount(res.data.commentCount);
         }

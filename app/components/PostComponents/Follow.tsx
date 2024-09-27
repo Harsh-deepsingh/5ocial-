@@ -20,12 +20,12 @@ const Follow = ({
     setIsFollowing(true);
     try {
       const request = await axios.post(
-        `http://localhost:3000/api/follower?userId=${userId}&followingId=${followingId}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/follower?userId=${userId}&followingId=${followingId}`
       );
       setFollow((prev) => !prev);
 
       const res = await axios.get(
-        `http://localhost:3000/api/follower?followingId=${followingId}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/follower?followingId=${followingId}`
       );
       setFollowCount(res.data.followers);
     } catch (error) {
@@ -41,11 +41,11 @@ const Follow = ({
     const fetchFollowStatusAndCount = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3000/api/follower?followingId=${followingId}`
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/follower?followingId=${followingId}`
         );
         setFollowCount(res.data.followers);
 
-        const checkUrl = `http://localhost:3000/api/follower/check-follow?userId=${userId}&followingId=${followingId}`;
+        const checkUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/follower/check-follow?userId=${userId}&followingId=${followingId}`;
         const checkRes = await axios.get(checkUrl);
         setFollow(checkRes.data.hasFollowed);
       } catch (error) {
