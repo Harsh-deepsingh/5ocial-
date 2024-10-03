@@ -22,6 +22,8 @@ export async function Posts() {
             userId: true,
             content: true,
             postId: true,
+            imageUrl: true,
+            options: true,
           },
         });
 

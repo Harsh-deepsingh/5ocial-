@@ -6,7 +6,7 @@ import { SidebarDemo } from "../../../components/Sidebar/SideBar";
 import Content from "../../Content";
 import Post from "../../Post";
 import Loading from "../../../components/Loading/Loading";
-const Feed = () => {
+const Feed = ({ params }: { params: string }) => {
   return (
     <>
       <Suspense fallback={<Loading></Loading>}>

@@ -1,8 +1,10 @@
 "use client";
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
+import LikeIcon from "./LikeIcon/LikeIcon";
+import DislikeIcon from "./DislikeIcon/DislikeIcon";
 
-type comment = {
+type Comment = {
   commentId: string;
   username: string | null;
   content: string;
@@ -10,18 +12,23 @@ type comment = {
   postId: string;
 };
 
-const Like = ({
-  postId,
-  comment,
-  userId,
-}: {
+type LikeDislikeProps = {
   postId?: string;
-  comment?: comment;
+  comment?: Comment;
   userId?: string;
-}) => {
+};
+
+const LikeDislike = ({ postId, comment, userId }: LikeDislikeProps) => {
+  // States for like
   const [like, setLike] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [isLiking, setIsLiking] = useState(false);
+
+  // States for dislike
+  const [dislike, setDislike] = useState(false);
+  const [DislikeCount, setDislikeCount] = useState(0);
+  const [isDisliking, setIsDisliking] = useState(false);
+
   const handleLike = useCallback(async () => {
     if (isLiking) return;
 
@@ -32,28 +39,54 @@ const Like = ({
         : `${process.env.NEXT_PUBLIC_BASE_URL}/api/like?userId=${userId}&postId=${postId}`;
 
       await axios.post(requestUrl, {
-        actionType: like ? "DISLIKE" : "LIKE",
+        actionType: "LIKE",
       });
 
       setLike((prev) => !prev);
 
-      const fetchUrl = comment
-        ? `${process.env.NEXT_PUBLIC_BASE_URL}/api/feed/likes?commentId=${comment.commentId}`
-        : `${process.env.NEXT_PUBLIC_BASE_URL}/api/feed/likes?postId=${postId}`;
+      // const fetchUrl = comment
+      //   ? `${process.env.NEXT_PUBLIC_BASE_URL}/api/feed/likes?commentId=${comment.commentId}`
+      //   : `${process.env.NEXT_PUBLIC_BASE_URL}/api/feed/likes?postId=${postId}`;
 
-      const res = await axios.get(fetchUrl);
-      setLikeCount(res.data.like);
+      // const res = await axios.get(fetchUrl);
+      // setLikeCount(res.data.like);
     } catch (error) {
       console.error("Unable to like:", error);
     } finally {
-      setTimeout(() => {
-        setIsLiking(false);
-      }, 200);
+      setIsLiking(false);
     }
-  }, [comment, like, postId, userId, isLiking]);
+  }, [comment, postId, userId, isLiking]);
+
+  const handleDislike = useCallback(async () => {
+    if (isDisliking) return;
+
+    setIsDisliking(true);
+    try {
+      const requestUrl = comment
+        ? `${process.env.NEXT_PUBLIC_BASE_URL}/api/like?userId=${userId}&commentId=${comment.commentId}`
+        : `${process.env.NEXT_PUBLIC_BASE_URL}/api/like?userId=${userId}&postId=${postId}`;
+
+      await axios.post(requestUrl, {
+        actionType: "DISLIKE",
+      });
+
+      setDislike((prev) => !prev);
+
+      // const fetchUrl = comment
+      //   ? `${process.env.NEXT_PUBLIC_BASE_URL}/api/feed/likes?commentId=${comment.commentId}`
+      //   : `${process.env.NEXT_PUBLIC_BASE_URL}/api/feed/likes?postId=${postId}`;
+
+      // const res = await axios.get(fetchUrl);
+      // setDislikeCount(res.data.dislike);
+    } catch (error) {
+      console.error("Unable to dislike:", error);
+    } finally {
+      setIsDisliking(false);
+    }
+  }, [comment, postId, userId, isDisliking]);
 
   useEffect(() => {
-    const fetchLikes = async () => {
+    const fetchData = async () => {
       try {
         const fetchUrl = comment
           ? `${process.env.NEXT_PUBLIC_BASE_URL}/api/feed/likes?commentId=${comment.commentId}`
@@ -61,6 +94,7 @@ const Like = ({
 
         const res = await axios.get(fetchUrl);
         setLikeCount(res.data.like);
+        setDislikeCount(res.data.dislike);
 
         const checkUrl = comment
           ? `${process.env.NEXT_PUBLIC_BASE_URL}/api/feed/likes/check-like?userId=${userId}&commentId=${comment.commentId}`
@@ -68,70 +102,43 @@ const Like = ({
 
         const checkRes = await axios.get(checkUrl);
         setLike(checkRes.data.hasLiked);
+        setDislike(checkRes.data.hasDisliked);
       } catch (error) {
         console.error(
-          "Failed to fetch likes or check user like status:",
+          "Failed to fetch like/dislike data or check status:",
           error
         );
       }
     };
 
-    fetchLikes();
-  }, [postId, comment, userId]);
+    fetchData();
+  }, [postId, comment, userId, like, dislike]);
 
   return (
-    <div className="text-theme-border hover:text-[rgb(249,24,129)] w-min">
-      <button
-        onClick={handleLike}
-        disabled={isLiking}
-        className="flex justify-center items-center"
-      >
-        <div className="bg-transparent hover:bg-[rgba(249,24,129,0.13)] p-1.5 rounded-full flex justify-center items-center gap-1 group">
-          {like ? (
-            <div className="flex justify-center items-center gap-1">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="1.4em"
-                height="1.4em"
-                viewBox="0 0 48 48"
-              >
-                <path
-                  fill="rgb(249, 24, 128)"
-                  stroke="rgb(249, 24, 128)"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="4"
-                  d="M15 8C8.925 8 4 12.925 4 19c0 11 13 21 20 23.326C31 40 44 30 44 19c0-6.075-4.925-11-11-11c-3.72 0-7.01 1.847-9 4.674A10.99 10.99 0 0 0 15 8"
-                />
-              </svg>
-              <div className="text-xs text-[rgb(249,24,129)] font-bold">
-                {likeCount}
-              </div>
-            </div>
-          ) : (
-            <div className="flex justify-center items-center gap-1">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="1.4em"
-                height="1.4em"
-                viewBox="0 0 48 48"
-                className="stroke-[#3F454B] group-hover:stroke-[rgb(249,24,129)]"
-              >
-                <path
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="5"
-                  d="M15 8C8.925 8 4 12.925 4 19c0 11 13 21 20 23.326C31 40 44 30 44 19c0-6.075-4.925-11-11-11c-3.72 0-7.01 1.847-9 4.674A10.99 10.99 0 0 0 15 8"
-                />
-              </svg>
-              <div className="text-xs font-bold">{likeCount}</div>
-            </div>
-          )}
-        </div>
-      </button>
+    <div className="w-2/5 flex  justify-between items-center">
+      {/* Like button */}
+      <div className="text-theme-border hover:text-[rgb(249,24,129)] w-min p-1">
+        <button
+          onClick={handleLike}
+          disabled={isLiking}
+          className="flex justify-center items-center"
+        >
+          <LikeIcon like={like} likeCount={likeCount} />
+        </button>
+      </div>
+
+      {/* Dislike button */}
+      <div className="text-theme-border hover:text-[rgb(249,24,24)] w-min p-1">
+        <button
+          onClick={handleDislike}
+          disabled={isDisliking}
+          className="flex justify-center items-center"
+        >
+          <DislikeIcon dislike={dislike} DislikeCount={DislikeCount} />
+        </button>
+      </div>
     </div>
   );
 };
 
-export default Like;
+export default LikeDislike;

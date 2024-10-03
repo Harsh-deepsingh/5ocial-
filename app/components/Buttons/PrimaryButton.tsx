@@ -3,9 +3,11 @@ const PrimaryButton = memo(
   ({
     onClick,
     children,
+    disabled,
   }: {
     onClick?: () => void;
     children: React.ReactNode;
+    disabled?: boolean;
   }) => {
     return (
       <button

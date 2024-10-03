@@ -14,12 +14,12 @@ const Page = async () => {
   }
   let communityId = "";
   if (data?.communityId) communityId = data?.communityId;
-
+  const userId = session.user.id;
   return (
     <Suspense fallback={<Loading />}>
       <SidebarDemo>
         <Dashboard>
-          <SharedPosts communityId={communityId}></SharedPosts>
+          <SharedPosts userId={userId} communityId={communityId}></SharedPosts>
         </Dashboard>
       </SidebarDemo>
     </Suspense>
