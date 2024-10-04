@@ -23,7 +23,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
       select: {
         posts: true,
         actions: true,
-        comment: true,
+        comments: true,
         community: true,
         following: true,
       },

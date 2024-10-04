@@ -13,6 +13,8 @@ export async function sharedPosts(communityId: string) {
           userId: true,
           content: true,
           postId: true,
+          imageUrl: true,
+          options: true,
         },
       });
 

@@ -10,7 +10,7 @@ export async function profile() {
         username: true,
         posts: true,
         actions: true,
-        comment: true,
+        comments: true,
         community: true,
         following: true,
       },

@@ -6,7 +6,15 @@ import ProfileLetter from "../../../components/ProfilePicture/ProfileLetter";
 import PostAction from "../../../components/PostComponents/PostAction";
 import Line from "../../../components/Line/Line";
 import { sharedPosts } from "../../../lib/actions/getSharedPost";
-const SharedPosts = async ({ communityId }: { communityId: string }) => {
+import Image from "next/image";
+import Poll from "../../../feed/Poll";
+const SharedPosts = async ({
+  communityId,
+  userId,
+}: {
+  communityId: string;
+  userId: string;
+}) => {
   const communityName = await getCommunity(communityId);
   const res = await sharedPosts(communityId);
   const posts = res.posts;
@@ -33,6 +41,20 @@ const SharedPosts = async ({ communityId }: { communityId: string }) => {
                   <div className=" w-full flex flex-col gap-2">
                     <p className="text-lg">{post.username}</p>
                     <p>{post.content}</p>
+                    {post.imageUrl?.length && post.username ? (
+                      <Image
+                        src={post.imageUrl}
+                        alt="Image"
+                        width="500"
+                        height="500"
+                        className="rounded-md shadow-lg"
+                      ></Image>
+                    ) : null}
+                    {post.options.length ? (
+                      <>
+                        <Poll userId={userId} post={post.options}></Poll>
+                      </>
+                    ) : null}
                   </div>
                 </div>
                 <Line></Line>

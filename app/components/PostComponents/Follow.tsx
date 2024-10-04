@@ -64,7 +64,7 @@ const Follow = ({
           onClick={handleFollow}
         >
           {follow ? (
-            <div className="text-green-500 flex justify-center items-end">
+            <div className="text-green-500 flex justify-center items-end flex-col md:flex-row">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="1.4em"
@@ -79,10 +79,10 @@ const Follow = ({
                   />
                 </g>
               </svg>
-              <p className="text-xs font-bold">{followCount}</p>
+              <p className="w-6 text-xs font-bold">{followCount}</p>
             </div>
           ) : (
-            <div className="flex justify-center items-end">
+            <div className="flex justify-center items-end flex-col md:flex-row">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="1.4em"
@@ -97,7 +97,7 @@ const Follow = ({
                   />
                 </g>
               </svg>
-              <p className="text-xs font-bold">{followCount}</p>
+              <p className="w-6 text-xs font-bold">{followCount}</p>
             </div>
           )}
         </button>

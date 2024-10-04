@@ -31,7 +31,7 @@ const Comment = ({
   return (
     <div className="text-theme-border hover:text-theme-blue w-min">
       <button onClick={openModal}>
-        <div className="bg-transparent hover:bg-[#00aeff20] p-1.5 rounded-full flex justify-center items-center gap-1 group">
+        <div className="bg-transparent hover:bg-[#00aeff20] p-1.5 rounded-full flex justify-center items-center gap-1 group flex-col md:flex-row">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="1.4em"

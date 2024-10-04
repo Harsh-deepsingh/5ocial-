@@ -31,7 +31,7 @@ const PostAction = ({
   const session = useSession();
   const userId = session.data?.user?.id;
   return (
-    <div className="w-full flex  justify-between items-center">
+    <div className="w-full  flex  justify-between items-center">
       <Comment post={post} comment={comment} userId={userId}></Comment>
       <Like postId={postId} comment={comment} userId={userId}></Like>
       <Follow

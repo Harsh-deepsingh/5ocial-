@@ -12,6 +12,7 @@ const page = async ({ params }: { params: { sharedCommunityId: string } }) => {
   if (!session) {
     return <p>Access Denied. Please log in.</p>;
   }
+  const userId = session.user.id;
   return (
     <div>
       <Suspense fallback={<Loading></Loading>}>
@@ -20,7 +21,10 @@ const page = async ({ params }: { params: { sharedCommunityId: string } }) => {
             <Card>
               <Post></Post>
             </Card>
-            <SharedPosts communityId={params.sharedCommunityId}></SharedPosts>
+            <SharedPosts
+              userId={userId}
+              communityId={params.sharedCommunityId}
+            ></SharedPosts>
           </Dashboard>
         </SidebarDemo>
       </Suspense>
