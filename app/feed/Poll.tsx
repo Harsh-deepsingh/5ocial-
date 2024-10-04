@@ -92,7 +92,11 @@ const Poll = ({ post, userId }: PollProps) => {
         return (
           <div key={option.optionId} className="mb-4 flex items-center">
             <div className="flex justify-center items-center gap-3 w-full">
-              <div className="w-full relative h-full z-0">
+              <div
+                className={`w-full relative h-full z-0 ${
+                  isSelected ? "cursor-not-allowed " : "cursor-pointer"
+                }`}
+              >
                 <div className="w-full rounded relative h-full">
                   <div
                     className="absolute top-0 left-0 h-full bg-theme-blue text-white opacity-10 rounded"
@@ -102,10 +106,12 @@ const Poll = ({ post, userId }: PollProps) => {
                     }}
                   ></div>
                   <div
-                    className={`border h-full focus:outline-none cursor-pointer border-theme-border rounded p-2 w-full bg-transparent ${
+                    className={`border h-full focus:outline-none  border-theme-border rounded p-2 w-full bg-transparent ${
                       isSelected ? "border-theme-blue" : ""
-                    }`} // Blue outline for selected option
-                    onClick={() => vote(option.optionId)} // Allow voting again
+                    }`}
+                    onClick={
+                      !isSelected ? () => vote(option.optionId) : undefined
+                    }
                   >
                     {option.text}
                   </div>
