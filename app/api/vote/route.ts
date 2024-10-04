@@ -26,6 +26,32 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
+    const option = await prisma.option.findUnique({
+      where: {
+        optionId: optionId,
+      },
+      select: {
+        postId: true,
+      },
+    });
+    if (!option) {
+      return NextResponse.json({ error: "Option not found" }, { status: 404 });
+    }
+    const deleteOldVote = await prisma.vote.findFirst({
+      where: {
+        userId,
+        option: {
+          postId: option.postId,
+        },
+      },
+    });
+
+    // If the user has already voted, delete the previous vote
+    if (deleteOldVote) {
+      await prisma.vote.delete({
+        where: { voteId: deleteOldVote?.voteId },
+      });
+    }
 
     const newVote = await prisma.vote.create({
       data: {

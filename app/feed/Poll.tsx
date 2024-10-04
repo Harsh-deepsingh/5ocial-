@@ -1,7 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useSession } from "next-auth/react";
 
 type Option = {
   optionId: string;
@@ -23,9 +22,9 @@ type PollResult = {
 const Poll = ({ post, userId }: PollProps) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const [isVoted, setIsVoted] = useState<boolean>(false);
   const [pollResults, setPollResults] = useState<PollResult[]>([]);
 
+  // Function to handle voting or changing the vote
   const vote = async (optionId: string) => {
     if (!userId) {
       setErrorMessage("You must be logged in to vote.");
@@ -38,7 +37,6 @@ const Poll = ({ post, userId }: PollProps) => {
       );
       if (response.status === 200) {
         setSelectedOption(optionId);
-        setIsVoted(true);
         setErrorMessage("");
         fetchPollResults();
       }
@@ -66,14 +64,11 @@ const Poll = ({ post, userId }: PollProps) => {
 
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/vote/check?userId=${userId}&optionId=${post[0]?.optionId}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/vote/check?userId=${userId}&postId=${post[0]?.postId}`
       );
 
       if (response.status === 200 && response.data.hasVoted) {
-        setSelectedOption(response.data.selectedOptionId);
-        setIsVoted(true);
-
-        // Get all options of the post that are marked as voted
+        setSelectedOption(response.data.selectedOptionId); // Get the current selected option
         fetchPollResults();
       }
     } catch (error) {
@@ -92,30 +87,32 @@ const Poll = ({ post, userId }: PollProps) => {
           (res) => res.optionId === option.optionId
         );
 
+        const isSelected = selectedOption === option.optionId;
+
         return (
-          <div key={option.optionId} className="mb-4 flex items-center ">
-            <div className="flex justify-center items-center gap-3 w-full ">
-              <div className="w-full relative h-full">
-                <div className="w-full  rounded  relative h-full">
+          <div key={option.optionId} className="mb-4 flex items-center">
+            <div className="flex justify-center items-center gap-3 w-full">
+              <div className="w-full relative h-full z-0">
+                <div className="w-full rounded relative h-full">
                   <div
                     className="absolute top-0 left-0 h-full bg-theme-blue text-white opacity-10 rounded"
                     style={{
                       width: `${result?.percentage}%`,
-                      transition: "width 0.5s ease",
+                      transition: "width 1s ease",
                     }}
                   ></div>
                   <div
-                    className={`border h-full focus:outline-none cursor-${
-                      isVoted ? "default" : "pointer"
-                    } border-theme-border rounded p-2  w-full bg-transparent`}
-                    onClick={() => !isVoted && vote(option.optionId)}
+                    className={`border h-full focus:outline-none cursor-pointer border-theme-border rounded p-2 w-full bg-transparent ${
+                      isSelected ? "border-theme-blue" : ""
+                    }`} // Blue outline for selected option
+                    onClick={() => vote(option.optionId)} // Allow voting again
                   >
                     {option.text}
                   </div>
                 </div>
               </div>
               {result && (
-                <div className="flex justify-center items-center  w-12 text-gray-500">
+                <div className="flex justify-center items-center w-12 text-gray-500">
                   {result.percentage}%
                 </div>
               )}
