@@ -3,6 +3,8 @@ import prisma from "../../../lib/db";
 
 export async function POST(req: NextRequest) {
   const userId = req.nextUrl.searchParams.get("userId") ?? "";
+  const currentDate = new Date();
+  const date = currentDate.toLocaleString();
   try {
     const communityInfo = await prisma.user.findUnique({
       where: { id: userId },
@@ -28,6 +30,7 @@ export async function POST(req: NextRequest) {
             userId,
             sharedCommunity,
             shared: true,
+            date,
           },
         });
 
@@ -63,6 +66,7 @@ export async function POST(req: NextRequest) {
             imageUrl,
             sharedCommunity,
             shared: true,
+            date,
           },
         });
 
@@ -86,6 +90,7 @@ export async function POST(req: NextRequest) {
         sharedCommunity,
         shared: true,
         content,
+        date,
       },
     });
 

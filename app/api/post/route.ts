@@ -5,6 +5,15 @@ export async function POST(req: NextRequest) {
   const { content, imageUrl, options } = await req.json();
   const userId = req.nextUrl.searchParams.get("userId") ?? "";
   const communityId = req.nextUrl.searchParams.get("communityId") ?? "";
+  const currentDate = new Date();
+  // const date = currentDate
+  //   .toLocaleDateString("en-GB", {
+  //     day: "2-digit",
+  //     month: "short",
+  //   })
+  //   .replace("/", "-")
+  //   .slice(0, 6);
+  const date = currentDate.toLocaleString();
 
   if (!content) {
     return NextResponse.json(
@@ -20,6 +29,7 @@ export async function POST(req: NextRequest) {
           content,
           communityId,
           userId,
+          date,
         },
       });
 
@@ -54,6 +64,7 @@ export async function POST(req: NextRequest) {
           communityId,
           userId,
           imageUrl,
+          date,
         },
       });
 
@@ -77,6 +88,7 @@ export async function POST(req: NextRequest) {
         content,
         userId,
         communityId,
+        date,
       },
     });
 

@@ -50,7 +50,7 @@ const Signin = () => {
       });
 
       if (res?.error) {
-        setError("Incorrect email or password.");
+        setError(res.error || "Incorrect email or password.");
       } else {
         getSession();
         router.push("/");

@@ -3,6 +3,7 @@ import axios from "axios";
 import { IconPoint, IconPointFilled, IconTrash } from "@tabler/icons-react";
 import Card from "../Card/Card";
 import PrimaryButton from "../Buttons/PrimaryButton";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Poll = ({
   communityId,
@@ -46,22 +47,24 @@ const Poll = ({
         </div>
       </div>
 
-      {showModal && (
-        <PollModal
-          options={options}
-          newOption={newOption}
-          description={description}
-          setNewOption={setNewOption}
-          setDescription={setDescription}
-          handleAddOption={handleAddOption}
-          handleDeleteOption={handleDeleteOption}
-          setShowModal={setShowModal}
-          setOptions={setOptions}
-          communityId={communityId}
-          sharedCommunity={sharedCommunity}
-          userId={userId}
-        />
-      )}
+      <AnimatePresence>
+        {showModal && (
+          <PollModal
+            options={options}
+            newOption={newOption}
+            description={description}
+            setNewOption={setNewOption}
+            setDescription={setDescription}
+            handleAddOption={handleAddOption}
+            handleDeleteOption={handleDeleteOption}
+            setShowModal={setShowModal}
+            setOptions={setOptions}
+            communityId={communityId}
+            sharedCommunity={sharedCommunity}
+            userId={userId}
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 };
@@ -142,8 +145,28 @@ const PollModal: React.FC<PollModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="w-2/3 fixed">
+    <motion.div
+      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 backdrop-blur-sm"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      <motion.div
+        className="w-2/3 fixed"
+        initial={{ y: 60, scale: 0.5, opacity: 0 }}
+        animate={{
+          y: 0,
+          scale: 1,
+          opacity: 1,
+          transition: {
+            type: "spring",
+            stiffness: 300,
+            damping: 20,
+          },
+        }}
+        exit={{ opacity: 0, scale: 0.5, transition: { duration: 0.6 } }} // Exit animation
+      >
         <Card>
           <div className="flex flex-col items-start justify-start">
             <button
@@ -211,8 +234,8 @@ const PollModal: React.FC<PollModalProps> = ({
           </div>
           {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         </Card>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 

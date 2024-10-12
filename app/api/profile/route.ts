@@ -53,6 +53,9 @@ export async function GET(req: NextRequest, res: NextResponse) {
           comments: true,
           userId: true,
           postId: true,
+          imageUrl: true,
+          options: true,
+          date: true,
         },
       });
 

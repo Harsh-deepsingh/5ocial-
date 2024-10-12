@@ -4,12 +4,16 @@ import Like from "./Like";
 import Comment from "./Comments/Comment";
 import Follow from "./Follow";
 import { useSession } from "next-auth/react";
-type post = {
+type Post = {
   username: string | null | undefined;
   postId: string;
   content: string;
+  date: string;
+  imageUrl: string | null;
   userId: string;
+  options: { optionId: string; text: string; postId: string }[];
 };
+
 type comment = {
   commentId: string;
   username: string | null;
@@ -25,7 +29,7 @@ const PostAction = ({
 }: {
   postId?: string;
   followingId?: string;
-  post?: post;
+  post?: Post;
   comment?: comment;
 }) => {
   const session = useSession();

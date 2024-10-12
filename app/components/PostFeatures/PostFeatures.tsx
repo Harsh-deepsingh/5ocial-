@@ -1,5 +1,3 @@
-import Emoji from "./Emoji";
-import Gif from "./Gifs";
 import Images from "./Images";
 import Poll from "./Poll";
 

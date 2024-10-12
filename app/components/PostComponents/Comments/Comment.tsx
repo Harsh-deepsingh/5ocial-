@@ -2,11 +2,14 @@
 import React, { useState } from "react";
 import CommentModal from "./CommentModal";
 import CountComment from "./CountComment";
-type post = {
+type Post = {
   username: string | null | undefined;
   postId: string;
   content: string;
+  date: string;
+  imageUrl: string | null;
   userId: string;
+  options: { optionId: string; text: string; postId: string }[];
 };
 type comment = {
   commentId: string;
@@ -20,7 +23,7 @@ const Comment = ({
   comment,
   userId,
 }: {
-  post?: post;
+  post?: Post;
   comment?: comment;
   userId?: string;
 }) => {

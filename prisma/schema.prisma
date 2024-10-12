@@ -18,7 +18,7 @@ model User {
   posts      Post[]
   comments   Comment[] 
   actions    Action[]
-  votes      Vote[]      // Users can vote on polls
+  votes      Vote[]      
   following  Following[]
 }
 
@@ -31,7 +31,8 @@ model Community {
 
 model Post {
   postId         String   @id @default(uuid())
-  content        String   // Poll description
+  content        String   
+  date           String
   imageUrl       String?
   user           User     @relation(fields: [userId], references: [id])
   userId         String
@@ -41,15 +42,15 @@ model Post {
   sharedCommunity String?  
   comments       Comment[]
   action         Action[]
-  options        Option[] // Poll options
+  options        Option[] 
 }
 
 model Option {
   optionId   String  @id @default(uuid())
-  text       String  // Poll option text
+  text       String  
   postId     String
   post       Post    @relation(fields: [postId], references: [postId])
-  votes      Vote[]  // Votes for this option
+  votes      Vote[]
 }
 
 model Vote {

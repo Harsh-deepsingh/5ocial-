@@ -41,7 +41,7 @@ const Comments = ({ postId, userId }: { postId: string; userId: string }) => {
             <Card>
               <div className="mt-1">
                 <div className="flex gap-3 h-max justify-start">
-                  <ProfileLetter>
+                  <ProfileLetter username={comment.username}>
                     {comment.username ? comment.username[0].toUpperCase() : ""}
                   </ProfileLetter>
                   <div className="w-full flex flex-col gap-2">

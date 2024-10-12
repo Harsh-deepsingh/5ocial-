@@ -10,7 +10,7 @@ type Option = {
 
 type PollProps = {
   post: Option[];
-  userId?: string;
+  userId?: string | string[];
 };
 
 type PollResult = {

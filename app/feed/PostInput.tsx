@@ -1,5 +1,5 @@
 "use client";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import Button from "../components/Buttons/Button";
@@ -7,12 +7,14 @@ import Line from "../components/Line/Line";
 import { useSession } from "next-auth/react";
 import PostFeatures from "../components/PostFeatures/PostFeatures";
 import Image from "next/image";
+
 const PostInput = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [emoji, setEmoji] = useState("");
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const router = useRouter();
   const data = useParams();
   const communityId = data.communityId;
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -61,6 +63,7 @@ const PostInput = () => {
         setText("");
         cancelImage();
       }
+      router.push("/");
     } catch (error) {
       console.error("Error submitting post:", error);
       setError("Failed to submit the post. Please try again.");

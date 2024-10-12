@@ -1,3 +1,4 @@
+"use server";
 import prisma from "../db";
 export async function getCommunity(communityId: string) {
   const community = await prisma.community.findUnique({
