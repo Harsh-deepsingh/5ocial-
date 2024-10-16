@@ -57,7 +57,7 @@ const OtpForm = ({ email, password }: { email: string; password: string }) => {
         redirect: false,
       });
       if (res?.error) {
-        setError("Incorrect Otp please try again");
+        setError("Incorrect Otp or Password please try again");
       } else {
         // setShowOtpForm(true);
         getSession();
