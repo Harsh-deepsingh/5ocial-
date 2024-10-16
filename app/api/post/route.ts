@@ -13,7 +13,9 @@ export async function POST(req: NextRequest) {
   //   })
   //   .replace("/", "-")
   //   .slice(0, 6);
-  const date = currentDate.toLocaleString();
+  const date = currentDate.toLocaleString("en-CA", {
+    timeZone: "America/Edmonton",
+  });
 
   if (!content) {
     return NextResponse.json(
