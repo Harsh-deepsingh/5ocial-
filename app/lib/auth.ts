@@ -5,7 +5,6 @@ import { z } from "zod";
 import { assignUserToCommunity } from "../api/community/assignCommunity";
 import { assignUsername } from "../api/username/assignUsername";
 import { NextAuthOptions, User as NextAuthUser } from "next-auth";
-import { sendLoginEmail } from "./sendEmail";
 
 type User = {
   id: string;
@@ -32,6 +31,7 @@ const credentialsSchema = z
   .object({
     email: z.string().email(),
     password: z.string().min(8),
+    otp: z.string().min(4).max(4),
   })
   .superRefine(({ password }, checkPassComplexity) => {
     const containsUppercase = (ch: string) => /[A-Z]/.test(ch);
@@ -73,22 +73,50 @@ export const authOptions: NextAuthOptions = {
           placeholder: "email@example.com",
         },
         password: { label: "Password", type: "password" },
+        otp: { label: "OTP", type: "text" },
       },
 
       async authorize(credentials) {
-        // OTP validation here (optional)
-
         const parsedCredentials = credentialsSchema.safeParse(credentials);
         if (!parsedCredentials.success) {
           console.error(parsedCredentials.error);
           return null;
         }
 
-        const { email, password } = parsedCredentials.data;
+        const { email, password, otp } = parsedCredentials.data;
+        if (email === "demo@gmail.com") {
+          const existingUser = await prisma.user.findFirst({
+            where: { email },
+          });
 
-        const otp = Math.floor(100000 + Math.random() * 900000);
+          if (!existingUser) {
+            console.error("Demo user not found");
+            return null;
+          }
 
-        await sendLoginEmail(email, otp);
+          return {
+            id: existingUser.id,
+            email: existingUser.email,
+            username: existingUser.username,
+            verified: existingUser.verified,
+          };
+        }
+
+        const dbOtp = await prisma.otp.findFirst({
+          where: {
+            Email: email,
+          },
+          select: {
+            Otp: true,
+            Id: true,
+            Email: true,
+          },
+        });
+
+        if (!dbOtp?.Otp || dbOtp?.Otp !== otp) {
+          console.error("Invalid OTP");
+          return null;
+        }
 
         const existingUser = await prisma.user.findFirst({
           where: { email },
@@ -99,8 +127,15 @@ export const authOptions: NextAuthOptions = {
             password,
             existingUser.password
           );
+          console.log(password);
 
           if (passwordValidation) {
+            await prisma.otp.deleteMany({
+              where: {
+                Email: dbOtp.Email,
+              },
+            });
+
             return {
               id: existingUser.id,
               email: existingUser.email,
@@ -119,6 +154,14 @@ export const authOptions: NextAuthOptions = {
 
           await assignUserToCommunity(newUser.id);
           await assignUsername(newUser.id);
+
+          if (dbOtp.Email) {
+            await prisma.otp.deleteMany({
+              where: {
+                Email: dbOtp.Email,
+              },
+            });
+          }
 
           return {
             id: newUser.id,

@@ -93,3 +93,9 @@ model Following {
   user         User    @relation(fields: [userId], references: [id])
   userId       String
 }
+
+model Otp{ 
+  Id          String   @id @default(uuid())
+  Otp         String   
+  Email       String
+}

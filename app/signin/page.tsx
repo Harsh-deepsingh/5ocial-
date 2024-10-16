@@ -1,11 +1,50 @@
 "use client";
+import { motion, AnimatePresence } from "framer-motion";
 import React, { memo, useCallback, useState, useEffect } from "react";
 import InputBox from "../components/InputBox/InputBox";
 import PrimaryButton from "../components/Buttons/PrimaryButton";
 import Card from "../components/Card/Card";
+import SecButton from "../components/Buttons/SecButton";
+import OtpForm from "../components/otpForm/OtpForm";
+import { z } from "zod";
+import generateOtp from "../lib/actions/generateOtp";
 import { getSession, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import SecButton from "../components/Buttons/SecButton";
+
+const credentialsSchema = z
+  .object({
+    email: z.string().email(),
+    password: z.string().min(8),
+  })
+  .superRefine(({ password }, checkPassComplexity) => {
+    const containsUppercase = (ch: string) => /[A-Z]/.test(ch);
+    const containsLowercase = (ch: string) => /[a-z]/.test(ch);
+    const containsSpecialChar = (ch: string) =>
+      /[`!@#$%^&*()_\-+=\[\]{};':"\\|,.<>\/?~ ]/.test(ch);
+    let countOfUpperCase = 0,
+      countOfLowerCase = 0,
+      countOfNumbers = 0,
+      countOfSpecialChar = 0;
+    for (let i = 0; i < password.length; i++) {
+      let ch = password.charAt(i);
+      if (!isNaN(+ch)) countOfNumbers++;
+      else if (containsUppercase(ch)) countOfUpperCase++;
+      else if (containsLowercase(ch)) countOfLowerCase++;
+      else if (containsSpecialChar(ch)) countOfSpecialChar++;
+    }
+    if (
+      countOfLowerCase < 1 ||
+      countOfUpperCase < 1 ||
+      countOfSpecialChar < 1 ||
+      countOfNumbers < 1
+    ) {
+      checkPassComplexity.addIssue({
+        code: "custom",
+        message: "password does not meet complexity requirements",
+      });
+    }
+  });
+
 const Signin = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -13,7 +52,7 @@ const Signin = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [error, setError] = useState("");
   const [isGuest, setIsGuest] = useState(false);
-
+  const [showOtpForm, setShowOtpForm] = useState(false);
   const handleEmailChange = useCallback(
     (e: React.FormEvent<EventTarget>) =>
       setEmail((e.target as HTMLTextAreaElement).value),
@@ -40,35 +79,50 @@ const Signin = () => {
   };
 
   const handleSignIn = async () => {
-    if (!validateInput()) return;
-
     try {
-      const res = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-      });
-
-      if (res?.error) {
-        setError(res.error || "Incorrect email or password.");
+      credentialsSchema.parse({ email, password });
+      setError("");
+      await generateOtp(email);
+      setShowOtpForm(true);
+    } catch (validationError) {
+      if (validationError instanceof z.ZodError) {
+        setError(validationError.errors[0].message);
       } else {
-        getSession();
-        router.push("/");
+        setError("An unexpected error occurred. Please try again.");
       }
-    } catch (error) {
-      console.log(error);
-      setError("An unexpected error occurred. Please try again.");
     }
   };
   const handleGuest = () => {
     setEmail("demo@gmail.com");
-    setPassword("1234567890");
+    setPassword("1234567890@DemoUser");
     setIsGuest(true);
   };
   useEffect(() => {
-    if (isGuest && email === "demo@gmail.com" && password === "1234567890") {
-      handleSignIn();
+    async function handleDemoSignin() {
+      if (
+        isGuest &&
+        email === "demo@gmail.com" &&
+        password === "1234567890@DemoUser"
+      ) {
+        const otp = "3448";
+        const res = await signIn("credentials", {
+          email,
+          password,
+          otp,
+          redirect: false,
+        });
+        if (res?.error) {
+          console.log(res.error);
+
+          setError("Incorrect Otp please try again");
+        } else {
+          // setShowOtpForm(true);
+          getSession();
+          router.push("/");
+        }
+      }
     }
+    handleDemoSignin();
   }, [email, password, isGuest]);
 
   return (
@@ -78,7 +132,6 @@ const Signin = () => {
           <p className="font-bold text-2xl text-white">
             Sign in to Blindly Social
           </p>
-
           <label>
             Email
             <InputBox
@@ -105,14 +158,23 @@ const Signin = () => {
               placeholder="••••••••"
             />
           </label>
-          {error && <p className="text-red-500 text-sm">{error}</p>}
+
+          {error && (
+            <p className="text-red-500 text-warp w-56 text-xs">{error}</p>
+          )}
+
           <div className="flex justify-between">
             {/* <p className="text-xs">Forgot password?</p> */}
           </div>
-          <PrimaryButton onClick={handleSignIn}>Login</PrimaryButton>
+          <PrimaryButton onClick={handleSignIn}>Verify Email</PrimaryButton>
           <SecButton onClick={handleGuest}>Guest</SecButton>
         </Card>
       </div>
+      <OtpModal
+        password={password}
+        showOtpForm={showOtpForm}
+        email={email}
+      ></OtpModal>
     </div>
   );
 };
@@ -163,4 +225,39 @@ const PasswordVisibility = memo(
   }
 );
 PasswordVisibility.displayName = "PasswordVisibility";
+
+const OtpModal = ({
+  showOtpForm,
+  email,
+  password,
+}: {
+  showOtpForm: boolean;
+  email: string;
+  password: string;
+}) => {
+  return (
+    <AnimatePresence>
+      {showOtpForm && (
+        <motion.div
+          className="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50 overflow-hidden backdrop-blur-sm"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <motion.div
+            className="md:w-2/5  sm:w-3/6 w-9/12 "
+            initial={{ scale: 0.5, opacity: 0, y: 50 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.5, opacity: 0, y: 50 }}
+            transition={{ type: "spring", stiffness: 300, damping: 25 }}
+          >
+            <OtpForm email={email} password={password} />
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
+
 export default memo(Signin);

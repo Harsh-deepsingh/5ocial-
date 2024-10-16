@@ -26,6 +26,12 @@ jobs:
             JWT_SECRET=${{ secrets.JWT_SECRET }}
             NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}
             NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }}
+            NEXT_PUBLIC_BASE_URL=${{secrets.NEXT_PUBLIC_BASE_URL}}
+            UPLOADTHING_SECRET=${{secrets.UPLOADTHING_SECRET}}
+            UPLOADTHING_APP_ID=${{secrets.UPLOADTHING_APP_ID}}
+            UPLOADTHING_TOKEN=${{secrets.UPLOADTHING_TOKEN}}
+            EMAIL_USER=${{secrets.EMAIL_USER}}
+            EMAIL_PASS=${{secrets.EMAIL_PASS}}
           context: .
           file: ./dockerfile
           push: true
@@ -35,6 +41,12 @@ jobs:
           NEXTAUTH_SECRET: ${{secrets.NEXTAUTH_SECRET}}
           NEXTAUTH_URL: ${{secrets.NEXTAUTH_URL}}
           DATABASE_URL: ${{secrets.DATABASE_URL}}
+          NEXT_PUBLIC_BASE_URL: ${{secrets.NEXT_PUBLIC_BASE_URL}}
+          UPLOADTHING_SECRET: ${{secrets.UPLOADTHING_SECRET}}
+          UPLOADTHING_APP_ID: ${{secrets.UPLOADTHING_APP_ID}}
+          UPLOADTHING_TOKEN: ${{secrets.UPLOADTHING_TOKEN}}
+          EMAIL_USER: ${{secrets.EMAIL_USER}}
+          EMAIL_PASS: ${{secrets.EMAIL_PASS}}
 
       - name: Verify Pushed Image
         run: docker pull harsh0maan/socialnetworkapp:latest
@@ -48,15 +60,18 @@ jobs:
           script: |
             echo "Stopping existing container..."
             sudo docker stop socialnetworkapp || true
-            
+
             echo "Removing existing container..."
             sudo docker rm socialnetworkapp || true
 
+            echo "Pruning unused Docker objects..."
+            yes | sudo docker system prune -a
+
             echo "Pulling the latest Docker image..."
             sudo docker pull harsh0maan/socialnetworkapp:latest
-            
+
             echo "Starting new container..."
             sudo docker run -d --name socialnetworkapp -p 3000:3000 harsh0maan/socialnetworkapp:latest
-            
+
             echo "Checking container logs..."
             sudo docker logs socialnetworkapp

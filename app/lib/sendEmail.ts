@@ -8,7 +8,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export async function sendLoginEmail(userEmail: string, otp: number) {
+export async function sendLoginEmail(userEmail: string, otp: string) {
   try {
     await transporter.sendMail({
       from: '"Blindly Social" <your-email@gmail.com>',
@@ -33,7 +33,6 @@ export async function sendLoginEmail(userEmail: string, otp: number) {
         
       </div>`,
     });
-    console.log(`Login email sent to ${userEmail}`);
   } catch (error) {
     console.error("Error sending login email:", error);
   }
