@@ -3,7 +3,7 @@ import { signOut } from "next-auth/react";
 
 const Logout = () => {
   const handleLogout = async () => {
-    await signOut({ callbackUrl: "/signin" });
+    await signOut({ callbackUrl: "https://blindlysocial.com/signin" });
   };
 
   return (

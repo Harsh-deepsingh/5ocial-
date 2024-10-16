@@ -13,9 +13,12 @@ export async function POST(req: NextRequest) {
   //   })
   //   .replace("/", "-")
   //   .slice(0, 6);
-  const date = currentDate.toLocaleString("en-CA", {
-    timeZone: "America/Edmonton",
-  });
+const date = currentDate.toLocaleDateString("en-CA", {
+  day: "2-digit",
+  month: "2-digit",
+  year: "numeric",
+  timeZone: "America/Edmonton"
+});
 
   if (!content) {
     return NextResponse.json(
