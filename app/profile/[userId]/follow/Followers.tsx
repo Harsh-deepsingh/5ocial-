@@ -35,7 +35,7 @@ const Followers = ({ params }: { params: { userId: string } }) => {
           <div key={follow.user.id} className="mb-4">
             <div className="flex justify-between items-end">
               <div className="flex items-center gap-4">
-                <ProfileLetter>
+                <ProfileLetter username={follow.user.username}>
                   {follow.user.username[0].toUpperCase()}
                 </ProfileLetter>
                 <p className="font-bold text-lg">{follow.user.username}</p>
@@ -46,7 +46,9 @@ const Followers = ({ params }: { params: { userId: string } }) => {
           </div>
         ))
       ) : (
-        <div>No followers yet!</div>
+        <div className="text-red-600 font-bold flex justify-center items-center w-full h-32">
+          <p>No followers yet!</p>
+        </div>
       )}
     </div>
   );

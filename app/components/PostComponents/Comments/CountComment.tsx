@@ -34,7 +34,7 @@ const CountComment = ({
 
     fetchComments();
   }, [postId, commentId, isModalOpen]);
-  return <div className="text-xs font-bold">{commentCount}</div>;
+  return <div className="w-6 text-xs font-bold">{commentCount}</div>;
 };
 
 export default CountComment;

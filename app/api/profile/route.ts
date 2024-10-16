@@ -23,7 +23,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
       select: {
         posts: true,
         actions: true,
-        comment: true,
+        comments: true,
         community: true,
         following: true,
       },
@@ -53,6 +53,9 @@ export async function GET(req: NextRequest, res: NextResponse) {
           comments: true,
           userId: true,
           postId: true,
+          imageUrl: true,
+          options: true,
+          date: true,
         },
       });
 

@@ -6,7 +6,12 @@ import { SidebarDemo } from "../../../components/Sidebar/SideBar";
 import Content from "../../Content";
 import Post from "../../Post";
 import Loading from "../../../components/Loading/Loading";
-const Feed = () => {
+const Feed = ({
+  params,
+}: {
+  params: { userId: string; communityId: string };
+}) => {
+  const reloadPost = false;
   return (
     <>
       <Suspense fallback={<Loading></Loading>}>
@@ -16,7 +21,7 @@ const Feed = () => {
               <Post></Post>
             </Card>
             <Line></Line>
-            <Content></Content>
+            <Content params={params}></Content>
           </Dashboard>
         </SidebarDemo>
       </Suspense>

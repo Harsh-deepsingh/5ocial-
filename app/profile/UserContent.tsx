@@ -15,7 +15,7 @@ const UserContent = ({
 
   return (
     <div>
-      <div className="flex justify-between h-16 text-theme-border">
+      <div className="flex gap-2 justify-between h-16 text-theme-border">
         <ProfileButton
           isActive={activeButton === "Post"}
           onClick={() => handleButtonClick("Post")}

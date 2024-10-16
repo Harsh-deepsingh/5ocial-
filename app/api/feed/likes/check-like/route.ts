@@ -14,7 +14,9 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "User ID is required" });
     }
 
+    // Initialize flags for like and dislike
     let hasLiked = false;
+    let hasDisliked = false;
 
     if (postId) {
       const like = await prisma.action.findFirst({
@@ -23,11 +25,24 @@ export async function GET(req: NextRequest) {
           postId: String(postId),
           type: "LIKE",
         },
+        select: {
+          type: true,
+        },
       });
 
-      if (like) {
-        hasLiked = true;
-      }
+      const dislike = await prisma.action.findFirst({
+        where: {
+          userId: String(userId),
+          postId: String(postId),
+          type: "DISLIKE",
+        },
+        select: {
+          type: true,
+        },
+      });
+
+      hasLiked = !!like;
+      hasDisliked = !!dislike;
     } else if (commentId) {
       const like = await prisma.action.findFirst({
         where: {
@@ -35,16 +50,29 @@ export async function GET(req: NextRequest) {
           commentId: String(commentId),
           type: "LIKE",
         },
+        select: {
+          type: true,
+        },
       });
 
-      if (like) {
-        hasLiked = true;
-      }
+      const dislike = await prisma.action.findFirst({
+        where: {
+          userId: String(userId),
+          commentId: String(commentId),
+          type: "DISLIKE",
+        },
+        select: {
+          type: true,
+        },
+      });
+
+      hasLiked = !!like;
+      hasDisliked = !!dislike;
     }
 
-    return NextResponse.json({ hasLiked });
+    return NextResponse.json({ hasLiked, hasDisliked });
   } catch (error) {
-    console.error("Error checking like status:", error);
+    console.error("Error checking like/dislike status:", error);
     return NextResponse.json({ error: "Internal Server Error" });
   }
 }

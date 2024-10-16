@@ -16,8 +16,9 @@ model User {
   community  Community?  @relation(fields: [communityId], references: [communityId])
   communityId String?
   posts      Post[]
-  comment    Comment[] 
+  comments   Comment[] 
   actions    Action[]
+  votes      Vote[]      
   following  Following[]
 }
 
@@ -29,18 +30,36 @@ model Community {
 }
 
 model Post {
-  postId    String   @id @default(uuid())
-  content   String
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String
-  community Community @relation(fields: [communityId], references: [communityId])
-  communityId String
-  shared      Boolean @default(false)
+  postId         String   @id @default(uuid())
+  content        String   
+  date           String
+  imageUrl       String?
+  user           User     @relation(fields: [userId], references: [id])
+  userId         String
+  community      Community @relation(fields: [communityId], references: [communityId])
+  communityId    String
+  shared         Boolean  @default(false)
   sharedCommunity String?  
-  comments  Comment[]
-  action    Action[]
+  comments       Comment[]
+  action         Action[]
+  options        Option[] 
 }
 
+model Option {
+  optionId   String  @id @default(uuid())
+  text       String  
+  postId     String
+  post       Post    @relation(fields: [postId], references: [postId])
+  votes      Vote[]
+}
+
+model Vote {
+  voteId     String  @id @default(uuid())
+  userId     String
+  user       User    @relation(fields: [userId], references: [id])
+  optionId   String
+  option     Option  @relation(fields: [optionId], references: [optionId])
+}
 
 model Comment {
   commentId String    @id @default(uuid())  
@@ -73,4 +92,10 @@ model Following {
   followingId  String  
   user         User    @relation(fields: [userId], references: [id])
   userId       String
+}
+
+model Otp{ 
+  Id          String   @id @default(uuid())
+  Otp         String   
+  Email       String
 }

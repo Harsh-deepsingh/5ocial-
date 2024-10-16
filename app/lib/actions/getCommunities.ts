@@ -17,28 +17,40 @@ export async function getCommunitiesWithUserCounts(
     });
 
     const userCountsPromises = allCommunities.map(async (community) => {
-      const count = await prisma.user.count({
+      const userCount = await prisma.user.count({
         where: {
           communityId: community.communityId,
         },
       });
+
+      const sharedPostCount = await prisma.post.count({
+        where: {
+          shared: true,
+          sharedCommunity: community.communityId,
+        },
+      });
+
       return {
         communityId: community.communityId,
-        userCount: count,
+        userCount: userCount,
+        sharedPostCount: sharedPostCount,
       };
     });
 
     const userCounts = await Promise.all(userCountsPromises);
 
     return allCommunities.map((community) => {
-      const userCount =
-        userCounts.find((uc) => uc.communityId === community.communityId)
-          ?.userCount || 0;
+      const foundCommunity = userCounts.find(
+        (uc) => uc.communityId === community.communityId
+      );
 
       return {
         ...community,
-        userCount,
+        userCount: foundCommunity?.userCount || 0,
+        sharedPostCount: foundCommunity?.sharedPostCount || 0,
       };
     });
+  } else {
+    return [];
   }
 }

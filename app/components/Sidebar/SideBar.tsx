@@ -50,9 +50,8 @@ export const SidebarDemo = ({ children }: { children: React.ReactNode }) => {
   return (
     <div
       className={cn(
-        "sticky top-2 rounded-md flex flex-col  md:flex-row bg-theme-grey lg:w-3/4 flex-1 max-w-7xl mx-auto border border-theme-border",
+        "sticky top-2  flex flex-col  md:flex-row bg-theme-grey  lg:w-3/4 flex-1 max-w-7xl mx-auto border-theme-border md:border  ",
         "h-max"
-        // for your use case, use `h-screen` instead of `h-[60vh]`
       )}
     >
       <Sidebar open={open} setOpen={setOpen}>
@@ -109,8 +108,8 @@ export const LogoIcon = () => {
     <Image
       src="/favicon.ico"
       alt="Blindly Social"
-      width="28"
-      height="28"
+      width="27"
+      height="27"
     ></Image>
   );
 };

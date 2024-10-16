@@ -1,5 +1,10 @@
-import { NextRequest, NextResponse } from "next/server";
 import prisma from "../../lib/db";
+import {
+  uniqueNamesGenerator,
+  adjectives,
+  colors,
+  animals,
+} from "unique-names-generator";
 
 export async function assignUsername(id: string) {
   const userId = id;
@@ -13,23 +18,16 @@ export async function assignUsername(id: string) {
         email: true,
       },
     });
-    const firstLetter = user?.email[0];
 
-    const letters = "abcdefghijklmnopqrstuvwxyz";
-
-    let word = "";
-    for (let i = 0; i < 4; i++) {
-      const random = letters[Math.floor(Math.random() * letters.length)];
-      word += random;
-    }
-    const username = firstLetter + word;
-
+    const randomName: string = uniqueNamesGenerator({
+      dictionaries: [adjectives, colors, animals],
+    });
     const uniqueUsername = await prisma.user.update({
       where: {
         id: userId,
       },
       data: {
-        username,
+        username: randomName,
       },
     });
     return uniqueUsername;

@@ -20,6 +20,9 @@ type post =
       communityId: string;
       shared: boolean;
       sharedCommunity: string | null;
+      date: string;
+      imageUrl: string;
+      options: { optionId: string; text: string; postId: string }[];
     }[]
   | undefined;
 const Profile = () => {
@@ -78,7 +81,7 @@ const Profile = () => {
       <SidebarDemo>
         <Dashboard>
           <Card>
-            <ProfileLetter>
+            <ProfileLetter username={username}>
               {username ? <> {username[0].toUpperCase()}</> : <></>}
             </ProfileLetter>
             <p className="font-bold text-lg">{username}</p>
@@ -91,13 +94,25 @@ const Profile = () => {
             ></UserContent>
           </Card>
           {activeButton === "Post" ? (
-            <ProfileData post={nonSharedPosts} username={username} />
+            <ProfileData
+              userId={userId}
+              post={nonSharedPosts}
+              username={username}
+            />
           ) : activeButton === "Likes" ? (
-            <ProfileData post={likedPosts} username={username} />
+            <ProfileData
+              post={likedPosts}
+              userId={userId}
+              username={username}
+            />
           ) : activeButton === "Comments" ? (
-            <ProfileData post={comments} username={username} />
+            <ProfileData post={comments} userId={userId} username={username} />
           ) : activeButton === "Shared Posts" ? (
-            <ProfileData post={sharedPosts} username={username} />
+            <ProfileData
+              post={sharedPosts}
+              userId={userId}
+              username={username}
+            />
           ) : (
             <div>Select a valid option</div>
           )}
