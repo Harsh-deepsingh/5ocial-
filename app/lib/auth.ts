@@ -114,7 +114,6 @@ export const authOptions: NextAuthOptions = {
         });
 
         if (!dbOtp?.Otp || dbOtp?.Otp !== otp) {
-          console.error("Invalid OTP");
           return null;
         }
 
@@ -127,7 +126,6 @@ export const authOptions: NextAuthOptions = {
             password,
             existingUser.password
           );
-          console.log(password);
 
           if (passwordValidation) {
             await prisma.otp.deleteMany({

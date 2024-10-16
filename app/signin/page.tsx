@@ -55,7 +55,7 @@ const Signin = () => {
   const [showOtpForm, setShowOtpForm] = useState(false);
   const handleEmailChange = useCallback(
     (e: React.FormEvent<EventTarget>) =>
-      setEmail((e.target as HTMLTextAreaElement).value),
+      setEmail((e.target as HTMLTextAreaElement).value.toLocaleLowerCase()),
     [email]
   );
 
