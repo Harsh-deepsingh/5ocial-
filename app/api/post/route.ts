@@ -13,12 +13,15 @@ export async function POST(req: NextRequest) {
   //   })
   //   .replace("/", "-")
   //   .slice(0, 6);
+
   const date = currentDate.toLocaleDateString("en-GB", {
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
     timeZone: "America/Edmonton",
   });
+
+
   if (!content) {
     return NextResponse.json(
       { error: "Invalid content provided" },
