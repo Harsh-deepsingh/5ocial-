@@ -32,6 +32,7 @@ jobs:
             UPLOADTHING_TOKEN=${{secrets.UPLOADTHING_TOKEN}}
             EMAIL_USER=${{secrets.EMAIL_USER}}
             EMAIL_PASS=${{secrets.EMAIL_PASS}}
+            UPLOADTHING_URL=${{secrets.UPLOADTHING_URL}}
           context: .
           file: ./dockerfile
           push: true
@@ -47,6 +48,7 @@ jobs:
           UPLOADTHING_TOKEN: ${{secrets.UPLOADTHING_TOKEN}}
           EMAIL_USER: ${{secrets.EMAIL_USER}}
           EMAIL_PASS: ${{secrets.EMAIL_PASS}}
+          UPLOADTHING_URL: ${{secrets.UPLOADTHING_URL}}
 
       - name: Verify Pushed Image
         run: docker pull harsh0maan/socialnetworkapp:latest
