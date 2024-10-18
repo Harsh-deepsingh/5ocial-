@@ -3,6 +3,8 @@ import PrimaryButton from "../Buttons/PrimaryButton";
 import Card from "../Card/Card";
 import { getSession, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { getUser } from "../../lib/actions/getUser";
+import { logUserInfo } from "../../lib/actions/getUsername";
 const OtpForm = ({ email, password }: { email: string; password: string }) => {
   const router = useRouter();
   const [otpArray, setOtp] = useState(["", "", "", ""]);
@@ -61,7 +63,9 @@ const OtpForm = ({ email, password }: { email: string; password: string }) => {
       } else {
         // setShowOtpForm(true);
         getSession();
-        router.push("/");
+        const session = await getUser();
+        const communityId = await logUserInfo();
+        router.push(`feed/${session?.user.id}/${communityId?.communityId}`);
       }
     } catch (error) {
       console.log(error);

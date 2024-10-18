@@ -10,6 +10,8 @@ import { z } from "zod";
 import generateOtp from "../lib/actions/generateOtp";
 import { getSession, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { getUser } from "../lib/actions/getUser";
+import { logUserInfo } from "../lib/actions/getUsername";
 
 const credentialsSchema = z
   .object({
@@ -121,7 +123,10 @@ const Signin = () => {
             "If you are redirected to the home page instead of the feed, please refresh the page."
           );
           getSession();
-          router.push("/");
+          const session = await getUser();
+
+          const communityId = await logUserInfo();
+          router.push(`feed/${session?.user.id}/${communityId?.communityId}`);
         }
       }
     }
