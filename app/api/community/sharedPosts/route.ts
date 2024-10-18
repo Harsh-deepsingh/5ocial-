@@ -4,7 +4,12 @@ import prisma from "../../../lib/db";
 export async function POST(req: NextRequest) {
   const userId = req.nextUrl.searchParams.get("userId") ?? "";
   const currentDate = new Date();
-  const date = currentDate.toLocaleString();
+  const date = currentDate.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    timeZone: "America/Edmonton",
+  });
   try {
     const communityInfo = await prisma.user.findUnique({
       where: { id: userId },
